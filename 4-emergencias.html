@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" id="html-lang">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergências - MissionCare Plus</title>
+    <title data-i18n="pageTitle">Emergências - MissionCare Plus</title>
 
     <!-- Importação de Fontes e Tailwind CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -17,58 +17,49 @@
             --primary-color: #0d9488; /* Tailwind teal-600 */
             --danger-color: #dc2626; /* Tailwind red-600 */
         }
+        .lang-btn {
+            padding: 0.25rem 0.5rem; border-radius: 9999px;
+            cursor: pointer; transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .lang-btn.active {
+            border-color: var(--primary-color);
+            background-color: white;
+        }
     </style>
 
-    <!-- ======================================================================= -->
-    <!-- ESTILOS PARA NAVEGAÇÃO E LAYOUT DE LISTA (ADICIONADO AO <HEAD>)      -->
-    <!-- ======================================================================= -->
+    <!-- ESTILOS PARA NAVEGAÇÃO E LAYOUT DE LISTA -->
     <style>
-      /* Adiciona um espaço na parte inferior da página */
       body {
         padding-bottom: 80px;
       }
       .emergency-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 1.25rem 1rem;
-        background-color: white;
-        border: 1px solid #e5e7eb; /* gray-200 */
-        border-radius: 0.75rem; /* rounded-xl */
-        cursor: pointer;
-        transition: background-color 0.2s ease;
+        display: flex; justify-content: space-between; align-items: center;
+        width: 100%; padding: 1.25rem 1rem; background-color: white;
+        border: 1px solid #e5e7eb; border-radius: 0.75rem;
+        cursor: pointer; transition: background-color 0.2s ease;
       }
       .emergency-item-header:hover {
-        background-color: #f9fafb; /* gray-50 */
+        background-color: #f9fafb;
       }
       .emergency-item-header h3 {
-        font-size: 1.125rem; /* text-lg */
-        font-weight: 700; /* font-bold */
-        text-transform: uppercase;
-        color: #111827; /* gray-900 */
+        font-size: 1.125rem; font-weight: 700; text-transform: uppercase;
+        color: #111827;
       }
       .emergency-item-header svg {
-        width: 24px;
-        height: 24px;
-        color: var(--danger-color);
+        width: 24px; height: 24px; color: var(--danger-color);
         transition: transform 0.3s ease;
       }
       .emergency-item-content {
-        max-height: 0;
-        overflow: hidden;
+        max-height: 0; overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-        padding: 0 1rem;
-        background-color: #f9fafb; /* gray-50 */
-        border-left: 1px solid #e5e7eb;
-        border-right: 1px solid #e5e7eb;
+        padding: 0 1rem; background-color: #f9fafb;
+        border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb;
         border-bottom: 1px solid #e5e7eb;
-        border-bottom-left-radius: 0.75rem;
-        border-bottom-right-radius: 0.75rem;
+        border-bottom-left-radius: 0.75rem; border-bottom-right-radius: 0.75rem;
       }
       .emergency-item.open .emergency-item-content {
-        max-height: 1000px; /* Altura grande para permitir expansão */
-        padding: 1.25rem 1rem;
+        max-height: 1000px; padding: 1.25rem 1rem;
       }
       .emergency-item.open .emergency-item-header svg {
         transform: rotate(90deg);
@@ -84,15 +75,20 @@
         <!-- TELA DA LISTA DE EMERGÊNCIAS -->
         <div id="list-screen">
             <header class="sticky top-0 z-10 flex items-center bg-gray-100/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <h1 data-i18n='emergencias.titulo' class="text-gray-800 text-xl font-bold leading-tight flex-1 text-center">Emergências em Campo</h1>
+                <h1 data-i18n="headerTitle" class="text-gray-800 text-xl font-bold leading-tight flex-1 text-center">Emergências em Campo</h1>
+                 <!-- SELETOR DE IDIOMA -->
+                 <div class="absolute top-3 right-3 flex space-x-1 bg-gray-200 p-1 rounded-full">
+                    <button class="lang-btn" data-lang="pt">🇧🇷</button>
+                    <button class="lang-btn" data-lang="es">🇪🇸</button>
+                </div>
             </header>
 
             <main class="flex-grow p-4">
                 <!-- Seção de Primeiros Socorros -->
                 <div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h2 class="text-lg font-bold text-gray-800 mb-3">Capacitação Essencial</h2>
-                    <p class="text-gray-600 mb-4">Esteja preparado. Instale o aplicativo oficial da Cruz Vermelha para aprender técnicas vitais de primeiros socorros.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.cube.gdpc.fa&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center text-center py-3 px-4 border-2 border-red-600 rounded-full shadow-sm text-base font-bold text-red-600 bg-transparent hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                    <h2 class="text-lg font-bold text-gray-800 mb-3" data-i18n="trainingTitle">Capacitação Essencial</h2>
+                    <p class="text-gray-600 mb-4" data-i18n="trainingText">Esteja preparado. Instale o aplicativo oficial da Cruz Vermelha para aprender técnicas vitais de primeiros socorros.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.cube.gdpc.fa&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center text-center py-3 px-4 border-2 border-red-600 rounded-full shadow-sm text-base font-bold text-red-600 bg-transparent hover:bg-red-600 hover:text-white" data-i18n="trainingButton">
                         Aprenda com a Cruz Vermelha
                     </a>
                 </div>
@@ -105,98 +101,160 @@
         </div>
     </div>
 
-    <!-- ======================================================================= -->
-    <!-- BARRA DE NAVEGAÇÃO GLOBAL                                             -->
-    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
       <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
         <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
           <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Voltar</span>
         </button>
         <div class="h-8 w-px bg-gray-200"></div>
         <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
           <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navHome">Início</span>
         </a>
       </div>
     </nav>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    const emergencyData = [
-        { id: "afogamento", titulo: "Afogamento", resumo: "Parada respiratória por submersão em líquido, com risco de hipóxia e lesão cerebral.", primeiros_socorros: "Retire a vítima da água com segurança, mantenha vias aéreas livres, inicie respiração boca‑a‑boca e RCP o mais rápido possível; evite hipotermia e transporte para atendimento rápido.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
-        { id: "choque", titulo: "Choque", resumo: "Perfusão sanguínea comprometida, levando a baixa oxigenação tecidual e risco de falência de órgãos.", primeiros_socorros: "Deite a pessoa com pernas elevadas, aqueça, controle hemorragias, não ofereça líquidos por via oral, chame socorro médico urgente.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
-        { id: "doenca_altitude", titulo: "Doença da altitude", resumo: "Quadro por baixa pressão de oxigênio em altitudes elevadas (>2400 m), com cefaleia, náuseas, fadiga e possível edema cerebral ou pulmonar.", primeiros_socorros: "Desça para altitude inferior, mantenha hidratação, descanso; em casos graves (HAPE/HACE), esforço mínimo, oxigênio se disponível e evacuação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
-        { id: "entorses_estiramentos", titulo: "Entorses e estiramentos", resumo: "Lesão ligamentar ou muscular por torção da articulação, causando dor e inchaço.", primeiros_socorros: "Aplicar RICE (Repouso, Ice, Compressão, Elevação); imobilizar levemente e evitar sobrecarga; buscar atendimento se inchaço ou dor persistirem.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
-        { id: "feridas", titulo: "Feridas", resumo: "Lesões abertas na pele que podem sangrar ou infectar facilmente.", primeiros_socorros: "Limpe com água limpa, desinfete com antisséptico, pressione para estancar sangramento e cubra com curativo estéril; observe sinais de infecção.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
-        { id: "fraturas", titulo: "Fraturas", resumo: "Quebra de osso, geralmente acompanhada de dor intensa, inchaço e deformidade.", primeiros_socorros: "Imobilize com talas improvisadas sem mover desnecessariamente; aplique gelo na área e transporte para avaliação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
-        { id: "insolacao", titulo: "Insolação", resumo: "Golpe de calor por exposição excessiva ao sol ou calor, com febre alta, confusão e possível inconsciência.", primeiros_socorros: "Leve a vítima para local fresco, aplique compressas frias ou banho morno, ofereça líquidos e monitore; busque socorro urgentemente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
-        { id: "eletricidade", titulo: "Lesões por eletricidade", resumo: "Choque elétrico pode causar queimaduras, arritmia, convulsões ou parada cardíaca.", primeiros_socorros: "Desligue a fonte; só toque na vítima após isolamento; avalie sinais vitais; se sem pulso, inicie RCP; transporte para avaliação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
-        { id: "raios", titulo: "Lesões por raios", resumo: "Descarga elétrica atmosférica extremamente potente; pode causar queimaduras, parada cardíaca ou trauma interno.", primeiros_socorros: "Afaste a vítima de local perigoso, trate queimaduras, monitore sinais vitais, inicie RCP se necessário e solicite socorro imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
-        { id: "mordida_humana", titulo: "Mordida humana", resumo: "Alta chance de infecção por bactérias presentes na boca humana.", primeiros_socorros: "Lave bem com água e sabão, aplique antisséptico, cubra com curativo limpo; procure atendimento médico para avaliação e possível antibiótico.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
-        { id: "mordida_animal", titulo: "Mordida de animal", resumo: "Ferida causada por animal, risco de raiva ou infecção bacteriana.", primeiros_socorros: "Lave cuidadosamente por vários minutos, aplique antisséptico, cubra; busque atendimento médico para profilaxia (vacinação ou soro).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
-        { id: "mordida_serpente", titulo: "Mordida de serpente", resumo: "Veneno pode causar necrose, hemorragias ou efeitos neurotóxicos graves.", primeiros_socorros: "Mantenha vítima calma e imóvel; posicione o local afetado abaixo do coração; evite sucção ou torniquete; evacuação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
-        { id: "obstrucao_respiratoria", titulo: "Obstrução das vias respiratórias", resumo: "Bloqueio da traqueia por objeto/alimento, risco imediato de asfixia.", primeiros_socorros: "Adultos: manobra de Heimlich até 5 vezes. Bebês: cinco tapas nas costas, depois cinco compressões torácicas; se inconsciente, iniciar RCP.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
-        { id: "queimadura_quimica_olho", titulo: "Queimaduras químicas nos olhos", resumo: "Contato de substâncias corrosivas nos olhos, risco de lesão ocular grave.", primeiros_socorros: "Lave o olho afetado com água corrente por pelo menos 15 minutos, sem esfregar; cubra levemente e busque atendimento oftalmológico imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
-        { id: "parada_cardiaca", titulo: "Parada cardíaca", resumo: "Cessação súbita da função cardíaca e circulatória, requer ação imediata para salvar vida.", primeiros_socorros: "Verifique resposta e respiração; chame socorro; inicie RCP (compressões rápidas 120/min com proporção 30:2); use DEA se disponível.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
-        { id: "picadas_insetos", titulo: "Picadas de abelhas/vespas/formigas", resumo: "Reação química ou alérgica à toxina injetada pelo inseto; risco de anafilaxia.", primeiros_socorros: "Remova ferrão sem espremer, lave o local, aplique compressa fria; monitore sinais de reação grave (inchaço, dificuldade respiratória) e busque socorro urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
-        { id: "prioridades_primeiros_socorros", titulo: "Prioridades dos primeiros socorros", resumo: "Sequência ABC: vias aéreas, respiração, circulação — avaliação inicial do paciente.", primeiros_socorros: "Avalie ABC: A (vias aéreas), B (respiração), C (circulação); inicie suporte conforme necessidade (RCP, controle de sangramento, oxigênio, posição).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
-        { id: "queimaduras", titulo: "Queimaduras", resumo: "Lesão da pele por calor, químico ou radiação, com possível risco de choque ou infecção.", primeiros_socorros: "Resfrie com água corrente por 10–20 min; cubra com pano limpo e úmido; não aplique substâncias caseiras; busque atendimento em queimaduras extensas.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
-        { id: "ulcera_frio", titulo: "Úlcera de frio", resumo: "Lesão de pele e tecidos pelo frio extremo (frostbite), com risco de necrose.", primeiros_socorros: "Reaqueça a área afetada gradualmente com água morna; não esfregue; proteja de recongelamento; busque atendimento se houver lesão profunda.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-pelo-frio/%C3%BAlcera-de-frio" }
-    ];
+    // --- INÍCIO DA LÓGICA DE TRADUÇÃO ---
+    const translations = {
+        "pt": {
+            "pageTitle": "Emergências - MissionCare Plus",
+            "headerTitle": "Emergências em Campo",
+            "trainingTitle": "Capacitação Essencial",
+            "trainingText": "Esteja preparado. Instale o aplicativo oficial da Cruz Vermelha para aprender técnicas vitais de primeiros socorros.",
+            "trainingButton": "Aprenda com a Cruz Vermelha",
+            "summaryTitle": "Resumo",
+            "firstAidTitle": "Primeiros Socorros",
+            "fullProcedureButton": "Ver Procedimento Completo",
+            "navBack": "Voltar",
+            "navHome": "Início",
+            "emergencyData": [
+                { id: "afogamento", titulo: "Afogamento", resumo: "Parada respiratória por submersão em líquido, com risco de hipóxia e lesão cerebral.", primeiros_socorros: "Retire a vítima da água com segurança, mantenha vias aéreas livres, inicie respiração boca‑a‑boca e RCP o mais rápido possível; evite hipotermia e transporte para atendimento rápido.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
+                { id: "choque", titulo: "Choque", resumo: "Perfusão sanguínea comprometida, levando a baixa oxigenação tecidual e risco de falência de órgãos.", primeiros_socorros: "Deite a pessoa com pernas elevadas, aqueça, controle hemorragias, não ofereça líquidos por via oral, chame socorro médico urgente.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
+                { id: "doenca_altitude", titulo: "Doença da altitude", resumo: "Quadro por baixa pressão de oxigênio em altitudes elevadas (>2400 m), com cefaleia, náuseas, fadiga e possível edema cerebral ou pulmonar.", primeiros_socorros: "Desça para altitude inferior, mantenha hidratação, descanso; em casos graves (HAPE/HACE), esforço mínimo, oxigênio se disponível e evacuação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
+                { id: "entorses_estiramentos", titulo: "Entorses e estiramentos", resumo: "Lesão ligamentar ou muscular por torção da articulação, causando dor e inchaço.", primeiros_socorros: "Aplicar RICE (Repouso, Ice, Compressão, Elevação); imobilizar levemente e evitar sobrecarga; buscar atendimento se inchaço ou dor persistirem.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
+                { id: "feridas", titulo: "Feridas", resumo: "Lesões abertas na pele que podem sangrar ou infectar facilmente.", primeiros_socorros: "Limpe com água limpa, desinfete com antisséptico, pressione para estancar sangramento e cubra com curativo estéril; observe sinais de infecção.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
+                { id: "fraturas", titulo: "Fraturas", resumo: "Quebra de osso, geralmente acompanhada de dor intensa, inchaço e deformidade.", primeiros_socorros: "Imobilize com talas improvisadas sem mover desnecessariamente; aplique gelo na área e transporte para avaliação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
+                { id: "insolacao", titulo: "Insolação", resumo: "Golpe de calor por exposição excessiva ao sol ou calor, com febre alta, confusão e possível inconsciência.", primeiros_socorros: "Leve a vítima para local fresco, aplique compressas frias ou banho morno, ofereça líquidos e monitore; busque socorro urgentemente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
+                { id: "eletricidade", titulo: "Lesões por eletricidade", resumo: "Choque elétrico pode causar queimaduras, arritmia, convulsões ou parada cardíaca.", primeiros_socorros: "Desligue a fonte; só toque na vítima após isolamento; avalie sinais vitais; se sem pulso, inicie RCP; transporte para avaliação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
+                { id: "raios", titulo: "Lesões por raios", resumo: "Descarga elétrica atmosférica extremamente potente; pode causar queimaduras, parada cardíaca ou trauma interno.", primeiros_socorros: "Afaste a vítima de local perigoso, trate queimaduras, monitore sinais vitais, inicie RCP se necessário e solicite socorro imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
+                { id: "mordida_humana", titulo: "Mordida humana", resumo: "Alta chance de infecção por bactérias presentes na boca humana.", primeiros_socorros: "Lave bem com água e sabão, aplique antisséptico, cubra com curativo limpo; procure atendimento médico para avaliação e possível antibiótico.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
+                { id: "mordida_animal", titulo: "Mordida de animal", resumo: "Ferida causada por animal, risco de raiva ou infecção bacteriana.", primeiros_socorros: "Lave cuidadosamente por vários minutos, aplique antisséptico, cubra; busque atendimento médico para profilaxia (vacinação ou soro).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
+                { id: "mordida_serpente", titulo: "Mordida de serpente", resumo: "Veneno pode causar necrose, hemorragias ou efeitos neurotóxicos graves.", primeiros_socorros: "Mantenha vítima calma e imóvel; posicione o local afetado abaixo do coração; evite sucção ou torniquete; evacuação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
+                { id: "obstrucao_respiratoria", titulo: "Obstrução das vias respiratórias", resumo: "Bloqueio da traqueia por objeto/alimento, risco imediato de asfixia.", primeiros_socorros: "Adultos: manobra de Heimlich até 5 vezes. Bebês: cinco tapas nas costas, depois cinco compressões torácicas; se inconsciente, iniciar RCP.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
+                { id: "queimadura_quimica_olho", titulo: "Queimaduras químicas nos olhos", resumo: "Contato de substâncias corrosivas nos olhos, risco de lesão ocular grave.", primeiros_socorros: "Lave o olho afetado com água corrente por pelo menos 15 minutos, sem esfregar; cubra levemente e busque atendimento oftalmológico imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
+                { id: "parada_cardiaca", titulo: "Parada cardíaca", resumo: "Cessação súbita da função cardíaca e circulatória, requer ação imediata para salvar vida.", primeiros_socorros: "Verifique resposta e respiração; chame socorro; inicie RCP (compressões rápidas 120/min com proporção 30:2); use DEA se disponível.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
+                { id: "picadas_insetos", titulo: "Picadas de abelhas/vespas/formigas", resumo: "Reação química ou alérgica à toxina injetada pelo inseto; risco de anafilaxia.", primeiros_socorros: "Remova ferrão sem espremer, lave o local, aplique compressa fria; monitore sinais de reação grave (inchaço, dificuldade respiratória) e busque socorro urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
+                { id: "prioridades_primeiros_socorros", titulo: "Prioridades dos primeiros socorros", resumo: "Sequência ABC: vias aéreas, respiração, circulação — avaliação inicial do paciente.", primeiros_socorros: "Avalie ABC: A (vias aéreas), B (respiração), C (circulação); inicie suporte conforme necessidade (RCP, controle de sangramento, oxigênio, posição).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
+                { id: "queimaduras", titulo: "Queimaduras", resumo: "Lesão da pele por calor, químico ou radiação, com possível risco de choque ou infecção.", primeiros_socorros: "Resfrie com água corrente por 10–20 min; cubra com pano limpo e úmido; não aplique substâncias caseiras; busque atendimento em queimaduras extensas.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
+                { id: "ulcera_frio", titulo: "Úlcera de frio", resumo: "Lesão de pele e tecidos pelo frio extremo (frostbite), com risco de necrose.", primeiros_socorros: "Reaqueça a área afetada gradualmente com água morna; não esfregue; proteja de recongelamento; busque atendimento se houver lesão profunda.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-pelo-frio/%C3%BAlcera-de-frio" }
+            ]
+        },
+        "es": {
+            "pageTitle": "Emergencias - MissionCare Plus",
+            "headerTitle": "Emergencias en el Campo",
+            "trainingTitle": "Capacitación Esencial",
+            "trainingText": "Esté preparado. Instale la aplicación oficial de la Cruz Roja para aprender técnicas vitales de primeros auxilios.",
+            "trainingButton": "Aprenda con la Cruz Roja",
+            "summaryTitle": "Resumen",
+            "firstAidTitle": "Primeros Auxilios",
+            "fullProcedureButton": "Ver Procedimiento Completo",
+            "navBack": "Volver",
+            "navHome": "Inicio",
+            "emergencyData": [
+                { id: "afogamento", titulo: "Ahogamiento", resumo: "Paro respiratorio por inmersión en líquido, con riesgo de hipoxia y lesión cerebral.", primeiros_socorros: "Retire a la víctima del agua de forma segura, mantenga las vías respiratorias despejadas, inicie respiración boca a boca y RCP lo antes posible; evite la hipotermia y transporte para atención rápida.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/ahogamiento/ahogamiento" },
+                { id: "choque", titulo: "Shock", resumo: "Perfusión sanguínea comprometida, que lleva a una baja oxigenación de los tejidos y riesgo de fallo orgánico.", primeiros_socorros: "Acueste a la persona con las piernas elevadas, abríguela, controle hemorragias, no ofrezca líquidos por vía oral, llame a emergencias médicas urgentes.", link: "https://www.msdmanuals.com/es/hogar/trastornos-del-corazón-y-los-vasos-sanguíneos/hipotensión-arterial-y-shock/shock" },
+                { id: "doenca_altitude", titulo: "Mal de altura", resumo: "Cuadro por baja presión de oxígeno en altitudes elevadas (>2400 m), con cefalea, náuseas, fatiga y posible edema cerebral o pulmonar.", primeiros_socorros: "Descienda a una altitud inferior, mantenga la hidratación, descanse; en casos graves (EAPC/EACC), esfuerzo mínimo, oxígeno si está disponible y evacuación urgente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/mal-de-altura/mal-de-altura" },
+                { id: "entorses_estiramentos", titulo: "Esguinces y distensiones", resumo: "Lesión de ligamentos o músculos por torsión de la articulación, que causa dolor e hinchazón.", primeiros_socorros: "Aplicar RICE (Reposo, Hielo, Compresión, Elevación); inmovilizar ligeramente y evitar sobrecarga; buscar atención si la hinchazón o el dolor persisten.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/primeros-auxilios/lesiones-de-partes-blandas" },
+                { id: "feridas", titulo: "Heridas", resumo: "Lesiones abiertas en la piel que pueden sangrar o infectarse fácilmente.", primeiros_socorros: "Limpie con agua limpia, desinfecte con antiséptico, presione para detener el sangrado y cubra con un vendaje estéril; observe signos de infección.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/primeros-auxilios/heridas" },
+                { id: "fraturas", titulo: "Fracturas", resumo: "Rotura de un hueso, generalmente acompañada de dolor intenso, hinchazón y deformidad.", primeiros_socorros: "Inmovilice con férulas improvisadas sin mover innecesariamente; aplique hielo en la zona y transporte para evaluación médica urgente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/fracturas/introducción-a-las-fracturas" },
+                { id: "insolacao", titulo: "Insolación", resumo: "Golpe de calor por exposición excesiva al sol o al calor, con fiebre alta, confusión y posible pérdida de conocimiento.", primeiros_socorros: "Lleve a la víctima a un lugar fresco, aplique compresas frías o un baño tibio, ofrezca líquidos y vigile; busque ayuda urgentemente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/trastornos-producidos-por-el-calor/insolación-o-golpe-de-calor" },
+                { id: "eletricidade", titulo: "Lesiones por electricidad", resumo: "Un choque eléctrico puede causar quemaduras, arritmias, convulsiones o paro cardíaco.", primeiros_socorros: "Desconecte la fuente; solo toque a la víctima después del aislamiento; evalúe los signos vitales; si no tiene pulso, inicie la RCP; transporte para una evaluación urgente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/lesiones-por-electricidad-y-por-rayos/lesiones-por-electricidad" },
+                { id: "raios", titulo: "Lesiones por rayos", resumo: "Descarga eléctrica atmosférica extremadamente potente; puede causar quemaduras, paro cardíaco o traumatismo interno.", primeiros_socorros: "Aleje a la víctima de la zona de peligro, trate las quemaduras, vigile los signos vitales, inicie la RCP si es necesario y solicite ayuda inmediata.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/lesiones-por-electricidad-y-por-rayos/lesiones-por-rayos" },
+                { id: "mordida_humana", titulo: "Mordedura humana", resumo: "Alta probabilidad de infección por bacterias presentes en la boca humana.", primeiros_socorros: "Lave bien con agua y jabón, aplique un antiséptico, cubra con un vendaje limpio; busque atención médica para evaluación y posible antibiótico.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/mordeduras-y-picaduras/mordeduras-de-seres-humanos" },
+                { id: "mordida_animal", titulo: "Mordedura de animal", resumo: "Herida causada por un animal, con riesgo de rabia o infección bacteriana.", primeiros_socorros: "Lave cuidadosamente durante varios minutos, aplique un antiséptico, cubra; busque atención médica para profilaxis (vacunación o suero).", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/mordeduras-y-picaduras/mordeduras-de-animales" },
+                { id: "mordida_serpente", titulo: "Mordedura de serpiente", resumo: "El veneno puede causar necrosis, hemorragias o efectos neurotóxicos graves.", primeiros_socorros: "Mantenga a la víctima calmada e inmóvil; coloque el lugar afectado por debajo del corazón; evite la succión o el torniquete; evacuación médica urgente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/mordeduras-y-picaduras/mordeduras-de-serpiente" },
+                { id: "obstrucao_respiratoria", titulo: "Obstrucción de las vías respiratorias", resumo: "Bloqueo de la tráquea por un objeto/alimento, con riesgo inmediato de asfixia.", primeiros_socorros: "Adultos: maniobra de Heimlich hasta 5 veces. Bebés: cinco palmadas en la espalda, luego cinco compresiones torácicas; si está inconsciente, inicie la RCP.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/primeros-auxilios/obstrucción-de-las-vías-respiratorias" },
+                { id: "queimadura_quimica_olho", titulo: "Quemaduras químicas en los ojos", resumo: "Contacto de sustancias corrosivas en los ojos, con riesgo de lesión ocular grave.", primeiros_socorros: "Lave el ojo afectado con agua corriente durante al menos 15 minutos, sin frotar; cubra ligeramente y busque atención oftalmológica inmediata.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/lesiones-oculares/quemaduras-oculares" },
+                { id: "parada_cardiaca", titulo: "Paro cardíaco", resumo: "Cese súbito de la función cardíaca y circulatoria, requiere acción inmediata para salvar la vida.", primeiros_socorros: "Verifique la respuesta y la respiración; pida ayuda; inicie la RCP (compresiones rápidas 120/min con una proporción de 30:2); use un DEA si está disponible.", link: "https://www.msdmanuals.com/es/hogar/trastornos-del-corazón-y-los-vasos-sanguíneos/paro-cardíaco-y-rcp/paro-cardíaco-y-reanimación-cardiopulmonar-rcp" },
+                { id: "picadas_insetos", titulo: "Picaduras de abejas/avispas/hormigas", resumo: "Reacción química o alérgica a la toxina inyectada por el insecto; riesgo de anafilaxia.", primeiros_socorros: "Retire el aguijón sin apretar, lave la zona, aplique una compresa fría; vigile los signos de una reacción grave (hinchazón, dificultad para respirar) y busque ayuda urgente.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/mordeduras-y-picaduras/picaduras-de-abejas-avispas-avispones-y-hormigas" },
+                { id: "prioridades_primeiros_socorros", titulo: "Prioridades de primeros auxilios", resumo: "Secuencia ABC: vías aéreas, respiración, circulación — evaluación inicial del paciente.", primeiros_socorros: "Evalúe el ABC: A (vías aéreas), B (respiración), C (circulación); inicie el soporte según sea necesario (RCP, control de hemorragias, oxígeno, posición).", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/primeros-auxilios/prioridades-en-los-primeros-auxilios" },
+                { id: "queimaduras", titulo: "Quemaduras", resumo: "Lesión de la piel por calor, productos químicos o radiación, con posible riesgo de shock o infección.", primeiros_socorros: "Enfríe con agua corriente durante 10–20 min; cubra con un paño limpio y húmedo; no aplique sustancias caseras; busque atención para quemaduras extensas.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/quemaduras/quemaduras" },
+                { id: "ulcera_frio", titulo: "Congelación", resumo: "Lesión de la piel y tejidos por frío extremo (frostbite), con riesgo de necrosis.", primeiros_socorros: "Recaliente el área afectada gradualmente con agua tibia; no frote; proteja de una nueva congelación; busque atención médica si hay lesión profunda.", link: "https://www.msdmanuals.com/es/hogar/traumatismos-y-envenenamientos/lesiones-por-frío/congelación" }
+            ]
+        }
+    };
 
     const emergencyListContainer = document.getElementById('emergency-list');
 
-    // Função para renderizar a lista de emergências como um acordeão
-    function renderList() {
-        emergencyListContainer.innerHTML = ''; // Limpa a lista
-        emergencyData.forEach(item => {
+    const renderList = (lang) => {
+        emergencyListContainer.innerHTML = '';
+        const data = translations[lang].emergencyData;
+        
+        data.forEach(item => {
             const itemWrapper = document.createElement('div');
             itemWrapper.className = 'emergency-item';
-
             itemWrapper.innerHTML = `
                 <button class="emergency-item-header">
                     <h3>${item.titulo}</h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </button>
                 <div class="emergency-item-content">
                     <div class="space-y-4">
                         <div>
-                            <h4 class="text-base font-semibold text-gray-700 border-b pb-2 mb-2">Resumo</h4>
+                            <h4 class="text-base font-semibold text-gray-700 border-b pb-2 mb-2">${translations[lang].summaryTitle}</h4>
                             <p class="text-gray-600 text-base leading-relaxed">${item.resumo}</p>
                         </div>
                         <div class="p-3 bg-red-50 rounded-lg border border-red-200">
-                            <h4 class="text-base font-semibold text-red-800 border-b border-red-200 pb-2 mb-2">Primeiros Socorros</h4>
+                            <h4 class="text-base font-semibold text-red-800 border-b border-red-200 pb-2 mb-2">${translations[lang].firstAidTitle}</h4>
                             <p class="text-red-700 text-base leading-relaxed">${item.primeiros_socorros}</p>
                         </div>
-                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 w-full text-center py-2 px-4 border-2 border-teal-600 rounded-full shadow-sm text-base font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
-                            Ver Procedimento Completo
-                        </a>
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 w-full text-center py-2 px-4 border-2 border-teal-600 rounded-full shadow-sm text-base font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white">${translations[lang].fullProcedureButton}</a>
                     </div>
                 </div>
             `;
             
             itemWrapper.querySelector('.emergency-item-header').addEventListener('click', () => {
-                // Fecha todos os outros itens abertos
                 document.querySelectorAll('.emergency-item.open').forEach(openItem => {
                     if (openItem !== itemWrapper) {
                         openItem.classList.remove('open');
                     }
                 });
-                // Abre ou fecha o item clicado
                 itemWrapper.classList.toggle('open');
             });
 
             emergencyListContainer.appendChild(itemWrapper);
         });
-    }
+    };
 
-    // Renderização inicial
-    renderList();
+    const setLanguage = (lang) => {
+        document.getElementById('html-lang').setAttribute('lang', lang);
+        localStorage.setItem('language', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            element.textContent = translations[lang][key] || translations['pt'][key];
+        });
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        // Re-renderiza a lista com o idioma selecionado
+        renderList(lang);
+    };
+
+    document.querySelectorAll('.lang-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            setLanguage(button.dataset.lang);
+        });
+    });
+
+    const initialLang = localStorage.getItem('language') || 'pt';
+    setLanguage(initialLang);
 });
 </script>
 
