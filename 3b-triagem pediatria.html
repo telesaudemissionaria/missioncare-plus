@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="stylesheet" href="style.css">
     <!-- Biblioteca para gerar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="stylesheet" href="style.css">
 
 
 </head>
@@ -140,7 +140,7 @@
             </main>
             <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200">
                 <div class="p-4">
-                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
+                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-primary rounded-full shadow-sm text-lg font-bold text-primary bg-transparent hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-all duration-200">
                         Gerar Análise Pediátrica
                     </button>
                 </div>
@@ -149,7 +149,7 @@
 
         <!-- TELA DE CARREGAMENTO -->
         <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
-            <svg class="animate-spin h-10 w-10 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-10 w-10 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
-            loadingScreen.innerHTML = `<p class="text-red-500 font-bold text-center p-4">Ocorreu um erro ao gerar a análise. Verifique sua conexão ou tente novamente mais tarde.</p><button onclick="location.reload()" class="mt-4 px-4 py-2 bg-teal-600 text-white rounded">Tentar Novamente</button>`;
+            loadingScreen.innerHTML = `<p class="text-red-500 font-bold text-center p-4">Ocorreu um erro ao gerar a análise. Verifique sua conexão ou tente novamente mais tarde.</p><button onclick="location.reload()" class="mt-4 px-4 py-2 bg-primary text-white rounded">Tentar Novamente</button>`;
         }
     });
 
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const urgencyDiv = document.getElementById('urgency-level');
         urgencyDiv.textContent = `Nível de Urgência: ${urgencia.classificacao || 'Não classificado'}`;
-        const urgencyColors = {"Emergência": "bg-red-600", "Urgente": "bg-orange-500", "Grave": "bg-amber-500", "Moderado": "bg-yellow-400", "Não Urgente": "bg-teal-500"};
+        const urgencyColors = {"Emergência": "bg-red-600", "Urgente": "bg-orange-500", "Grave": "bg-amber-500", "Moderado": "bg-yellow-400", "Não Urgente": "bg-[var(--primary-color)]"};
         urgencyDiv.className = `p-4 rounded-lg mb-4 text-center text-white font-bold ${urgencyColors[urgencia.classificacao] || 'bg-gray-500'}`;
 
         const orientationContent = document.getElementById('orientation-content');
@@ -320,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const { jsPDF } = window.jspdf;
             const reportElement = document.getElementById('report-content');
             html2canvas(reportElement, { scale: 2 }).then(canvas => {
-    <link rel="stylesheet" href="style.css">
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();

@@ -9,17 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="stylesheet" href="style.css">
     <!-- Biblioteca para gerar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 
     <style>
-        body {
-            font-family: 'Lexend', 'Noto Sans', sans-serif;
-            --primary-color: #19b2e5;
-            --primary-color-rgb: 25, 178, 229;
-        }
         .form-checkbox, .form-radio {
             color: var(--primary-color);
             border-color: #d1d5db;
@@ -130,7 +126,7 @@
             </main>
             <footer class="fixed bottom-0 left-0 right-0 bg-gray-50/80 backdrop-blur-sm border-t border-gray-200">
                 <div class="p-4">
-                    <button id="generate-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-[#19b2e5] hover:bg-[#159bc9] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#19b2e5] transition-transform transform hover:scale-105">
+                    <button id="generate-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-[var(--primary-color)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-transform transform hover:scale-105">
                         Gerar Análise
                     </button>
                 </div>
@@ -139,7 +135,7 @@
 
         <!-- TELA DE CARREGAMENTO -->
         <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
-            <svg class="animate-spin h-10 w-10 text-[#19b2e5]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-10 w-10 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>

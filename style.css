@@ -10,6 +10,12 @@ body {
     color: var(--text-color-dark);
     background-color: #ffffff;
 }
+.text-primary { color: var(--primary-color); }
+.bg-primary { background-color: var(--primary-color); }
+.border-primary { border-color: var(--primary-color); }
+.text-dark { color: var(--text-color-dark); }
+.text-light { color: var(--text-color-light); }
+.bg-primary-light { background-color: var(--primary-color-light); }
 .custom-input {
     position: absolute;
     opacity: 0;
