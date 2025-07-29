@@ -15,157 +15,185 @@
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
             --primary-color: #0d9488; /* Tailwind teal-600 */
-            --text-color-dark: #374151; /* gray-700 */
-            --text-color-light: #6b7280; /* gray-500 */
-            --background-color-light: #f9fafb; /* gray-50 */
+            --danger-color: #dc2626; /* Tailwind red-600 */
         }
     </style>
+
+    <!-- ======================================================================= -->
+    <!-- ESTILOS PARA NAVEGAÇÃO E LAYOUT DE LISTA (ADICIONADO AO <HEAD>)      -->
+    <!-- ======================================================================= -->
+    <style>
+      /* Adiciona um espaço na parte inferior da página */
+      body {
+        padding-bottom: 80px;
+      }
+      .emergency-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 1.25rem 1rem;
+        background-color: white;
+        border: 1px solid #e5e7eb; /* gray-200 */
+        border-radius: 0.75rem; /* rounded-xl */
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      .emergency-item-header:hover {
+        background-color: #f9fafb; /* gray-50 */
+      }
+      .emergency-item-header h3 {
+        font-size: 1.125rem; /* text-lg */
+        font-weight: 700; /* font-bold */
+        text-transform: uppercase;
+        color: #111827; /* gray-900 */
+      }
+      .emergency-item-header svg {
+        width: 24px;
+        height: 24px;
+        color: var(--danger-color);
+        transition: transform 0.3s ease;
+      }
+      .emergency-item-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        padding: 0 1rem;
+        background-color: #f9fafb; /* gray-50 */
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
+        border-bottom-left-radius: 0.75rem;
+        border-bottom-right-radius: 0.75rem;
+      }
+      .emergency-item.open .emergency-item-content {
+        max-height: 1000px; /* Altura grande para permitir expansão */
+        padding: 1.25rem 1rem;
+      }
+      .emergency-item.open .emergency-item-header svg {
+        transform: rotate(90deg);
+      }
+    </style>
+
 </head>
-<body class="bg-white">
+<body class="bg-gray-100">
 
     <!-- Container da Aplicação -->
-    <div id="app-container" class="relative flex size-full min-h-screen flex-col bg-white justify-between">
+    <div id="app-container" class="relative flex size-full min-h-screen flex-col bg-gray-100">
 
         <!-- TELA DA LISTA DE EMERGÊNCIAS -->
         <div id="list-screen">
-            <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <a href="#" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                </a>
-                <h1 data-i18n='emergencias.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Emergências em Campo</h1>
+            <header class="sticky top-0 z-10 flex items-center bg-gray-100/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
+                <h1 data-i18n='emergencias.titulo' class="text-gray-800 text-xl font-bold leading-tight flex-1 text-center">Emergências em Campo</h1>
             </header>
 
-            <main class="flex-grow pb-20">
-                <div class="p-4">
-                    <h2 class="text-text-color-dark text-xl font-bold mb-4">Selecione uma emergência</h2>
-                    <div id="emergency-list" class="space-y-2">
-                        <!-- A lista será populada dinamicamente pelo JavaScript -->
-                    </div>
+            <main class="flex-grow p-4">
+                <!-- Seção de Primeiros Socorros -->
+                <div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-800 mb-3">Capacitação Essencial</h2>
+                    <p class="text-gray-600 mb-4">Esteja preparado. Instale o aplicativo oficial da Cruz Vermelha para aprender técnicas vitais de primeiros socorros.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.cube.gdpc.fa&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center text-center py-3 px-4 border-2 border-red-600 rounded-full shadow-sm text-base font-bold text-red-600 bg-transparent hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                        Aprenda com a Cruz Vermelha
+                    </a>
+                </div>
+
+                <!-- Lista de Emergências -->
+                <div id="emergency-list" class="space-y-3">
+                    <!-- A lista será populada dinamicamente pelo JavaScript -->
                 </div>
             </main>
         </div>
-
-        <!-- TELA DE DETALHES DA EMERGÊNCIA (inicialmente oculta) -->
-        <div id="detail-screen" class="hidden">
-            <header id="detail-header" class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <button id="back-to-list-btn" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                </button>
-                <h1 id="detail-title" class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8"></h1>
-            </header>
-            <main id="detail-content" class="flex-grow p-4 pb-20 space-y-4">
-                <!-- O conteúdo detalhado será inserido aqui -->
-            </main>
-        </div>
-
-        <!-- Barra de Navegação Inferior Fixa -->
-        <footer class="fixed bottom-0 left-0 right-0 z-10 bg-white/90 backdrop-blur-sm border-t border-gray-200">
-            <div class="flex justify-around p-2">
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path></svg>
-                    <span class="text-xs font-medium">Início</span>
-                </a>
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M72,136H32a8,8,0,0,1,0-16H67.72L81.34,99.56a8,8,0,0,1,13.32,0l25.34,38,9.34-14A8,8,0,0,1,136,120h24a8,8,0,0,1,0,16H140.28l-13.62,20.44a8,8,0,0,1-13.32,0L88,118.42l-9.34,14A8,8,0,0,1,72,136ZM178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,.75,0,1.5,0,2.25a8,8,0,1,0,16-.5c0-.58,0-1.17,0-1.75A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46c0,53.61-77.76,102.15-96,112.8-10.83-6.31-42.63-26-66.68-52.21a8,8,0,1,0-11.8,10.82c31.17,34,72.93,56.68,74.69,57.63a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32Z"></path></svg>
-                    <span class="text-xs font-medium">Triagem</span>
-                </a>
-                <!-- Item Ativo -->
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-teal-600 w-1/4">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M152,112a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,112Zm80-40V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V72A16,16,0,0,1,40,56H80V48a24,24,0,0,1,24-24h48a24,24,0,0,1,24,24v8h40A16,16,0,0,1,232,72ZM96,56h64V48a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8Zm120,57.61V72H40v41.61A184,184,0,0,0,128,136,184,184,0,0,0,216,113.61Z"></path></svg>
-                    <span class="text-xs font-bold">Emergências</span>
-                </a>
-                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>
-                    <span class="text-xs font-medium">Perfil</span>
-                </a>
-            </div>
-        </footer>
     </div>
+
+    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL                                             -->
+    <!-- ======================================================================= -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
+      <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
+        <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+        </button>
+        <div class="h-8 w-px bg-gray-200"></div>
+        <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+        </a>
+      </div>
+    </nav>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // **CORREÇÃO:** Lista completa com todos os 19 itens de emergência.
     const emergencyData = [
-        { id: "prioridades_primeiros_socorros", titulo: "Prioridades dos Primeiros Socorros", resumo: "Sequência ABC: A (vias aéreas), B (respiração), C (circulação). Avaliar sinais vitais e decidir ações iniciais conforme cada caso.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
-        { id: "parada_cardiaca", titulo: "Parada Cardíaca / RCP", resumo: "Cessação súbita da circulação. Verificar pulso, chamar ajuda, iniciar RCP 30:2 imediatamente. Usar desfibrilador se disponível.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
-        { id: "afogamento", titulo: "Afogamento", resumo: "Submersão em água que pode resultar em hipóxia. Primeiros socorros: manter vias aéreas livres, iniciar respiração boca-a-boca e RCP (30:2), posicionar em decúbito lateral se respirando. Aquecer a vítima.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
-        { id: "choque", titulo: "Choque (Hipotensão grave)", resumo: "Baixa perfusão sanguínea levando a falência orgânica. Primeiros socorros: manter pessoa deitada com elevação das pernas, cobrir com cobertor, evitar movimentação brusca e buscar ajuda médica imediata.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
-        { id: "obstrucao_respiratoria", titulo: "Obstrução das Vias Aéreas (Engasgo)", resumo: "Alimento ou objeto bloqueia a traqueia. Primeiros socorros: manobra de Heimlich em adultos/maiores; em bebês, cinco tapas nas costas e cinco compressões torácicas. Caso vítima inconsciente, iniciar RCP.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
-        { id: "feridas", titulo: "Feridas", resumo: "Cortes ou lacerações na pele. Primeiros socorros: limpar com água limpa, desinfetar, pressionar para estancar sangramento, cobrir com curativo estéril e observar sinais de infecção.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
-        { id: "queimaduras", titulo: "Queimaduras", resumo: "Causadas por calor, fogo, produtos químicos ou calor radiante. Primeiros socorros: resfriar área com água corrente por 10 a 20 minutos; cobrir com pano limpo e úmido; não aplicar óleo, pasta ou gelo; buscar atendimento em queimaduras extensas ou profundas.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/queimaduras" },
-        { id: "fraturas", titulo: "Fraturas", resumo: "Quebra de osso, com dor intensa, inchaço e deformidade. Primeiros socorros: imobilizar o membro com talas improvisadas, não movimentar desnecessariamente, aplicar gelo e buscar socorro médico.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
-        { id: "entorses_estiramentos", titulo: "Entorses e Estiramentos", resumo: "Lesão nos ligamentos ou músculos por torção. Primeiros socorros: RICE (Repouso, Gelo, Compressão, Elevação), imobilizar e aplicar gelo por 20 minutos a cada 2-3 horas.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
-        { id: "picadas_insetos", titulo: "Picadas de Abelhas/Vespas/Formigas", resumo: "Reação alérgica ou tóxica, possível anafilaxia. Primeiros socorros: remover ferrão sem espremer, lavar local, aplicar compressa fria e observar sinais de anafilaxia (inchaço facial, dificuldade para respirar) — se presentes, buscar socorro imediatamente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
-        { id: "mordida_serpente", titulo: "Mordida de Serpente", resumo: "Veneno pode causar necrose, hemorragias ou neurotoxicidade. Primeiros socorros: manter vítima calma e imóvel, posicionar extremidade afetada abaixo do nível cardíaco, evitar torniquetes ou sucção, buscar socorro urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
-        { id: "mordida_animal", titulo: "Mordida de Animal", resumo: "Risco de raiva e feridas sujas. Primeiros socorros: lavar com água/sabão por vários minutos, desinfetar, cobrir com curativo e buscar atendimento médico para profilaxia.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
-        { id: "mordida_humana", titulo: "Mordida Humana", resumo: "Risco de infecção por bactérias. Primeiros socorros: lavar bem com água e sabão, aplicar antisséptico, cobrir e procurar atendimento médico, pois antibióticos podem ser necessários.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
-        { id: "insolacao", titulo: "Insolação / Golpe de Calor", resumo: "Exposição prolongada ao calor, com febre elevada, confusão ou ausência de suor. Primeiros socorros: mover para ambiente fresco, hidratar, aplicar compressas frias ou banho morno, buscar ajuda imediatamente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
-        { id: "eletricidade", titulo: "Lesões por Eletricidade", resumo: "Choque elétrico pode causar queimaduras, convulsões ou parada cardíaca. Desligar fonte, só tocar após isolamento; se inconsciente ou sem pulso, iniciar RCP.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
-        { id: "raios", titulo: "Lesões por Raios", resumo: "Resultado de descarga elétrica atmosférica. Primeiros socorros: afastar vítima de zona de perigo, tratar queimaduras e feridas, monitorar sinais vitais e iniciar RCP se necessário.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
-        { id: "queimadura_quimica_olho", titulo: "Queimadura Química nos Olhos", resumo: "Produtos corrosivos que atingem a superfície ocular. Primeiros socorros: lavar o olho com água limpa por pelo menos 15 minutos, sem esfregar; cobrir e buscar atendimento oftalmológico.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
-        { id: "ulcera_frio", titulo: "Úlcera de Frio (Frostbite)", resumo: "Exposição prolongada ao frio intenso, causando danos à pele e tecidos. Primeiros socorros: aquecer região afetada gradualmente (água morna), não esfregar; proteger do re-congelamento; buscar ajuda médica.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-pelo-frio/úlceras-de-frio" },
-        { id: "doenca_altitude", titulo: "Doença da Altitude", resumo: "Sintomas incluem dor de cabeça, náusea, cansaço e falta de ar por diminuição de O₂. Primeiros socorros: descer para altitude inferior, repor líquidos, descansar e, se grave, buscar evacuação.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
+        { id: "afogamento", titulo: "Afogamento", resumo: "Parada respiratória por submersão em líquido, com risco de hipóxia e lesão cerebral.", primeiros_socorros: "Retire a vítima da água com segurança, mantenha vias aéreas livres, inicie respiração boca‑a‑boca e RCP o mais rápido possível; evite hipotermia e transporte para atendimento rápido.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
+        { id: "choque", titulo: "Choque", resumo: "Perfusão sanguínea comprometida, levando a baixa oxigenação tecidual e risco de falência de órgãos.", primeiros_socorros: "Deite a pessoa com pernas elevadas, aqueça, controle hemorragias, não ofereça líquidos por via oral, chame socorro médico urgente.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
+        { id: "doenca_altitude", titulo: "Doença da altitude", resumo: "Quadro por baixa pressão de oxigênio em altitudes elevadas (>2400 m), com cefaleia, náuseas, fadiga e possível edema cerebral ou pulmonar.", primeiros_socorros: "Desça para altitude inferior, mantenha hidratação, descanso; em casos graves (HAPE/HACE), esforço mínimo, oxigênio se disponível e evacuação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
+        { id: "entorses_estiramentos", titulo: "Entorses e estiramentos", resumo: "Lesão ligamentar ou muscular por torção da articulação, causando dor e inchaço.", primeiros_socorros: "Aplicar RICE (Repouso, Ice, Compressão, Elevação); imobilizar levemente e evitar sobrecarga; buscar atendimento se inchaço ou dor persistirem.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
+        { id: "feridas", titulo: "Feridas", resumo: "Lesões abertas na pele que podem sangrar ou infectar facilmente.", primeiros_socorros: "Limpe com água limpa, desinfete com antisséptico, pressione para estancar sangramento e cubra com curativo estéril; observe sinais de infecção.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
+        { id: "fraturas", titulo: "Fraturas", resumo: "Quebra de osso, geralmente acompanhada de dor intensa, inchaço e deformidade.", primeiros_socorros: "Imobilize com talas improvisadas sem mover desnecessariamente; aplique gelo na área e transporte para avaliação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
+        { id: "insolacao", titulo: "Insolação", resumo: "Golpe de calor por exposição excessiva ao sol ou calor, com febre alta, confusão e possível inconsciência.", primeiros_socorros: "Leve a vítima para local fresco, aplique compressas frias ou banho morno, ofereça líquidos e monitore; busque socorro urgentemente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
+        { id: "eletricidade", titulo: "Lesões por eletricidade", resumo: "Choque elétrico pode causar queimaduras, arritmia, convulsões ou parada cardíaca.", primeiros_socorros: "Desligue a fonte; só toque na vítima após isolamento; avalie sinais vitais; se sem pulso, inicie RCP; transporte para avaliação urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
+        { id: "raios", titulo: "Lesões por raios", resumo: "Descarga elétrica atmosférica extremamente potente; pode causar queimaduras, parada cardíaca ou trauma interno.", primeiros_socorros: "Afaste a vítima de local perigoso, trate queimaduras, monitore sinais vitais, inicie RCP se necessário e solicite socorro imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
+        { id: "mordida_humana", titulo: "Mordida humana", resumo: "Alta chance de infecção por bactérias presentes na boca humana.", primeiros_socorros: "Lave bem com água e sabão, aplique antisséptico, cubra com curativo limpo; procure atendimento médico para avaliação e possível antibiótico.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
+        { id: "mordida_animal", titulo: "Mordida de animal", resumo: "Ferida causada por animal, risco de raiva ou infecção bacteriana.", primeiros_socorros: "Lave cuidadosamente por vários minutos, aplique antisséptico, cubra; busque atendimento médico para profilaxia (vacinação ou soro).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
+        { id: "mordida_serpente", titulo: "Mordida de serpente", resumo: "Veneno pode causar necrose, hemorragias ou efeitos neurotóxicos graves.", primeiros_socorros: "Mantenha vítima calma e imóvel; posicione o local afetado abaixo do coração; evite sucção ou torniquete; evacuação médica urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
+        { id: "obstrucao_respiratoria", titulo: "Obstrução das vias respiratórias", resumo: "Bloqueio da traqueia por objeto/alimento, risco imediato de asfixia.", primeiros_socorros: "Adultos: manobra de Heimlich até 5 vezes. Bebês: cinco tapas nas costas, depois cinco compressões torácicas; se inconsciente, iniciar RCP.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
+        { id: "queimadura_quimica_olho", titulo: "Queimaduras químicas nos olhos", resumo: "Contato de substâncias corrosivas nos olhos, risco de lesão ocular grave.", primeiros_socorros: "Lave o olho afetado com água corrente por pelo menos 15 minutos, sem esfregar; cubra levemente e busque atendimento oftalmológico imediato.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
+        { id: "parada_cardiaca", titulo: "Parada cardíaca", resumo: "Cessação súbita da função cardíaca e circulatória, requer ação imediata para salvar vida.", primeiros_socorros: "Verifique resposta e respiração; chame socorro; inicie RCP (compressões rápidas 120/min com proporção 30:2); use DEA se disponível.", link: "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
+        { id: "picadas_insetos", titulo: "Picadas de abelhas/vespas/formigas", resumo: "Reação química ou alérgica à toxina injetada pelo inseto; risco de anafilaxia.", primeiros_socorros: "Remova ferrão sem espremer, lave o local, aplique compressa fria; monitore sinais de reação grave (inchaço, dificuldade respiratória) e busque socorro urgente.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
+        { id: "prioridades_primeiros_socorros", titulo: "Prioridades dos primeiros socorros", resumo: "Sequência ABC: vias aéreas, respiração, circulação — avaliação inicial do paciente.", primeiros_socorros: "Avalie ABC: A (vias aéreas), B (respiração), C (circulação); inicie suporte conforme necessidade (RCP, controle de sangramento, oxigênio, posição).", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
+        { id: "queimaduras", titulo: "Queimaduras", resumo: "Lesão da pele por calor, químico ou radiação, com possível risco de choque ou infecção.", primeiros_socorros: "Resfrie com água corrente por 10–20 min; cubra com pano limpo e úmido; não aplique substâncias caseiras; busque atendimento em queimaduras extensas.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
+        { id: "ulcera_frio", titulo: "Úlcera de frio", resumo: "Lesão de pele e tecidos pelo frio extremo (frostbite), com risco de necrose.", primeiros_socorros: "Reaqueça a área afetada gradualmente com água morna; não esfregue; proteja de recongelamento; busque atendimento se houver lesão profunda.", link: "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-pelo-frio/%C3%BAlcera-de-frio" }
     ];
 
-    const listScreen = document.getElementById('list-screen');
-    const detailScreen = document.getElementById('detail-screen');
     const emergencyListContainer = document.getElementById('emergency-list');
-    const backBtn = document.getElementById('back-to-list-btn');
 
-    // Função para renderizar a lista de emergências
+    // Função para renderizar a lista de emergências como um acordeão
     function renderList() {
         emergencyListContainer.innerHTML = ''; // Limpa a lista
         emergencyData.forEach(item => {
-            const listItem = document.createElement('a');
-            listItem.href = '#';
-            listItem.className = 'flex items-center gap-4 bg-background-color-light p-4 rounded-xl hover:bg-gray-100 transition-colors duration-200';
-            listItem.dataset.id = item.id;
-            
-            listItem.innerHTML = `
-                <div class="text-text-color-dark flex items-center justify-center rounded-lg bg-gray-200 shrink-0 size-10">
-                    <!-- Ícone genérico, pode ser substituído por SVGs específicos -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M216,64H176V56a24,24,0,0,0-24-24H104A24,24,0,0,0,80,56v8H40A16,16,0,0,0,24,80V208a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V80A16,16,0,0,0,216,64ZM96,56a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,208H40V80H216V208Zm-56-64a8,8,0,0,1-8,8H136v16a8,8,0,0,1-16,0V152H104a8,8,0,0,1,0-16h16V120a8,8,0,0,1,16,0v16h16A8,8,0,0,1,160,144Z"></path></svg>
+            const itemWrapper = document.createElement('div');
+            itemWrapper.className = 'emergency-item';
+
+            itemWrapper.innerHTML = `
+                <button class="emergency-item-header">
+                    <h3>${item.titulo}</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
+                <div class="emergency-item-content">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-base font-semibold text-gray-700 border-b pb-2 mb-2">Resumo</h4>
+                            <p class="text-gray-600 text-base leading-relaxed">${item.resumo}</p>
+                        </div>
+                        <div class="p-3 bg-red-50 rounded-lg border border-red-200">
+                            <h4 class="text-base font-semibold text-red-800 border-b border-red-200 pb-2 mb-2">Primeiros Socorros</h4>
+                            <p class="text-red-700 text-base leading-relaxed">${item.primeiros_socorros}</p>
+                        </div>
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 w-full text-center py-2 px-4 border-2 border-teal-600 rounded-full shadow-sm text-base font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
+                            Ver Procedimento Completo
+                        </a>
+                    </div>
                 </div>
-                <p class="text-text-color-dark text-base font-medium flex-1 truncate">${item.titulo}</p>
-                <div class="text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg></div>
             `;
             
-            listItem.addEventListener('click', (e) => {
-                e.preventDefault();
-                showDetail(item.id);
+            itemWrapper.querySelector('.emergency-item-header').addEventListener('click', () => {
+                // Fecha todos os outros itens abertos
+                document.querySelectorAll('.emergency-item.open').forEach(openItem => {
+                    if (openItem !== itemWrapper) {
+                        openItem.classList.remove('open');
+                    }
+                });
+                // Abre ou fecha o item clicado
+                itemWrapper.classList.toggle('open');
             });
 
-            emergencyListContainer.appendChild(listItem);
+            emergencyListContainer.appendChild(itemWrapper);
         });
     }
-
-    // Função para mostrar a tela de detalhes
-    function showDetail(id) {
-        const item = emergencyData.find(e => e.id === id);
-        if (!item) return;
-
-        document.getElementById('detail-title').textContent = item.titulo;
-        const detailContent = document.getElementById('detail-content');
-        detailContent.innerHTML = `
-            <p class="text-text-color-light text-base leading-relaxed">${item.resumo}</p>
-            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 w-full text-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
-                Saber Mais
-            </a>
-        `;
-
-        listScreen.classList.add('hidden');
-        detailScreen.classList.remove('hidden');
-    }
-
-    // Função para voltar para a lista
-    function showList() {
-        detailScreen.classList.add('hidden');
-        listScreen.classList.remove('hidden');
-    }
-
-    // Event Listeners
-    backBtn.addEventListener('click', showList);
 
     // Renderização inicial
     renderList();
