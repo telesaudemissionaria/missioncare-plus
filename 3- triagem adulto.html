@@ -14,24 +14,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-
     <style>
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
-            --primary-color: #19b2e5;
-            --primary-color-rgb: 25, 178, 229;
-        }
-        .form-checkbox, .form-radio {
-            color: var(--primary-color);
-            border-color: #d1d5db;
-        }
-        .form-checkbox:checked, .form-radio:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        .form-checkbox:focus, .form-radio:focus {
-            --tw-ring-color: rgba(var(--primary-color-rgb), 0.5);
-            box-shadow: 0 0 0 2px var(--tw-ring-color);
+            --primary-color: #0d9488; /* teal-600 */
+            --primary-color-light: #ccfbf1; /* teal-100 */
         }
         /* Estilos para a aba ativa */
         .tab-button.active {
@@ -40,6 +27,66 @@
             font-weight: 600;
         }
     </style>
+
+    <!-- ======================================================================= -->
+    <!-- ESTILOS PARA NAVEGAÇÃO E FORMULÁRIO INTUITIVO                          -->
+    <!-- ======================================================================= -->
+    <style>
+      /* Garante que o conteúdo não seja sobreposto pela barra de navegação */
+      body {
+        padding-bottom: 80px;
+      }
+      .question-block {
+        margin-bottom: 2rem;
+      }
+      .question-title {
+        font-size: 1.25rem; /* text-xl */
+        font-weight: 600;   /* font-semibold */
+        color: #1f2937;     /* gray-800 */
+        margin-bottom: 1rem;
+      }
+      .input-field {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.125rem; /* text-lg */
+        border-radius: 0.75rem;
+        border: 1px solid #d1d5db;
+        background-color: white;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .input-field:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3);
+      }
+      .choice-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        border: 2px solid #e5e7eb; /* gray-200 */
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+      }
+      .choice-label:has(input:checked) {
+        background-color: var(--primary-color-light);
+        border-color: var(--primary-color);
+      }
+      .choice-label span {
+        font-size: 1.125rem; /* text-lg */
+        color: #374151; /* gray-700 */
+      }
+      .choice-input {
+        height: 1.5rem;
+        width: 1.5rem;
+        color: var(--primary-color);
+        border-color: #9ca3af; /* gray-400 */
+      }
+      .choice-input:focus {
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3);
+      }
+    </style>
+
 </head>
 <body class="bg-gray-50">
 
@@ -49,98 +96,102 @@
         <!-- TELA DE FORMULÁRIO (ANAMNESE) -->
         <div id="form-screen">
             <header class="sticky top-0 z-10 flex items-center bg-gray-50/80 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <a href="javascript:location.reload()" class="text-[#0e181b] p-2 -ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                </a>
-                <h1 data-i18n='adulto.titulo' class="text-[#0e181b] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Anamnese Simplificada</h1>
+                <h1 data-i18n='adulto.titulo' class="text-[#0e181b] text-xl font-bold leading-tight flex-1 text-center">Anamnese Simplificada</h1>
             </header>
 
-            <main class="flex-grow pb-28">
+            <main class="flex-grow">
                 <div class="m-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-800 rounded-r-lg">
                     <div class="flex items-center">
                         <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" /></svg>
-                        <strong class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA MÉDICA GRAVE, PROCURE AJUDA IMEDIATAMENTE.</strong>
+                        <strong class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.</strong>
                     </div>
-                    <ul class="list-disc list-inside mt-2 text-sm">
-                        <li>Perda de consciência, dificuldade respiratória severa, dor forte no peito.</li>
-                        <li>Fraqueza súbita, sangramento intenso, convulsões.</li>
-                    </ul>
                 </div>
 
-                <form id="anamnesis-form" class="space-y-6">
-                    <div class="p-4 space-y-5">
-                        <h2 class="text-[#0e181b] text-xl font-bold">Motivo da Consulta</h2>
-                        <div>
-                            <label for="problema-principal" class="block text-base font-medium text-gray-700 mb-1">1. Qual o principal problema ou sintoma?</label>
-                            <textarea id="problema-principal" placeholder="Ex: Dor de cabeça, Febre, Tosse..." class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
-                        </div>
-                        <div>
-                            <label for="inicio-sintomas" class="block text-base font-medium text-gray-700 mb-1">2. Quando exatamente os sintomas começaram?</label>
-                            <input type="text" id="inicio-sintomas" placeholder="Ex: Há 3 dias, ontem à noite" class="form-input w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3"/>
-                        </div>
-                        <fieldset>
-                            <legend class="text-base font-medium text-gray-700 mb-2">3. Antes disso, você estava se sentindo perfeitamente bem?</legend>
-                            <div class="flex items-center gap-x-6">
-                                <label class="flex items-center gap-2"><input type="radio" name="sentindo-bem" value="Sim" class="form-radio h-4 w-4"> Sim</label>
-                                <label class="flex items-center gap-2"><input type="radio" name="sentindo-bem" value="Não" class="form-radio h-4 w-4"> Não</label>
-                            </div>
-                        </fieldset>
-                        <div>
-                            <label for="fator-desencadeante" class="block text-base font-medium text-gray-700 mb-1">4. Houve algum fator que você acredita ter desencadeado o problema?</label>
-                            <textarea id="fator-desencadeante" placeholder="Descreva qualquer evento ou circunstância" class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
-                        </div>
-                        <fieldset>
-                            <legend class="text-base font-medium text-gray-700 mb-2">5. Os sintomas estão melhorando, piorando ou permanecem os mesmos?</legend>
-                            <div class="flex flex-col sm:flex-row gap-y-2 gap-x-4">
-                                <label class="flex items-center gap-2"><input type="radio" name="progressao-sintomas" value="Melhorando" class="form-radio h-4 w-4"> Melhorando</label>
-                                <label class="flex items-center gap-2"><input type="radio" name="progressao-sintomas" value="Piorando" class="form-radio h-4 w-4"> Piorando</label>
-                                <label class="flex items-center gap-2"><input type="radio" name="progressao-sintomas" value="Iguais" class="form-radio h-4 w-4"> Iguais</label>
-                            </div>
-                        </fieldset>
-                        <div>
-                            <label for="melhora-piora" class="block text-base font-medium text-gray-700 mb-1">6. O que melhora ou piora a sua dor/sintoma?</label>
-                            <textarea id="melhora-piora" placeholder="Ex: Repouso melhora, esforço piora..." class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
-                        </div>
-                         <div>
-                            <label for="tratamento-tentado" class="block text-base font-medium text-gray-700 mb-1">7. Você já tentou algum tratamento para isso?</label>
-                            <textarea id="tratamento-tentado" placeholder="Ex: Tomei Paracetamol para a febre" class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
-                        </div>
+                <form id="anamnesis-form" class="p-4">
+                    <!-- Bloco 1: Motivo Principal -->
+                    <div class="question-block">
+                        <label for="problema-principal" class="question-title">1. Qual o principal problema ou sintoma?</label>
+                        <textarea id="problema-principal" placeholder="Ex: Dor de cabeça forte, febre alta, tosse persistente..." class="input-field" rows="3"></textarea>
                     </div>
-                    <div class="p-4 space-y-5">
-                        <h2 class="text-[#0e181b] text-xl font-bold">Informações Básicas</h2>
-                        <fieldset>
-                            <legend class="text-base font-medium text-gray-700 mb-2">8. Possui alguma doença crônica?</legend>
-                            <div class="space-y-2">
-                                 <label class="flex items-center gap-3"><input type="checkbox" name="condicoes" value="Hipertensão" class="form-checkbox h-5 w-5 rounded"/> Hipertensão (Pressão alta)</label>
-                                 <label class="flex items-center gap-3"><input type="checkbox" name="condicoes" value="Diabetes" class="form-checkbox h-5 w-5 rounded"/> Diabetes</label>
-                                 <label class="flex items-center gap-3"><input type="checkbox" name="condicoes" value="Asma" class="form-checkbox h-5 w-5 rounded"/> Asma</label>
-                                 <label class="flex items-center gap-3"><input type="checkbox" name="condicoes" value="Doença Cardíaca" class="form-checkbox h-5 w-5 rounded"/> Doença Cardíaca</label>
-                                 <label class="flex items-center gap-3"><input type="checkbox" name="condicoes" value="Nenhuma" class="form-checkbox h-5 w-5 rounded"/> Nenhuma das opções</label>
-                            </div>
-                        </fieldset>
-                        <div>
-                            <label for="medicamentos" class="block text-base font-medium text-gray-700 mb-1">9. Usa algum medicamento de forma contínua? Qual(is)?</label>
-                            <textarea id="medicamentos" placeholder="Ex: Losartana 50mg, Metformina..." class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
+
+                    <!-- Bloco 2: Início dos Sintomas -->
+                    <div class="question-block">
+                        <label for="inicio-sintomas" class="question-title">2. Quando exatamente os sintomas começaram?</label>
+                        <input type="text" id="inicio-sintomas" placeholder="Ex: Há 3 dias, ontem à noite" class="input-field"/>
+                    </div>
+
+                    <!-- Bloco 3: Estado Anterior -->
+                    <fieldset class="question-block">
+                        <legend class="question-title">3. Antes disso, você estava se sentindo perfeitamente bem?</legend>
+                        <div class="space-y-3">
+                            <label class="choice-label"><input type="radio" name="sentindo-bem" value="Sim" class="choice-input form-radio"> <span>Sim</span></label>
+                            <label class="choice-label"><input type="radio" name="sentindo-bem" value="Não" class="choice-input form-radio"> <span>Não</span></label>
                         </div>
-                        <div>
-                            <label for="alergias" class="block text-base font-medium text-gray-700 mb-1">10. Possui alguma alergia?</label>
-                            <textarea id="alergias" placeholder="Ex: Alergia a Penicilina, camarão..." class="form-textarea w-full rounded-xl border-gray-300 bg-white focus:border-blue-500 focus:ring-blue-500 transition p-3" rows="2"></textarea>
+                    </fieldset>
+
+                    <!-- Bloco 4: Fator Desencadeante -->
+                    <div class="question-block">
+                        <label for="fator-desencadeante" class="question-title">4. Aconteceu algo que possa ter iniciado o problema?</label>
+                        <textarea id="fator-desencadeante" placeholder="Descreva qualquer evento, comida, esforço, etc." class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <!-- Bloco 5: Progressão -->
+                    <fieldset class="question-block">
+                        <legend class="question-title">5. Os sintomas estão melhorando, piorando ou iguais?</legend>
+                        <div class="space-y-3">
+                            <label class="choice-label"><input type="radio" name="progressao-sintomas" value="Melhorando" class="choice-input form-radio"> <span>Melhorando</span></label>
+                            <label class="choice-label"><input type="radio" name="progressao-sintomas" value="Piorando" class="choice-input form-radio"> <span>Piorando</span></label>
+                            <label class="choice-label"><input type="radio" name="progressao-sintomas" value="Iguais" class="choice-input form-radio"> <span>Permanecem Iguais</span></label>
                         </div>
+                    </fieldset>
+
+                    <!-- Bloco 6: Melhora/Piora -->
+                    <div class="question-block">
+                        <label for="melhora-piora" class="question-title">6. O que melhora ou piora o sintoma?</label>
+                        <textarea id="melhora-piora" placeholder="Ex: Repouso melhora, esforço piora..." class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <!-- Bloco 7: Tratamento Tentado -->
+                     <div class="question-block">
+                        <label for="tratamento-tentado" class="question-title">7. Você já tentou algum tratamento para isso?</label>
+                        <textarea id="tratamento-tentado" placeholder="Ex: Tomei Paracetamol para a febre" class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <!-- Bloco 8: Doenças Crônicas -->
+                    <fieldset class="question-block">
+                        <legend class="question-title">8. Possui alguma destas doenças crônicas?</legend>
+                        <div class="space-y-3">
+                             <label class="choice-label"><input type="checkbox" name="condicoes" value="Hipertensão" class="choice-input form-checkbox"/> <span>Hipertensão (Pressão alta)</span></label>
+                             <label class="choice-label"><input type="checkbox" name="condicoes" value="Diabetes" class="choice-input form-checkbox"/> <span>Diabetes</span></label>
+                             <label class="choice-label"><input type="checkbox" name="condicoes" value="Asma" class="choice-input form-checkbox"/> <span>Asma</span></label>
+                             <label class="choice-label"><input type="checkbox" name="condicoes" value="Doença Cardíaca" class="choice-input form-checkbox"/> <span>Doença Cardíaca</span></label>
+                             <label class="choice-label"><input type="checkbox" name="condicoes" value="Nenhuma" class="choice-input form-checkbox"/> <span>Nenhuma das opções</span></label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Bloco 9: Medicamentos Contínuos -->
+                    <div class="question-block">
+                        <label for="medicamentos" class="question-title">9. Usa algum medicamento de forma contínua?</label>
+                        <textarea id="medicamentos" placeholder="Ex: Losartana 50mg, Metformina..." class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <!-- Bloco 10: Alergias -->
+                    <div class="question-block">
+                        <label for="alergias" class="question-title">10. Possui alguma alergia conhecida?</label>
+                        <textarea id="alergias" placeholder="Ex: Alergia a Penicilina, camarão..." class="input-field" rows="3"></textarea>
                     </div>
                 </form>
             </main>
-            <footer class="fixed bottom-0 left-0 right-0 bg-gray-50/80 backdrop-blur-sm border-t border-gray-200">
-                <div class="p-4">
-                    <button id="generate-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-[#19b2e5] hover:bg-[#159bc9] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#19b2e5] transition-transform transform hover:scale-105">
-                        Gerar Análise
-                    </button>
-                </div>
+            <footer class="bg-gray-50 border-t border-gray-200 p-4">
+                <button id="generate-analysis-btn" type="button" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-[var(--primary-color)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-transform transform hover:scale-105">
+                    Gerar Análise
+                </button>
             </footer>
         </div>
 
         <!-- TELA DE CARREGAMENTO -->
         <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
-            <svg class="animate-spin h-10 w-10 text-[#19b2e5]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-10 w-10 text-[var(--primary-color)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -150,31 +201,23 @@
         <!-- TELA DE RESULTADOS -->
         <div id="results-screen" class="hidden">
             <header class="sticky top-0 z-10 flex items-center bg-gray-50/80 p-4 pb-0 backdrop-blur-sm border-b border-gray-200">
-                 <a href="javascript:location.reload()" class="text-[#0e181b] p-2 -ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                </a>
-                <h1 data-i18n='adulto.relatorio' class="text-[#0e181b] text-lg font-bold flex-1 text-center pr-8">Relatório da Análise</h1>
+                 <h1 data-i18n='adulto.relatorio' class="text-[#0e181b] text-xl font-bold flex-1 text-center">Relatório da Análise</h1>
             </header>
-            <main id="report-content" class="flex-grow pb-28 p-4">
-                <!-- Nível de Urgência -->
+            <main id="report-content" class="flex-grow p-4">
                 <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold"></div>
-                
-                <!-- Abas de Navegação -->
                 <div class="border-b border-gray-200 mb-4">
                     <nav class="flex -mb-px">
                         <button class="tab-button active py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="orientation">Orientação</button>
                         <button class="tab-button py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="summary">Tabela Resumo</button>
                     </nav>
                 </div>
-
-                <!-- Conteúdo das Abas -->
                 <div id="tab-content">
                     <div id="orientation-content"></div>
                     <div id="summary-content" class="hidden"></div>
                 </div>
             </main>
-            <footer class="fixed bottom-0 left-0 right-0 bg-gray-50/80 backdrop-blur-sm border-t border-gray-200">
-                <div class="p-4 flex gap-4">
+            <footer class="bg-gray-50 border-t border-gray-200 p-4">
+                <div class="flex gap-4">
                     <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600">
                         <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
                         WhatsApp
@@ -187,6 +230,23 @@
             </footer>
         </div>
     </div>
+
+    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL                                             -->
+    <!-- ======================================================================= -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
+      <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
+        <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+        </button>
+        <div class="h-8 w-px bg-gray-200"></div>
+        <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+        </a>
+      </div>
+    </nav>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -221,6 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Mostrar tela de carregamento
         formScreen.style.display = 'none';
         loadingScreen.style.display = 'flex';
+        resultsScreen.style.display = 'none'; // Garantir que a tela de resultados esteja oculta
 
         // 3. Construir o prompt para a IA
         const prompt = `
