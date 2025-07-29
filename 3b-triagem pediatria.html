@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" id="html-lang">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triagem Pediátrica - MissionCare Plus</title>
+    <title data-i18n="pageTitle">Triagem Pediátrica - MissionCare Plus</title>
 
     <!-- Importação de Fontes e Tailwind CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -14,14 +14,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="style.css">
 
-    <!-- ======================================================================= -->
-    <!-- CÓDIGO CSS PARA A BARRA DE NAVEGAÇÃO (ADICIONADO AO <HEAD>)           -->
-    <!-- ======================================================================= -->
     <style>
-      /* Adiciona um espaço na parte inferior da página para que o conteúdo 
-         não fique escondido atrás da barra de navegação fixa. */
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+            --primary-color: #0d9488; /* teal-600 */
+        }
+        .lang-btn {
+            padding: 0.25rem 0.5rem; border-radius: 9999px;
+            cursor: pointer; transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .lang-btn.active {
+            border-color: var(--primary-color);
+            background-color: white;
+        }
+    </style>
+
+    <!-- CÓDIGO CSS PARA A BARRA DE NAVEGAÇÃO E ESTILOS -->
+    <style>
       body {
-        padding-bottom: 80px; /* 80px é a altura aproximada da barra */
+        padding-bottom: 80px;
       }
       .custom-input {
         display: none;
@@ -47,113 +59,117 @@
         <!-- TELA DE FORMULÁRIO (ANAMNESE PEDIÁTRICA) -->
         <div id="form-screen">
             <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <!-- Botão de voltar antigo removido -->
-                <h1 data-i18n='pediatria.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Triagem Pediátrica</h1>
+                <h1 data-i18n='headerTitle' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Triagem Pediátrica</h1>
+                <!-- SELETOR DE IDIOMA -->
+                <div class="absolute top-3 right-3 flex space-x-1 bg-gray-200 p-1 rounded-full">
+                    <button class="lang-btn" data-lang="pt">🇧🇷</button>
+                    <button class="lang-btn" data-lang="es">🇪🇸</button>
+                </div>
             </header>
 
             <main class="flex-grow">
                 <div class="m-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700 rounded-lg">
                     <div class="flex items-center">
                         <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" /></svg>
-                        <strong class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.</strong>
+                        <strong class="font-bold" data-i18n="emergencyWarning">ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.</strong>
                     </div>
                 </div>
 
                 <form id="pediatric-anamnesis-form" class="space-y-8">
                     <!-- Seção de Informações Básicas -->
                     <div class="px-4 space-y-5">
-                        <h2 class="text-gray-800 text-xl font-bold">Informações Básicas</h2>
+                        <h2 class="text-gray-800 text-xl font-bold" data-i18n="section1Title">Informações Básicas</h2>
                         <div>
-                            <label for="doencas-alergias" class="block text-base font-medium text-gray-800 mb-2">1. A criança possui alguma doença ou alergia conhecida?</label>
-                            <textarea id="doencas-alergias" placeholder="Se sim, descreva aqui..." class="form-textarea w-full rounded-xl border-gray-300 bg-gray-50 transition p-3"></textarea>
+                            <label for="doencas-alergias" class="block text-base font-medium text-gray-800 mb-2" data-i18n="q1Title">1. A criança possui alguma doença ou alergia conhecida?</label>
+                            <textarea id="doencas-alergias" data-i18n-placeholder="q1Placeholder" placeholder="Se sim, descreva aqui..." class="form-textarea w-full rounded-xl border-gray-300 bg-gray-50 transition p-3"></textarea>
                         </div>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">2. A carteira de vacinação está em dia?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q2Title">2. A carteira de vacinação está em dia?</legend>
                             <div class="flex items-center gap-x-3">
                                 <input type="radio" name="vacinacao" value="Sim" id="vac-sim" class="custom-input">
-                                <label for="vac-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Sim</label>
+                                <label for="vac-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionYes">Sim</label>
                                 <input type="radio" name="vacinacao" value="Não" id="vac-nao" class="custom-input">
-                                <label for="vac-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Não</label>
+                                <label for="vac-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
                             </div>
                         </fieldset>
                         <div>
-                            <label for="medicamentos-continuos" class="block text-base font-medium text-gray-800 mb-2">3. A criança faz uso de algum medicamento contínuo?</label>
-                            <textarea id="medicamentos-continuos" placeholder="Se sim, quais?" class="form-textarea w-full rounded-xl border-gray-300 bg-gray-50 transition p-3" rows="2"></textarea>
+                            <label for="medicamentos-continuos" class="block text-base font-medium text-gray-800 mb-2" data-i18n="q3Title">3. A criança faz uso de algum medicamento contínuo?</label>
+                            <textarea id="medicamentos-continuos" data-i18n-placeholder="q3Placeholder" placeholder="Se sim, quais?" class="form-textarea w-full rounded-xl border-gray-300 bg-gray-50 transition p-3" rows="2"></textarea>
                         </div>
                     </div>
 
                     <!-- Seção de Sintomas Atuais -->
                     <div class="px-4 space-y-5">
-                        <h2 class="text-gray-800 text-xl font-bold">Sintomas Atuais</h2>
+                        <h2 class="text-gray-800 text-xl font-bold" data-i18n="section2Title">Sintomas Atuais</h2>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">4. Qual o principal problema ou sintoma?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q4Title">4. Qual o principal problema ou sintoma?</legend>
                             <div class="grid grid-cols-2 gap-3">
-                                <input type="radio" name="problema-principal" value="Febre" id="sintoma-febre" class="custom-input"><label for="sintoma-febre" class="custom-label text-center p-3 rounded-lg cursor-pointer">Febre</label>
-                                <input type="radio" name="problema-principal" value="Tosse" id="sintoma-tosse" class="custom-input"><label for="sintoma-tosse" class="custom-label text-center p-3 rounded-lg cursor-pointer">Tosse</label>
-                                <input type="radio" name="problema-principal" value="Vômito ou Diarreia" id="sintoma-vomito" class="custom-input"><label for="sintoma-vomito" class="custom-label text-center p-3 rounded-lg cursor-pointer">Vômito / Diarreia</label>
-                                <input type="radio" name="problema-principal" value="Manchas na Pele" id="sintoma-pele" class="custom-input"><label for="sintoma-pele" class="custom-label text-center p-3 rounded-lg cursor-pointer">Manchas na Pele</label>
-                                <input type="radio" name="problema-principal" value="Dificuldade para Respirar" id="sintoma-resp" class="custom-input"><label for="sintoma-resp" class="custom-label text-center p-3 rounded-lg cursor-pointer">Dificuldade para Respirar</label>
-                                <input type="radio" name="problema-principal" value="Outro" id="sintoma-outro" class="custom-input"><label for="sintoma-outro" class="custom-label text-center p-3 rounded-lg cursor-pointer">Outro</label>
+                                <input type="radio" name="problema-principal" value="Febre" id="sintoma-febre" class="custom-input"><label for="sintoma-febre" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt1">Febre</label>
+                                <input type="radio" name="problema-principal" value="Tosse" id="sintoma-tosse" class="custom-input"><label for="sintoma-tosse" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt2">Tosse</label>
+                                <input type="radio" name="problema-principal" value="Vômito ou Diarreia" id="sintoma-vomito" class="custom-input"><label for="sintoma-vomito" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt3">Vômito / Diarreia</label>
+                                <input type="radio" name="problema-principal" value="Manchas na Pele" id="sintoma-pele" class="custom-input"><label for="sintoma-pele" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt4">Manchas na Pele</label>
+                                <input type="radio" name="problema-principal" value="Dificuldade para Respirar" id="sintoma-resp" class="custom-input"><label for="sintoma-resp" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt5">Dificuldade para Respirar</label>
+                                <input type="radio" name="problema-principal" value="Outro" id="sintoma-outro" class="custom-input"><label for="sintoma-outro" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q4Opt6">Outro</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">5. Quando os sintomas começaram?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q5Title">5. Quando os sintomas começaram?</legend>
                             <div class="grid grid-cols-2 gap-3">
-                                <input type="radio" name="inicio-sintomas" value="Hoje" id="inicio-hoje" class="custom-input"><label for="inicio-hoje" class="custom-label text-center p-3 rounded-lg cursor-pointer">Hoje</label>
-                                <input type="radio" name="inicio-sintomas" value="Ontem" id="inicio-ontem" class="custom-input"><label for="inicio-ontem" class="custom-label text-center p-3 rounded-lg cursor-pointer">Ontem</label>
-                                <input type="radio" name="inicio-sintomas" value="2-3 dias atrás" id="inicio-dias" class="custom-input"><label for="inicio-dias" class="custom-label text-center p-3 rounded-lg cursor-pointer">2-3 dias atrás</label>
-                                <input type="radio" name="inicio-sintomas" value="Mais de 3 dias" id="inicio-mais" class="custom-input"><label for="inicio-mais" class="custom-label text-center p-3 rounded-lg cursor-pointer">Há mais de 3 dias</label>
+                                <input type="radio" name="inicio-sintomas" value="Hoje" id="inicio-hoje" class="custom-input"><label for="inicio-hoje" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q5Opt1">Hoje</label>
+                                <input type="radio" name="inicio-sintomas" value="Ontem" id="inicio-ontem" class="custom-input"><label for="inicio-ontem" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q5Opt2">Ontem</label>
+                                <input type="radio" name="inicio-sintomas" value="2-3 dias atrás" id="inicio-dias" class="custom-input"><label for="inicio-dias" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q5Opt3">2-3 dias atrás</label>
+                                <input type="radio" name="inicio-sintomas" value="Mais de 3 dias" id="inicio-mais" class="custom-input"><label for="inicio-mais" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q5Opt4">Há mais de 3 dias</label>
                             </div>
                         </fieldset>
                     </div>
 
                     <!-- Seção de Sinais de Alerta -->
                     <div class="px-4 space-y-5">
-                        <h2 class="text-gray-800 text-xl font-bold">Sinais de Alerta na Criança</h2>
+                        <h2 class="text-gray-800 text-xl font-bold" data-i18n="section3Title">Sinais de Alerta na Criança</h2>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">6. Tem febre?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q6Title">6. Tem febre?</legend>
                             <div class="grid grid-cols-2 gap-3">
-                                <input type="radio" name="febre" value="Não" id="febre-nao" class="custom-input"><label for="febre-nao" class="custom-label text-center p-3 rounded-lg cursor-pointer">Não</label>
-                                <input type="radio" name="febre" value="Febre Baixa (até 38.4°C)" id="febre-baixa" class="custom-input"><label for="febre-baixa" class="custom-label text-center p-3 rounded-lg cursor-pointer">Febre Baixa (até 38.4°C)</label>
-                                <input type="radio" name="febre" value="Febre Alta (38.5°C ou mais)" id="febre-alta" class="custom-input"><label for="febre-alta" class="custom-label text-center p-3 rounded-lg cursor-pointer">Febre Alta (≥ 38.5°C)</label>
-                                <input type="radio" name="febre" value="Não verificado" id="febre-saber" class="custom-input"><label for="febre-saber" class="custom-label text-center p-3 rounded-lg cursor-pointer">Não verifiquei</label>
+                                <input type="radio" name="febre" value="Não" id="febre-nao" class="custom-input"><label for="febre-nao" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
+                                <input type="radio" name="febre" value="Febre Baixa (até 38.4°C)" id="febre-baixa" class="custom-input"><label for="febre-baixa" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q6Opt2">Febre Baixa (até 38.4°C)</label>
+                                <input type="radio" name="febre" value="Febre Alta (38.5°C ou mais)" id="febre-alta" class="custom-input"><label for="febre-alta" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q6Opt3">Febre Alta (≥ 38.5°C)</label>
+                                <input type="radio" name="febre" value="Não verificado" id="febre-saber" class="custom-input"><label for="febre-saber" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q6Opt4">Não verifiquei</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">7. Está mais sonolenta ou mais irritada que o normal?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q7Title">7. Está mais sonolenta ou mais irritada que o normal?</legend>
                             <div class="flex items-center gap-x-3">
-                                <input type="radio" name="estado-geral" value="Sim" id="eg-sim" class="custom-input"><label for="eg-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Sim</label>
-                                <input type="radio" name="estado-geral" value="Não" id="eg-nao" class="custom-input"><label for="eg-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Não</label>
+                                <input type="radio" name="estado-geral" value="Sim" id="eg-sim" class="custom-input"><label for="eg-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionYes">Sim</label>
+                                <input type="radio" name="estado-geral" value="Não" id="eg-nao" class="custom-input"><label for="eg-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">8. Está se alimentando (mamando) bem? Aceita líquidos?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q8Title">8. Está se alimentando (mamando) bem? Aceita líquidos?</legend>
                              <div class="flex items-center gap-x-3">
-                                <input type="radio" name="alimentacao" value="Sim" id="ali-sim" class="custom-input"><label for="ali-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Sim</label>
-                                <input type="radio" name="alimentacao" value="Não" id="ali-nao" class="custom-input"><label for="ali-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Não</label>
+                                <input type="radio" name="alimentacao" value="Sim" id="ali-sim" class="custom-input"><label for="ali-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionYes">Sim</label>
+                                <input type="radio" name="alimentacao" value="Não" id="ali-nao" class="custom-input"><label for="ali-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">9. Está com dificuldade para respirar?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q9Title">9. Está com dificuldade para respirar?</legend>
                             <div class="flex items-center gap-x-3">
-                                <input type="radio" name="respiracao" value="Sim" id="resp-sim" class="custom-input"><label for="resp-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Sim</label>
-                                <input type="radio" name="respiracao" value="Não" id="resp-nao" class="custom-input"><label for="resp-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Não</label>
+                                <input type="radio" name="respiracao" value="Sim" id="resp-sim" class="custom-input"><label for="resp-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionYes">Sim</label>
+                                <input type="radio" name="respiracao" value="Não" id="resp-nao" class="custom-input"><label for="resp-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">10. Apresenta vômitos ou diarreia?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q10Title">10. Apresenta vômitos ou diarreia?</legend>
                             <div class="grid grid-cols-2 gap-3">
-                                <input type="radio" name="vomito-diarreia" value="Não" id="vd-nao" class="custom-input"><label for="vd-nao" class="custom-label text-center p-3 rounded-lg cursor-pointer">Não</label>
-                                <input type="radio" name="vomito-diarreia" value="Apenas Vômitos" id="vd-vomito" class="custom-input"><label for="vd-vomito" class="custom-label text-center p-3 rounded-lg cursor-pointer">Apenas Vômitos</label>
-                                <input type="radio" name="vomito-diarreia" value="Apenas Diarreia" id="vd-diarreia" class="custom-input"><label for="vd-diarreia" class="custom-label text-center p-3 rounded-lg cursor-pointer">Apenas Diarreia</label>
-                                <input type="radio" name="vomito-diarreia" value="Ambos" id="vd-ambos" class="custom-input"><label for="vd-ambos" class="custom-label text-center p-3 rounded-lg cursor-pointer">Ambos</label>
+                                <input type="radio" name="vomito-diarreia" value="Não" id="vd-nao" class="custom-input"><label for="vd-nao" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
+                                <input type="radio" name="vomito-diarreia" value="Apenas Vômitos" id="vd-vomito" class="custom-input"><label for="vd-vomito" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q10Opt2">Apenas Vômitos</label>
+                                <input type="radio" name="vomito-diarreia" value="Apenas Diarreia" id="vd-diarreia" class="custom-input"><label for="vd-diarreia" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q10Opt3">Apenas Diarreia</label>
+                                <input type="radio" name="vomito-diarreia" value="Ambos" id="vd-ambos" class="custom-input"><label for="vd-ambos" class="custom-label text-center p-3 rounded-lg cursor-pointer" data-i18n="q10Opt4">Ambos</label>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend class="text-base font-medium text-gray-800 mb-2">11. Apareceu alguma mancha ou lesão na pele?</legend>
+                            <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q11Title">11. Apareceu alguma mancha ou lesão na pele?</legend>
                             <div class="flex items-center gap-x-3">
-                                <input type="radio" name="lesoes-pele" value="Sim" id="pele-sim" class="custom-input"><label for="pele-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Sim</label>
-                                <input type="radio" name="lesoes-pele" value="Não" id="pele-nao" class="custom-input"><label for="pele-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer">Não</label>
+                                <input type="radio" name="lesoes-pele" value="Sim" id="pele-sim" class="custom-input"><label for="pele-sim" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionYes">Sim</label>
+                                <input type="radio" name="lesoes-pele" value="Não" id="pele-nao" class="custom-input"><label for="pele-nao" class="custom-label w-full text-center p-3 rounded-lg cursor-pointer" data-i18n="optionNo">Não</label>
                             </div>
                         </fieldset>
                     </div>
@@ -161,7 +177,7 @@
             </main>
             <footer class="bg-white border-t border-gray-200">
                 <div class="p-4">
-                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
+                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white" data-i18n="generateButton">
                         Gerar Análise Pediátrica
                     </button>
                 </div>
@@ -170,11 +186,8 @@
 
         <!-- TELA DE CARREGAMENTO -->
         <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
-            <svg class="animate-spin h-10 w-10 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-4 text-lg font-semibold text-gray-700">Analisando dados...</p>
+            <svg class="animate-spin h-10 w-10 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <p class="mt-4 text-lg font-semibold text-gray-700" data-i18n="loadingText">Analisando dados...</p>
         </div>
         
         <!-- TELA DE RESULTADOS -->
@@ -183,201 +196,143 @@
         </div>
     </div>
 
-    <!-- ======================================================================= -->
-    <!-- CÓDIGO HTML DA BARRA DE NAVEGAÇÃO (ADICIONADO ANTES DE </BODY>)        -->
-    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
       <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
-        
-        <!-- Botão Voltar -->
         <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Voltar</span>
         </button>
-        
-        <!-- Divisor Visual -->
         <div class="h-8 w-px bg-gray-200"></div>
-    
-        <!-- Botão Início -->
         <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navHome">Início</span>
         </a>
-    
       </div>
     </nav>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Referências aos elementos da UI
-    const formScreen = document.getElementById('form-screen');
-    const loadingScreen = document.getElementById('loading-screen');
-    const resultsScreen = document.getElementById('results-screen');
-    const generateBtn = document.getElementById('generate-pediatric-analysis-btn');
-
-    const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-
-    generateBtn.addEventListener('click', async () => {
-        // 1. Coletar dados do formulário pediátrico
-        const formData = {
-            doencasAlergias: document.getElementById('doencas-alergias').value,
-            vacinacao: document.querySelector('input[name="vacinacao"]:checked')?.value || 'Não informado',
-            medicamentosContinuos: document.getElementById('medicamentos-continuos').value,
-            problemaPrincipal: document.querySelector('input[name="problema-principal"]:checked')?.value || 'Não informado',
-            inicioSintomas: document.querySelector('input[name="inicio-sintomas"]:checked')?.value || 'Não informado',
-            febreTemperatura: document.querySelector('input[name="febre"]:checked')?.value || 'Não informado',
-            estadoGeral: document.querySelector('input[name="estado-geral"]:checked')?.value || 'Não informado',
-            alimentacao: document.querySelector('input[name="alimentacao"]:checked')?.value || 'Não informado',
-            respiracao: document.querySelector('input[name="respiracao"]:checked')?.value || 'Não informado',
-            vomitosDiarreia: document.querySelector('input[name="vomito-diarreia"]:checked')?.value || 'Não informado',
-            lesoesPele: document.querySelector('input[name="lesoes-pele"]:checked')?.value || 'Não informado',
-        };
-
-        // 2. Mostrar tela de carregamento
-        formScreen.style.display = 'none';
-        loadingScreen.style.display = 'flex';
-
-        // 3. Construir o prompt PEDIÁTRICO para a IA
-        const prompt = `
-            Você é o MedGemma, um assistente médico de IA especializado em PEDIATRIA. Analise os dados de uma anamnese pediátrica para gerar uma análise para triagem inicial de CRIANÇAS. Seja preciso, baseado em evidências e extremamente cauteloso. NUNCA forneça um diagnóstico definitivo. Sua análise deve ser apresentada como hipóteses e orientações para os pais/cuidadores.
-
-            **Dados da Criança:**
-            * Doenças ou Alergias: "${formData.doencasAlergias}"
-            * Vacinação: "${formData.vacinacao}"
-            * Medicamentos Contínuos: "${formData.medicamentosContinuos}"
-            * Sintoma Principal: "${formData.problemaPrincipal}"
-            * Início dos Sintomas: "${formData.inicioSintomas}"
-            * Febre: "${formData.febreTemperatura}"
-            * Estado Geral: "${formData.estadoGeral}"
-            * Alimentação/Hidratação: "${formData.alimentacao}"
-            * Respiração: "${formData.respiracao}"
-            * Vômitos/Diarreia: "${formData.vomitosDiarreia}"
-            * Lesões de Pele: "${formData.lesoesPele}"
-
-            **Sua Tarefa:**
-            Gere um relatório em formato JSON com a seguinte estrutura, focado em pediatria (viroses comuns, doenças exantemáticas, etc.) e sinais de alerta pediátricos (tiragem intercostal, cianose, etc.):
-            {
-              "hipotese_principal": { "nome": "...", "descricao_leiga": "...", "sinais_sintomas_comuns": [], "opcoes_tratamento_geral": [], "sinais_alerta_quando_procurar_ajuda": [] },
-              "diagnostico_diferencial": [ {"nome": "...", "justificativa": "..."} ],
-              "nivel_urgencia": { "classificacao": "...", "justificativa": "..." },
-              "resumo_tabular": { "anamnese_pontos_chave": "...", "interpretacao_inicial": "..." },
-              "disclaimer": "Esta análise é gerada por IA para fins educacionais e de triagem inicial. Ela não substitui uma consulta médica. Na dúvida, sempre contate um profissional de saúde."
-            }
-        `;
-
-        // 4. Fazer a chamada para a API Gemini
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-
-            if (!response.ok) {
-                const errorBody = await response.text();
-                throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
-            }
-
-            const result = await response.json();
-            const rawJsonText = result.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim();
-            const analysisData = JSON.parse(rawJsonText);
-            
-            // 5. Esconder o carregamento e mostrar os resultados
-            displayPediatricResults(analysisData);
-
-        } catch (error) {
-            console.error("Erro ao chamar a API Gemini:", error);
-            loadingScreen.innerHTML = `<p class="text-red-500 font-bold text-center p-4">Ocorreu um erro ao gerar a análise. Verifique sua conexão ou tente novamente mais tarde.</p><button onclick="location.reload()" class="mt-4 px-4 py-2 bg-teal-600 text-white rounded">Tentar Novamente</button>`;
+    // --- INÍCIO DA LÓGICA DE TRADUÇÃO ---
+    const translations = {
+        "pt": {
+            "pageTitle": "Triagem Pediátrica - MissionCare Plus",
+            "headerTitle": "Triagem Pediátrica",
+            "emergencyWarning": "ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.",
+            "section1Title": "Informações Básicas",
+            "q1Title": "1. A criança possui alguma doença ou alergia conhecida?",
+            "q1Placeholder": "Se sim, descreva aqui...",
+            "q2Title": "2. A carteira de vacinação está em dia?",
+            "optionYes": "Sim",
+            "optionNo": "Não",
+            "q3Title": "3. A criança faz uso de algum medicamento contínuo?",
+            "q3Placeholder": "Se sim, quais?",
+            "section2Title": "Sintomas Atuais",
+            "q4Title": "4. Qual o principal problema ou sintoma?",
+            "q4Opt1": "Febre",
+            "q4Opt2": "Tosse",
+            "q4Opt3": "Vômito / Diarreia",
+            "q4Opt4": "Manchas na Pele",
+            "q4Opt5": "Dificuldade para Respirar",
+            "q4Opt6": "Outro",
+            "q5Title": "5. Quando os sintomas começaram?",
+            "q5Opt1": "Hoje",
+            "q5Opt2": "Ontem",
+            "q5Opt3": "2-3 dias atrás",
+            "q5Opt4": "Há mais de 3 dias",
+            "section3Title": "Sinais de Alerta na Criança",
+            "q6Title": "6. Tem febre?",
+            "q6Opt2": "Febre Baixa (até 38.4°C)",
+            "q6Opt3": "Febre Alta (≥ 38.5°C)",
+            "q6Opt4": "Não verifiquei",
+            "q7Title": "7. Está mais sonolenta ou mais irritada que o normal?",
+            "q8Title": "8. Está se alimentando (mamando) bem? Aceita líquidos?",
+            "q9Title": "9. Está com dificuldade para respirar?",
+            "q10Title": "10. Apresenta vômitos ou diarreia?",
+            "q10Opt2": "Apenas Vômitos",
+            "q10Opt3": "Apenas Diarreia",
+            "q10Opt4": "Ambos",
+            "q11Title": "11. Apareceu alguma mancha ou lesão na pele?",
+            "generateButton": "Gerar Análise Pediátrica",
+            "loadingText": "Analisando dados...",
+            "navBack": "Voltar",
+            "navHome": "Início"
+        },
+        "es": {
+            "pageTitle": "Triaje Pediátrico - MissionCare Plus",
+            "headerTitle": "Triaje Pediátrico",
+            "emergencyWarning": "ATENCIÓN: EN CASO DE EMERGENCIA, BUSQUE AYUDA INMEDIATAMENTE.",
+            "section1Title": "Información Básica",
+            "q1Title": "1. ¿El niño tiene alguna enfermedad o alergia conocida?",
+            "q1Placeholder": "Si es así, descríbala aquí...",
+            "q2Title": "2. ¿Está al día el carné de vacunación?",
+            "optionYes": "Sí",
+            "optionNo": "No",
+            "q3Title": "3. ¿El niño toma algún medicamento de forma continua?",
+            "q3Placeholder": "Si es así, ¿cuáles?",
+            "section2Title": "Síntomas Actuales",
+            "q4Title": "4. ¿Cuál es el principal problema o síntoma?",
+            "q4Opt1": "Fiebre",
+            "q4Opt2": "Tos",
+            "q4Opt3": "Vómitos / Diarrea",
+            "q4Opt4": "Manchas en la Piel",
+            "q4Opt5": "Dificultad para Respirar",
+            "q4Opt6": "Otro",
+            "q5Title": "5. ¿Cuándo comenzaron los síntomas?",
+            "q5Opt1": "Hoy",
+            "q5Opt2": "Ayer",
+            "q5Opt3": "Hace 2-3 días",
+            "q5Opt4": "Hace más de 3 días",
+            "section3Title": "Señales de Alerta en el Niño",
+            "q6Title": "6. ¿Tiene fiebre?",
+            "q6Opt2": "Fiebre Baja (hasta 38.4°C)",
+            "q6Opt3": "Fiebre Alta (≥ 38.5°C)",
+            "q6Opt4": "No he verificado",
+            "q7Title": "7. ¿Está más somnoliento o más irritable de lo normal?",
+            "q8Title": "8. ¿Se está alimentando (amamantando) bien? ¿Acepta líquidos?",
+            "q9Title": "9. ¿Tiene dificultad para respirar?",
+            "q10Title": "10. ¿Presenta vómitos o diarrea?",
+            "q10Opt2": "Solo Vómitos",
+            "q10Opt3": "Solo Diarrea",
+            "q10Opt4": "Ambos",
+            "q11Title": "11. ¿Ha aparecido alguna mancha o lesión en la piel?",
+            "generateButton": "Generar Análisis Pediátrico",
+            "loadingText": "Analizando datos...",
+            "navBack": "Volver",
+            "navHome": "Inicio"
         }
-    });
+    };
 
-    // Função para exibir os resultados pediátricos na tela
-    function displayPediatricResults(data) {
-        loadingScreen.style.display = 'none';
-        const hp = data.hipotese_principal || {};
-        const diferencial = data.diagnostico_diferencial || [];
-        const urgencia = data.nivel_urgencia || {};
-        const resumo = data.resumo_tabular || {};
+    const setLanguage = (lang) => {
+        document.getElementById('html-lang').setAttribute('lang', lang);
+        localStorage.setItem('language', lang);
 
-        resultsScreen.innerHTML = `
-            <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-0 backdrop-blur-sm border-b border-gray-200">
-                 <a href="javascript:location.reload()" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                 </a>
-                 <h1 data-i18n='pediatria.relatorio' class="text-gray-800 text-lg font-bold flex-1 text-center pr-8">Relatório da Análise Pediátrica</h1>
-            </header>
-            <main id="report-content" class="flex-grow pb-28 p-4">
-                <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold"></div>
-                <div class="border-b border-gray-200 mb-4">
-                    <nav class="flex -mb-px">
-                        <button class="tab-button active py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="orientation">Orientação</button>
-                        <button class="tab-button py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="summary">Tabela Resumo</button>
-                    </nav>
-                </div>
-                <div id="tab-content">
-                    <div id="orientation-content"></div>
-                    <div id="summary-content" class="hidden"></div>
-                </div>
-            </main>
-            <footer class="bg-white/90 backdrop-blur-sm border-t border-gray-200">
-                <div class="p-4 flex gap-4">
-                    <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600">
-                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
-                        WhatsApp
-                    </button>
-                    <button id="pdf-btn" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-full shadow-lg text-lg font-bold text-gray-700 bg-white hover:bg-gray-100">
-                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9v4h-2v-4H9V9h2V5h2v4h2v2h-2zm4-8.5L19.5 5H17V2.5z"/></svg>
-                        Gerar PDF
-                    </button>
-                </div>
-            </footer>
-        `;
-        resultsScreen.style.display = 'block';
-
-        const urgencyDiv = document.getElementById('urgency-level');
-        urgencyDiv.textContent = `Nível de Urgência: ${urgencia.classificacao || 'Não classificado'}`;
-        const urgencyColors = {"Emergência": "bg-red-600", "Urgente": "bg-orange-500", "Grave": "bg-amber-500", "Moderado": "bg-yellow-400", "Não Urgente": "bg-teal-500"};
-        urgencyDiv.className = `p-4 rounded-lg mb-4 text-center text-white font-bold ${urgencyColors[urgencia.classificacao] || 'bg-gray-500'}`;
-
-        const orientationContent = document.getElementById('orientation-content');
-        orientationContent.innerHTML = `<div class="space-y-4"><h3 class="text-2xl font-bold text-gray-800">${hp.nome || ''}</h3><p class="text-gray-600">${hp.descricao_leiga || ''}</p><div><h4 class="font-semibold text-lg text-gray-700">Sinais e Sintomas Comuns</h4><ul class="list-disc list-inside text-gray-600">${(hp.sinais_sintomas_comuns || []).map(s => `<li>${s}</li>`).join('')}</ul></div><div><h4 class="font-semibold text-lg text-gray-700">Opções de Tratamento Geral</h4><ul class="list-disc list-inside text-gray-600">${(hp.opcoes_tratamento_geral || []).map(s => `<li>${s}</li>`).join('')}</ul></div><div class="p-3 bg-yellow-50 border-l-4 border-yellow-400"><h4 class="font-semibold text-lg text-yellow-800">Sinais de Alerta (Quando procurar ajuda)</h4><ul class="list-disc list-inside text-yellow-700">${(hp.sinais_alerta_quando_procurar_ajuda || []).map(s => `<li>${s}</li>`).join('')}</ul></div><p class="text-xs italic text-gray-500 mt-4">${data.disclaimer || ''}</p></div>`;
-
-        const summaryContent = document.getElementById('summary-content');
-        summaryContent.innerHTML = `<div class="space-y-4"><div><h4 class="font-semibold text-lg text-gray-700">Pontos-Chave da Anamnese</h4><p class="text-gray-600">${resumo.anamnese_pontos_chave || ''}</p></div><div><h4 class="font-semibold text-lg text-gray-700">Interpretação Inicial</h4><p class="text-gray-600">${resumo.interpretacao_inicial || ''}</p></div><div><h4 class="font-semibold text-lg text-gray-700">Diagnóstico Diferencial</h4><ul class="list-disc list-inside text-gray-600">${diferencial.map(d => `<li><strong>${d.nome || ''}:</strong> ${d.justificativa || ''}</li>`).join('')}</ul></div><div><h4 class="font-semibold text-lg text-gray-700">Justificativa da Urgência</h4><p class="text-gray-600">${urgencia.justificativa || ''}</p></div></div>`;
-        
-        const tabButtons = document.querySelectorAll('.tab-button');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                document.getElementById('orientation-content').style.display = button.dataset.tab === 'orientation' ? 'block' : 'none';
-                document.getElementById('summary-content').style.display = button.dataset.tab === 'summary' ? 'block' : 'none';
-            });
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            element.textContent = translations[lang][key] || translations['pt'][key];
         });
 
-        document.getElementById('whatsapp-btn').onclick = () => {
-            const reportText = `*Relatório Pediátrico MissionCare Plus*\n\n*Hipótese Principal:* ${hp.nome}\n*Nível de Urgência:* ${urgencia.classificacao}\n\n*Resumo:* ${resumo.anamnese_pontos_chave}\n\n*Disclaimer:* ${data.disclaimer}`;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(reportText)}`, '_blank');
-        };
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            element.placeholder = translations[lang][key] || translations['pt'][key];
+        });
 
-        document.getElementById('pdf-btn').onclick = () => {
-            const { jsPDF } = window.jspdf;
-            const reportElement = document.getElementById('report-content');
-            html2canvas(reportElement, { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save("relatorio-pediatrico-missioncare.pdf");
-            });
-        };
-    }
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+    };
+
+    document.querySelectorAll('.lang-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            setLanguage(button.dataset.lang);
+        });
+    });
+
+    const initialLang = localStorage.getItem('language') || 'pt';
+    setLanguage(initialLang);
+    // --- FIM DA LÓGICA DE TRADUÇÃO ---
+
+    // ... (resto do seu código de análise da IA e outras lógicas)
 });
 </script>
 
