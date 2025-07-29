@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apoio Emocional e Espiritual - MissionCare Plus</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fbfc]">
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfc] justify-between overflow-x-hidden">
+        <div>
+            <!-- Cabeçalho com botão voltar -->
+            <header class="text-center pt-8 pb-4 px-4 relative bg-orange-500 text-white">
+                <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-orange-600 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                </button>
+                <h1 class="text-2xl font-bold tracking-tight">❤️ Apoio Emocional</h1>
+                <p class="text-sm mt-1">Cuidando da sua alma e coração</p>
+            </header>
+
+            <!-- Versículo em Destaque -->
+            <div class="px-4 py-4">
+                <div class="bg-gradient-to-r from-orange-100 to-yellow-100 rounded-xl p-4 border-l-4 border-orange-500">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">📖</span>
+                        <h3 class="font-bold text-orange-800">Versículo de Esperança</h3>
+                    </div>
+                    <p class="text-orange-700 italic mb-2">
+                        "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei."
+                    </p>
+                    <p class="text-sm text-orange-600 font-medium">Mateus 11:28</p>
+                </div>
+            </div>
+
+            <!-- Recursos de Apoio -->
+            <div class="px-4 py-2">
+                <h2 class="text-lg font-bold text-[#0e181b] mb-4">Como podemos ajudar você hoje?</h2>
+                
+                <!-- Avaliação de Humor -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">😊</span>
+                        Como você está se sentindo?
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selecionarHumor('feliz')" class="p-3 border-2 border-green-200 rounded-lg hover:bg-green-50 transition-colors text-center">
+                            <div class="text-2xl mb-1">😊</div>
+                            <div class="text-sm font-medium text-green-700">Bem</div>
+                        </button>
+                        <button onclick="selecionarHumor('neutro')" class="p-3 border-2 border-yellow-200 rounded-lg hover:bg-yellow-50 transition-colors text-center">
+                            <div class="text-2xl mb-1">😐</div>
+                            <div class="text-sm font-medium text-yellow-700">Normal</div>
+                        </button>
+                        <button onclick="selecionarHumor('triste')" class="p-3 border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-center">
+                            <div class="text-2xl mb-1">😢</div>
+                            <div class="text-sm font-medium text-blue-700">Triste</div>
+                        </button>
+                        <button onclick="selecionarHumor('ansioso')" class="p-3 border-2 border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-center">
+                            <div class="text-2xl mb-1">😰</div>
+                            <div class="text-sm font-medium text-purple-700">Ansioso</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recursos Espirituais -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">🙏</span>
+                        Recursos Espirituais
+                    </h3>
+                    <div class="space-y-3">
+                        <button onclick="abrirOracao()" class="w-full p-3 bg-blue-50 border border-blue-200 rounded-lg text-left hover:bg-blue-100 transition-colors">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🙏</span>
+                                <div>
+                                    <div class="font-medium text-blue-800">Oração Guiada</div>
+                                    <div class="text-sm text-blue-600">Momentos de conexão com Deus</div>
+                                </div>
+                            </div>
+                        </button>
+                        
+                        <button onclick="abrirVersiculos()" class="w-full p-3 bg-green-50 border border-green-200 rounded-lg text-left hover:bg-green-100 transition-colors">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📖</span>
+                                <div>
+                                    <div class="font-medium text-green-800">Versículos de Conforto</div>
+                                    <div class="text-sm text-green-600">Palavras de esperança e paz</div>
+                                </div>
+                            </div>
+                        </button>
+                        
+                        <button onclick="abrirMeditacao()" class="w-full p-3 bg-purple-50 border border-purple-200 rounded-lg text-left hover:bg-purple-100 transition-colors">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🧘</span>
+                                <div>
+                                    <div class="font-medium text-purple-800">Meditação Cristã</div>
+                                    <div class="text-sm text-purple-600">Exercícios de respiração e reflexão</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Técnicas de Bem-estar -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">🌱</span>
+                        Técnicas de Bem-estar
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <h4 class="font-medium text-gray-800 mb-2">Respiração 4-7-8</h4>
+                            <p class="text-sm text-gray-600 mb-2">Técnica para reduzir ansiedade:</p>
+                            <ol class="text-sm text-gray-600 list-decimal list-inside space-y-1">
+                                <li>Inspire por 4 segundos</li>
+                                <li>Segure por 7 segundos</li>
+                                <li>Expire por 8 segundos</li>
+                                <li>Repita 4 vezes</li>
+                            </ol>
+                            <button onclick="iniciarRespiracao()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                Iniciar Exercício
+                            </button>
+                        </div>
+                        
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <h4 class="font-medium text-gray-800 mb-2">Gratidão Diária</h4>
+                            <p class="text-sm text-gray-600 mb-2">Liste 3 coisas pelas quais você é grato hoje:</p>
+                            <textarea 
+                                id="gratidao-text" 
+                                class="w-full p-2 border border-gray-300 rounded text-sm" 
+                                rows="3" 
+                                placeholder="1. &#10;2. &#10;3. "
+                            ></textarea>
+                            <button onclick="salvarGratidao()" class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600 transition-colors">
+                                Salvar Gratidão
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contato para Apoio -->
+                <div class="bg-white rounded-xl p-4 shadow-sm">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">🤝</span>
+                        Precisa conversar?
+                    </h3>
+                    <p class="text-sm text-gray-600 mb-3">
+                        Nossa equipe pastoral está disponível para ouvir e orar com você.
+                    </p>
+                    <div class="space-y-2">
+                        <button onclick="solicitarContato()" class="w-full bg-orange-500 text-white p-3 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            Solicitar Conversa Pastoral
+                        </button>
+                        <button onclick="window.location.href='contato.html'" class="w-full bg-gray-100 text-gray-700 p-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                            Ver Outros Contatos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé com Navegação -->
+        <div>
+            <div class="flex gap-2 border-t border-[#e7f0f3] bg-[#f8fbfc] px-4 pb-3 pt-2">
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="index.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="House" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-[#0e181b]" href="apoio-emocional.html">
+                    <div class="text-[#0e181b] flex h-8 items-center justify-center" data-icon="Heart" data-size="24px" data-weight="fill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="assistente-ia.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="ChatCircleDots" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="contato.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="User" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <div class="h-5 bg-[#f8fbfc]"></div>
+        </div>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal de Oração -->
+    <div id="oracao-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold text-[#0e181b] mb-4 text-center">🙏 Momento de Oração</h2>
+            <div class="text-center space-y-4">
+                <p class="text-gray-700">
+                    "Pai celestial, venho à Tua presença buscando paz e conforto. 
+                    Tu conheces meu coração e minhas necessidades. 
+                    Concede-me força para enfrentar os desafios e sabedoria para tomar as decisões certas.
+                    Que Tua paz, que excede todo entendimento, guarde meu coração e minha mente.
+                    Em nome de Jesus, amém."
+                </p>
+                <button onclick="fecharModal('oracao-modal')" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                    Amém
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Exercício de Respiração -->
+    <div id="respiracao-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 text-center">
+            <h2 class="text-xl font-bold text-[#0e181b] mb-4">🌬️ Exercício de Respiração</h2>
+            <div id="respiracao-content">
+                <div class="text-6xl mb-4" id="respiracao-emoji">🫁</div>
+                <div class="text-2xl font-bold mb-2" id="respiracao-instrucao">Prepare-se</div>
+                <div class="text-lg text-gray-600 mb-4" id="respiracao-contador">Clique em iniciar</div>
+                <button id="respiracao-btn" onclick="iniciarCicloRespiracao()" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                    Iniciar
+                </button>
+            </div>
+            <button onclick="fecharModal('respiracao-modal')" class="mt-4 text-gray-500 hover:text-gray-700">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let respiracaoAtiva = false;
+        let respiracaoEtapa = 0;
+
+        function selecionarHumor(humor) {
+            const mensagens = {
+                'feliz': 'Que alegria saber que você está bem! Continue cultivando essa gratidão. 😊',
+                'neutro': 'Às vezes é normal se sentir assim. Que tal um momento de reflexão ou oração? 🤗',
+                'triste': 'Sinto muito que você esteja passando por um momento difícil. Lembre-se: você não está sozinho. 💙',
+                'ansioso': 'A ansiedade pode ser desafiadora. Vamos tentar algumas técnicas de respiração? 💜'
+            };
+            
+            alert(mensagens[humor]);
+        }
+
+        function abrirOracao() {
+            document.getElementById('oracao-modal').classList.remove('hidden');
+        }
+
+        function abrirVersiculos() {
+            const versiculos = [
+                '"O Senhor é o meu pastor; nada me faltará." - Salmos 23:1',
+                '"Posso todas as coisas naquele que me fortalece." - Filipenses 4:13',
+                '"Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus." - Isaías 41:10',
+                '"Entrega o teu caminho ao Senhor; confia nele, e ele o fará." - Salmos 37:5'
+            ];
+            
+            const versiculo = versiculos[Math.floor(Math.random() * versiculos.length)];
+            alert('📖 Versículo para você:\n\n' + versiculo);
+        }
+
+        function abrirMeditacao() {
+            alert('🧘 Encontre um lugar tranquilo, feche os olhos e reflita:\n\n"Deus, concede-me serenidade para aceitar as coisas que não posso mudar, coragem para mudar as que posso, e sabedoria para distinguir umas das outras."');
+        }
+
+        function iniciarRespiracao() {
+            document.getElementById('respiracao-modal').classList.remove('hidden');
+        }
+
+        function iniciarCicloRespiracao() {
+            if (respiracaoAtiva) return;
+            
+            respiracaoAtiva = true;
+            respiracaoEtapa = 0;
+            
+            const btn = document.getElementById('respiracao-btn');
+            btn.style.display = 'none';
+            
+            executarRespiracao();
+        }
+
+        function executarRespiracao() {
+            const instrucao = document.getElementById('respiracao-instrucao');
+            const contador = document.getElementById('respiracao-contador');
+            const emoji = document.getElementById('respiracao-emoji');
+            
+            const etapas = [
+                { texto: 'Inspire', tempo: 4, emoji: '🫁' },
+                { texto: 'Segure', tempo: 7, emoji: '⏸️' },
+                { texto: 'Expire', tempo: 8, emoji: '💨' }
+            ];
+            
+            const etapaAtual = etapas[respiracaoEtapa];
+            instrucao.textContent = etapaAtual.texto;
+            emoji.textContent = etapaAtual.emoji;
+            
+            let tempoRestante = etapaAtual.tempo;
+            
+            const interval = setInterval(() => {
+                contador.textContent = tempoRestante;
+                tempoRestante--;
+                
+                if (tempoRestante < 0) {
+                    clearInterval(interval);
+                    respiracaoEtapa++;
+                    
+                    if (respiracaoEtapa >= etapas.length) {
+                        respiracaoEtapa = 0;
+                        // Completou um ciclo, verificar se deve continuar
+                        setTimeout(() => {
+                            if (respiracaoAtiva) {
+                                executarRespiracao();
+                            }
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            if (respiracaoAtiva) {
+                                executarRespiracao();
+                            }
+                        }, 1000);
+                    }
+                }
+            }, 1000);
+        }
+
+        function salvarGratidao() {
+            const texto = document.getElementById('gratidao-text').value;
+            if (texto.trim()) {
+                alert('✨ Sua gratidão foi registrada! Que Deus continue abençoando sua vida.');
+                document.getElementById('gratidao-text').value = '';
+            }
+        }
+
+        function solicitarContato() {
+            alert('📞 Sua solicitação foi enviada! Um membro da nossa equipe pastoral entrará em contato em breve.');
+        }
+
+        function fecharModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            if (modalId === 'respiracao-modal') {
+                respiracaoAtiva = false;
+                document.getElementById('respiracao-btn').style.display = 'inline-block';
+                document.getElementById('respiracao-instrucao').textContent = 'Prepare-se';
+                document.getElementById('respiracao-contador').textContent = 'Clique em iniciar';
+                document.getElementById('respiracao-emoji').textContent = '🫁';
+            }
+        }
+    </script>
+</body>
+</html>
