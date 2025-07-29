@@ -7,11 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Lexend', 'Noto Sans', sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#f8fbfc]">
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfc] justify-between overflow-x-hidden">
@@ -35,16 +31,16 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-[#4e8597] mb-2">Nome Completo</label>
-                            <input type="text" class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="Digite seu nome completo">
+                            <input type="text" class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" placeholder="Digite seu nome completo">
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-[#4e8597] mb-2">Idade</label>
-                                <input type="number" class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="Idade">
+                                <input type="number" class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" placeholder="Idade">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-[#4e8597] mb-2">Sexo</label>
-                                <select class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent">
+                                <select class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent">
                                     <option value="">Selecione</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="feminino">Feminino</option>
@@ -61,27 +57,27 @@
                         <p class="text-sm text-[#4e8597]">Selecione os sintomas que você está sentindo:</p>
                         <div class="grid grid-cols-2 gap-3">
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Febre</span>
                             </label>
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Dor de cabeça</span>
                             </label>
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Tosse</span>
                             </label>
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Dor no corpo</span>
                             </label>
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Náusea</span>
                             </label>
                             <label class="flex items-center space-x-3 p-3 border border-[#e7f0f3] rounded-lg cursor-pointer hover:bg-[#f8fbfc]">
-                                <input type="checkbox" class="form-checkbox text-[#19b2e5]">
+                                <input type="checkbox" class="form-checkbox text-primary">
                                 <span class="text-sm text-[#0e181b]">Diarreia</span>
                             </label>
                         </div>
@@ -91,7 +87,7 @@
                 <!-- Descrição dos Sintomas -->
                 <div class="bg-white rounded-xl p-4 shadow-sm">
                     <h3 class="text-lg font-bold text-[#0e181b] mb-4">Descreva seus sintomas</h3>
-                    <textarea class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent h-32" placeholder="Descreva detalhadamente como você está se sentindo, quando os sintomas começaram e sua intensidade..."></textarea>
+                    <textarea class="w-full p-3 border border-[#e7f0f3] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent h-32" placeholder="Descreva detalhadamente como você está se sentindo, quando os sintomas começaram e sua intensidade..."></textarea>
                 </div>
 
                 <!-- Urgência -->
@@ -123,7 +119,7 @@
                 </div>
 
                 <!-- Botão de Envio -->
-                <button onclick="processarTriagem()" class="w-full bg-[#19b2e5] text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-[#159bc9] transition-colors duration-300">
+                <button onclick="processarTriagem()" class="w-full bg-[var(--primary-color)] text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:opacity-90 transition-colors duration-300">
                     Iniciar Avaliação
                 </button>
             </div>

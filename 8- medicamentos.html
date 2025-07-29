@@ -9,15 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="stylesheet" href="style.css">
 
     <style>
-        body {
-            font-family: 'Lexend', 'Noto Sans', sans-serif;
-            --primary-color: #0d9488; /* Tailwind teal-600 */
-            --text-color-dark: #374151; /* gray-700 */
-            --text-color-light: #6b7280; /* gray-500 */
-            --background-color-light: #f9fafb; /* gray-50 */
-        }
         .form-input:focus {
             --tw-ring-color: rgba(13, 148, 136, 0.4);
             box-shadow: 0 0 0 1px var(--primary-color), 0 0 0 3px var(--tw-ring-color);
@@ -59,7 +53,7 @@
                 <p>Ao acessar este conteúdo, você declara compreender que estas informações não substituem uma avaliação clínica e que o uso delas é de sua exclusiva responsabilidade.</p>
                 <p class="font-bold text-center mt-4 text-text-color-dark">🔒 SEGURANÇA E RESPONSABILIDADE SALVAM VIDAS.</p>
             </div>
-            <button id="accept-disclaimer" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-teal-600 hover:bg-teal-700">
+            <button id="accept-disclaimer" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-primary hover:opacity-90">
                 Concordo e Continuar
             </button>
         </div>
@@ -209,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="text-text-color-light text-sm">${med.apresentacao}</p>
                     <div class="text-sm text-text-color-light mt-2 space-y-1">
                         <p><strong>Justificativa:</strong> ${med.justificativa}</p>
-                        <p class="font-semibold text-teal-700 mt-2"><strong>Dose Pediátrica:</strong> ${med.dose_pediatrica}</p>
+                        <p class="font-semibold text-primary mt-2"><strong>Dose Pediátrica:</strong> ${med.dose_pediatrica}</p>
                     </div>
                 `;
                 categoryContent.appendChild(medDiv);

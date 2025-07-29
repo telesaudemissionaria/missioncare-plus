@@ -7,18 +7,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Lexend', 'Noto Sans', sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#f8fbfc]">
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfc] justify-between overflow-x-hidden">
         <div>
             <!-- Cabeçalho com botão voltar -->
-            <header class="text-center pt-8 pb-4 px-4 relative bg-[#19b2e5] text-white">
-                <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-[#159bc9] text-white">
+            <header class="text-center pt-8 pb-4 px-4 relative bg-[var(--primary-color)] text-white">
+                <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-[var(--primary-color)] text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                         <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
                     </svg>
@@ -144,15 +140,15 @@
                     <form onsubmit="enviarMensagem(event)" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
-                            <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="Seu nome completo">
+                            <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" placeholder="Seu nome completo">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input type="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="seu@email.com">
+                            <input type="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent" placeholder="seu@email.com">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
-                            <select required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent">
+                            <select required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent">
                                 <option value="">Selecione o assunto</option>
                                 <option value="saude">Orientação de Saúde</option>
                                 <option value="pastoral">Apoio Pastoral</option>
@@ -163,9 +159,9 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
-                            <textarea required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent h-32" placeholder="Digite sua mensagem aqui..."></textarea>
+                            <textarea required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent h-32" placeholder="Digite sua mensagem aqui..."></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-[#19b2e5] text-white p-3 rounded-lg font-medium hover:bg-[#159bc9] transition-colors">
+                        <button type="submit" class="w-full bg-[var(--primary-color)] text-white p-3 rounded-lg font-medium hover:opacity-90 transition-colors">
                             Enviar Mensagem
                         </button>
                     </form>
