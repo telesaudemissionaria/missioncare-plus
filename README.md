@@ -70,3 +70,9 @@ Inteligência Artificial: Google Gemini API (Modelo gemini-1.5-flash-latest)
 Geração de PDF: jsPDF e html2canvas
 
 Hospedagem: Projetado para ser hospedado em qualquer servidor web estático e funcionar como um PWA.
+
+## 🌐 Idiomas
+
+Todas as páginas suportam português e espanhol. Use o seletor no canto superior direito da tela inicial para escolher o idioma preferido. A preferência é salva automaticamente e aplicada nas demais páginas.
+
+Para adicionar novas traduções, crie um arquivo JSON em `lang/` seguindo o padrão dos existentes (`pt.json` e `es.json`) e inclua as chaves necessárias. Em seguida, adicione o novo arquivo à lista de cache do `service-worker.js`.
