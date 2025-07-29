@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Medicamentos - MissionCare Plus</title>
+
+    <!-- Importação de Fontes e Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+    <style>
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+            --primary-color: #0d9488; /* Tailwind teal-600 */
+            --text-color-dark: #374151; /* gray-700 */
+            --text-color-light: #6b7280; /* gray-500 */
+            --background-color-light: #f9fafb; /* gray-50 */
+        }
+        .form-input:focus {
+            --tw-ring-color: rgba(13, 148, 136, 0.4);
+            box-shadow: 0 0 0 1px var(--primary-color), 0 0 0 3px var(--tw-ring-color);
+            border-color: var(--primary-color);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.open {
+            max-height: 2000px; /* Altura suficiente para o conteúdo */
+        }
+        .category-header svg {
+            transition: transform 0.3s ease-out;
+        }
+        .category-header.open svg {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- MODAL DE DISCLAIMER -->
+    <div id="disclaimer-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold text-red-700 mb-4">⚠️ AVISO IMPORTANTE SOBRE O USO DE MEDICAMENTOS</h2>
+            <h3 class="text-lg font-semibold text-text-color-dark mb-3">DECLARAÇÃO DE ISENÇÃO DE RESPONSABILIDADE</h3>
+            <div class="text-sm text-text-color-light space-y-3">
+                <p>As informações contidas nesta página destinam-se exclusivamente a profissionais de saúde devidamente capacitados e atuantes em missões médicas e contextos clínicos supervisionados.</p>
+                <p>O uso inadequado de medicamentos pode resultar em efeitos adversos graves, intoxicações, falhas terapêuticas, agravamento de quadros clínicos ou até óbito.</p>
+                <p class="font-bold">É expressamente proibido:</p>
+                <ul class="list-disc list-inside pl-4">
+                    <li>A automedicação ou uso por leigos sem orientação profissional;</li>
+                    <li>A modificação não autorizada de dosagens ou protocolos;</li>
+                    <li>O uso de medicamentos fora de indicações reconhecidas;</li>
+                    <li>A distribuição de medicamentos sem supervisão técnica.</li>
+                </ul>
+                <p>Ao acessar este conteúdo, você declara compreender que estas informações não substituem uma avaliação clínica e que o uso delas é de sua exclusiva responsabilidade.</p>
+                <p class="font-bold text-center mt-4 text-text-color-dark">🔒 SEGURANÇA E RESPONSABILIDADE SALVAM VIDAS.</p>
+            </div>
+            <button id="accept-disclaimer" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-teal-600 hover:bg-teal-700">
+                Concordo e Continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Container da Aplicação -->
+    <div id="app-container" class="relative flex size-full min-h-screen flex-col bg-white justify-between">
+
+        <!-- Conteúdo Principal -->
+        <div>
+            <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
+                <a href="#" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+                </a>
+                <h1 class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Guia de Medicamentos</h1>
+            </header>
+
+            <main class="flex-grow pb-20">
+                <div class="p-4">
+                    <h2 class="text-text-color-dark text-xl font-bold mb-1">Medicamentos Essenciais em Campo</h2>
+                    <p class="text-text-color-light mb-4">Guia de referência para adultos.</p>
+                    
+                    <!-- Lista de Categorias de Medicamentos (Acordeão) -->
+                    <div id="medication-categories" class="space-y-3">
+                        <!-- Conteúdo gerado dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- NOTA DE SEGURANÇA -->
+                <div class="m-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg">
+                    <h3 class="font-bold text-yellow-900">⚠️ Nota de Segurança: Populações Especiais e Interações</h3>
+                    <div class="text-sm mt-2 space-y-2">
+                        <p><strong>Interações Medicamentosas:</strong> Combinações inadequadas podem causar efeitos adversos graves. Atenção a interações entre AINEs e anti-hipertensivos; antibióticos e antiácidos; corticoides e hipoglicemiantes.</p>
+                        <p><strong>Gestantes e Lactantes:</strong> Muitos medicamentos (ex: Doxiciclina, Primaquina, Ciprofloxacino, AINEs) são contraindicados ou requerem extrema precaução. Avalie sempre os riscos versus benefícios.</p>
+                        <p><strong>Crianças:</strong> Exigem ajuste rigoroso de dose por peso e idade. É obrigatório consultar um profissional habilitado para garantir a segurança.</p>
+                        <p><strong>Idosos:</strong> População suscetível a efeitos adversos. Atenção especial com sedativos (Diazepam) e diuréticos (Furosemida). Monitoramento clínico é essencial.</p>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Barra de Navegação Inferior (Exemplo) -->
+        <footer class="sticky bottom-0 z-10 bg-white/90 backdrop-blur-sm border-t border-gray-200">
+             <div class="flex justify-around p-2">
+                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path></svg>
+                    <span class="text-xs font-medium">Início</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M72,136H32a8,8,0,0,1,0-16H67.72L81.34,99.56a8,8,0,0,1,13.32,0l25.34,38,9.34-14A8,8,0,0,1,136,120h24a8,8,0,0,1,0,16H140.28l-13.62,20.44a8,8,0,0,1-13.32,0L88,118.42l-9.34,14A8,8,0,0,1,72,136ZM178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,.75,0,1.5,0,2.25a8,8,0,1,0,16-.5c0-.58,0-1.17,0-1.75A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46c0,53.61-77.76,102.15-96,112.8-10.83-6.31-42.63-26-66.68-52.21a8,8,0,1,0-11.8,10.82c31.17,34,72.93,56.68,74.69,57.63a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32Z"></path></svg>
+                    <span class="text-xs font-medium">Triagem</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M152,112a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,112Zm80-40V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V72A16,16,0,0,1,40,56H80V48a24,24,0,0,1,24-24h48a24,24,0,0,1,24,24v8h40A16,16,0,0,1,232,72ZM96,56h64V48a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8Zm120,57.61V72H40v41.61A184,184,0,0,0,128,136,184,184,0,0,0,216,113.61Z"></path></svg>
+                    <span class="text-xs font-medium">Emergências</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center gap-1 text-text-color-light w-1/4">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const pediatricDoseDisclaimer = 'PARA DOSE PEDIÁTRICA FAVOR CONSULTAR A UM PROFISSIONAL DE SAÚDE';
+    const medicationData = [
+        { categoria: 'Analgésicos e Cuidados Paliativos', nome: 'Paracetamol (Acetaminofeno)', apresentacao: 'Comprimido 500 mg; Suspensão oral 120mg/5mL', justificativa: 'Essencial e insubstituível. Primeira linha para dor e febre. Perfil de segurança elevado, crucial no manejo de síndromes febris endêmicas como Dengue, onde AINEs são contraindicados.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Analgésicos e Cuidados Paliativos', nome: 'Ibuprofeno', apresentacao: 'Comprimido 400 mg', justificativa: 'Ótima opção para dor de origem inflamatória (musculoesquelética, cólica menstrual) quando não há suspeita de dengue. Útil como segunda linha para febre.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Analgésicos e Cuidados Paliativos', nome: 'Codeína', apresentacao: 'Comprimido 30 mg', justificativa: 'Para dor moderada que não responde a analgésicos simples. Requer controle rigoroso.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Analgésicos e Cuidados Paliativos', nome: 'Morfina', apresentacao: 'Injetável 10 mg/mL; Comprimido de liberação imediata 10 mg', justificativa: 'Crítico para dor severa (trauma, infarto agudo do miocárdio, cuidados paliativos). Seu uso exige protocolo claro e equipe treinada.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Antialérgicos e Anafilaxia', nome: 'Epinefrina (Adrenalina)', apresentacao: 'Injetável 1 mg/mL', justificativa: 'Salvadora de vidas. Absolutamente essencial para o tratamento de anafilaxia.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Antialérgicos e Anafilaxia', nome: 'Hidrocortisona ou Dexametasona', apresentacao: 'Hidrocortisona em pó para injeção 100 mg; Dexametasona injetável 4 mg/mL', justificativa: 'Corticoide de ação rápida para reações alérgicas graves, anafilaxia (após epinefrina) e crises de asma.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Antialérgicos e Anafilaxia', nome: 'Loratadina', apresentacao: 'Comprimido 10 mg', justificativa: 'Para manejo de reações alérgicas cutâneas (urticária) e rinite alérgica. Baixo custo e bom perfil de segurança.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anticonvulsivantes/Antiepilépticos', nome: 'Diazepam', apresentacao: 'Injetável 5 mg/mL; Solução retal', justificativa: 'Essencial para o manejo de emergência do estado de mal epiléptico. A via retal é uma alternativa valiosa quando o acesso venoso é difícil.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Albendazol', apresentacao: 'Comprimido mastigável 400 mg', justificativa: 'Tratamento de amplo espectro para a maioria das parasitoses intestinais prevalentes em campo.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Ivermectina', apresentacao: 'Comprimido 3 mg', justificativa: 'Tratamento de escolha para escabiose (sarna) e outras ectoparasitoses, além de filarioses.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Amoxicilina', apresentacao: 'Comprimido 500 mg; Suspensão oral 250 mg/5 mL', justificativa: 'Primeira linha para infecções respiratórias comunitárias (PAC leve, otite, sinusite) e faringite bacteriana.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Amoxicilina + Ácido Clavulânico', apresentacao: 'Comprimido 500 mg/125 mg', justificativa: 'Para mordeduras, infecções de pele e tecidos moles e infecções respiratórias com suspeita de resistência.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Doxiciclina', apresentacao: 'Comprimido 100 mg', justificativa: 'Extremamente versátil. Cobre patógenos atípicos (pneumonia), doenças transmitidas por carrapatos, cólera e pode ser uma alternativa para malária e infecções de pele.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Metronidazol', apresentacao: 'Comprimido 250 mg ou 500 mg', justificativa: 'Essencial para tratar giardíase, amebíase e infecções por anaeróbios (abscessos dentários, infecções intra-abdominais).', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Sulfametoxazol + Trimetoprima', apresentacao: 'Comprimido 800 mg/160 mg', justificativa: 'Tratamento de escolha para infecções do trato urinário não complicadas e profilaxia/tratamento de pneumocistose em pacientes com HIV.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Nitrofurantoína', apresentacao: 'Comprimido 100 mg', justificativa: 'Excelente opção para cistite (infecção urinária baixa) devido à baixa resistência e concentração no trato urinário.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Ceftriaxona', apresentacao: 'Pó para injeção 1 g', justificativa: 'Antibiótico injetável mais importante em campo. Usado para tratar infecções graves: sepse, meningite, pneumonia grave e pielonefrite.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Azitromicina', apresentacao: 'Comprimido 500 mg', justificativa: 'Tratamento para infecções sexualmente transmissíveis (clamídia), febre tifoide e pneumonias atípicas.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Ciprofloxacino', apresentacao: 'Comprimido 500 mg', justificativa: 'Principalmente para diarreias bacterianas invasivas (disenteria) e infecções do trato urinário complicadas.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Clotrimazol ou Miconazol', apresentacao: 'Creme vaginal; Creme tópico', justificativa: 'Para tratamento de candidíase vaginal e micoses cutâneas (tinhas), condições extremamente comuns.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Fluconazol', apresentacao: 'Comprimido 150 mg', justificativa: 'Tratamento oral de dose única para candidíase vaginal e útil para outras micoses.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Artemeter + Lumefantrina', apresentacao: 'Comprimidos em combinação', justificativa: 'Essencial. Tratamento de primeira linha para malária não complicada por P. falciparum.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Artesunato Injetável', apresentacao: 'Pó para injeção', justificativa: 'Essencial. Tratamento de primeira linha para malária grave.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Anti-infecciosos', nome: 'Primaquina', apresentacao: 'Comprimido 15 mg', justificativa: 'Para a cura radical da malária por P. vivax/ovale, prevenindo recaídas. Requer teste de G6PD, se possível.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Ácido Acetilsalicílico (AAS)', apresentacao: 'Comprimido 100 mg', justificativa: 'Antiagregação plaquetária para prevenção secundária e manejo inicial da síndrome coronariana aguda.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Hidroclorotiazida', apresentacao: 'Comprimido 25 mg', justificativa: 'Diurético de primeira linha para hipertensão arterial.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Enalapril', apresentacao: 'Comprimido 5 mg, 20 mg', justificativa: 'Medicamento chave para hipertensão, insuficiência cardíaca e proteção renal em diabéticos.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Amlodipina', apresentacao: 'Comprimido 5 mg', justificativa: 'Anti-hipertensivo potente e eficaz, de longa duração.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Furosemida', apresentacao: 'Comprimido 40 mg; Injetável 10 mg/mL', justificativa: 'Essencial para emergências. Manejo de edema agudo de pulmão, crises hipertensivas e insuficiência cardíaca.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Cardiovasculares', nome: 'Sinvastatina', apresentacao: 'Comprimido 20 mg', justificativa: 'Para prevenção secundária de doenças cardiovasculares em pacientes de alto risco.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Gastrointestinais', nome: 'Sais de Reidratação Oral (SRO)', apresentacao: 'Pó para diluição', justificativa: 'Insubstituível e salvador de vidas. Base do tratamento para diarreia e desidratação.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Gastrointestinais', nome: 'Omeprazol', apresentacao: 'Comprimido 20 mg', justificativa: 'Para manejo de doença ulcerosa péptica e dispepsia.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Gastrointestinais', nome: 'Metoclopramida', apresentacao: 'Comprimido 10 mg; Injetável', justificativa: 'Antiemético para controle de náuseas e vômitos.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Trato Respiratório', nome: 'Salbutamol Inalador', apresentacao: 'Inalador de dose medida ("bombinha")', justificativa: 'Essencial para emergências. Medicamento de resgate para crises de asma e DPOC.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Trato Respiratório', nome: 'Beclometasona ou Budesonida Inalador', apresentacao: 'Inalador de dose medida', justificativa: 'Corticoide inalatório para controle e manutenção da asma persistente.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Soluções Hidroeletrolíticas', nome: 'Soro Fisiológico (Cloreto de Sódio 0,9%)', apresentacao: 'Bolsas de 500 mL ou 1000 mL', justificativa: 'Fundamental para acesso venoso, reidratação parenteral e diluição de medicamentos.', dose_pediatrica: pediatricDoseDisclaimer },
+        { categoria: 'Soluções Hidroeletrolíticas', nome: 'Glicose 50%', apresentacao: 'Ampolas', justificativa: 'Essencial para emergências. Tratamento de hipoglicemia grave.', dose_pediatrica: pediatricDoseDisclaimer },
+    ];
+
+
+    const medicationCategoriesContainer = document.getElementById('medication-categories');
+    const disclaimerModal = document.getElementById('disclaimer-modal');
+    const acceptDisclaimerBtn = document.getElementById('accept-disclaimer');
+
+    // Mostra o modal de disclaimer sempre que a página carregar
+    disclaimerModal.style.display = 'flex';
+    
+    acceptDisclaimerBtn.addEventListener('click', () => {
+        disclaimerModal.style.display = 'none';
+    });
+
+
+    function renderMedicationList() {
+        medicationCategoriesContainer.innerHTML = '';
+        const categories = [...new Set(medicationData.map(item => item.categoria))];
+
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'bg-background-color-light rounded-xl border border-gray-200';
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header flex items-center p-4 cursor-pointer';
+            categoryHeader.innerHTML = `
+                <p class="flex-grow text-text-color-dark text-lg font-bold">${category}</p>
+                <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
+            `;
+
+            const categoryContent = document.createElement('div');
+            categoryContent.className = 'accordion-content px-4 pb-2 space-y-3';
+
+            medicationData.filter(med => med.categoria === category).forEach(med => {
+                const medDiv = document.createElement('div');
+                medDiv.className = 'pt-3 border-t border-gray-200';
+                
+                medDiv.innerHTML = `
+                    <p class="text-text-color-dark text-base font-bold">${med.nome}</p>
+                    <p class="text-text-color-light text-sm">${med.apresentacao}</p>
+                    <div class="text-sm text-text-color-light mt-2 space-y-1">
+                        <p><strong>Justificativa:</strong> ${med.justificativa}</p>
+                        <p class="font-semibold text-teal-700 mt-2"><strong>Dose Pediátrica:</strong> ${med.dose_pediatrica}</p>
+                    </div>
+                `;
+                categoryContent.appendChild(medDiv);
+            });
+
+            categoryDiv.appendChild(categoryHeader);
+            categoryDiv.appendChild(categoryContent);
+            medicationCategoriesContainer.appendChild(categoryDiv);
+
+            categoryHeader.addEventListener('click', () => {
+                categoryContent.classList.toggle('open');
+                categoryHeader.classList.toggle('open');
+            });
+        });
+    }
+
+    renderMedicationList();
+});
+</script>
+
+</body>
+</html>
