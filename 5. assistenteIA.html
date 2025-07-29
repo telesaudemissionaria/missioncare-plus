@@ -9,12 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link rel="stylesheet" href="style.css">
-
+    
     <style>
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
             --primary-color: #0d9488; /* Tailwind teal-600 */
+            padding-bottom: 80px; /* Espaço para a barra de navegação inferior */
         }
         #chat-container {
             scroll-behavior: smooth;
@@ -28,67 +28,85 @@
         .typing-indicator span:nth-child(2) { animation-delay: .2s; }
         .typing-indicator span:nth-child(3) { animation-delay: .4s; }
         @keyframes blink { 50% { opacity: 1; } }
-    </style>
-    
-    <!-- ======================================================================= -->
-    <!-- ESTILOS PARA NAVEGAÇÃO E LAYOUT VISUAL (ADICIONADO AO <HEAD>)         -->
-    <!-- ======================================================================= -->
-    <style>
-      body { padding-bottom: 80px; }
-      .action-card {
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        text-align: center; background-color: #f9fafb; border: 1px solid #e5e7eb;
-        border-radius: 1rem; padding: 1.5rem 1rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
-      }
-      .action-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
-      }
-      .action-card svg {
-        width: 32px; height: 32px; color: var(--primary-color); margin-bottom: 0.75rem;
-      }
-      .action-card h3 {
-        font-size: 1rem; font-weight: 600; color: #374151;
-      }
-      /* Estilos para o conteúdo formatado da IA */
-      .ai-response-content p, .ai-response-content ul, .ai-response-content ol {
-        margin-bottom: 0.75rem;
-      }
-      .ai-response-content p:last-child, .ai-response-content ul:last-child, .ai-response-content ol:last-child {
-        margin-bottom: 0;
-      }
-    </style>
 
+        /* Estilos para os cartões de ação */
+        .action-card {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; background-color: #f9fafb; border: 1px solid #e5e7eb;
+            border-radius: 1rem; padding: 1.5rem 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
+        }
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .action-card svg {
+            width: 32px; height: 32px; color: var(--primary-color); margin-bottom: 0.75rem;
+        }
+        .action-card h3 {
+            font-size: 1rem; font-weight: 600; color: #374151;
+        }
+
+        /* Estilos para o conteúdo formatado da IA */
+        .ai-response-content p, .ai-response-content ul, .ai-response-content ol {
+            margin-bottom: 0.75rem;
+        }
+        .ai-response-content p:last-child, .ai-response-content ul:last-child, .ai-response-content ol:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Estilos para o seletor de idioma */
+        .lang-selector button img {
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .lang-selector button.active img {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        .lang-selector button:not(.active) img {
+            opacity: 0.6;
+        }
+        .lang-selector button:not(.active):hover img {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body class="bg-white">
 
     <!-- Container da Aplicação -->
     <div id="app-container" class="relative flex size-full min-h-screen flex-col bg-white">
 
-        <header class="sticky top-0 z-20 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-            <h1 data-i18n='assistente.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Assistente IA</h1>
+        <header class="sticky top-0 z-20 flex items-center justify-between bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
+            <div class="w-1/4"></div> <!-- Espaçador à esquerda -->
+            <h1 data-i18n="assistente_titulo" class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Assistente IA</h1>
+            <!-- NOVO: Seletor de Idioma -->
+            <div class="lang-selector flex justify-end items-center gap-2 w-1/4">
+                <button data-lang="pt"><img src="https://flagcdn.com/w40/br.png" alt="Português" class="w-6 h-auto rounded-full"></button>
+                <button data-lang="es"><img src="https://flagcdn.com/w40/es.png" alt="Español" class="w-6 h-auto rounded-full"></button>
+                <button data-lang="en"><img src="https://flagcdn.com/w40/us.png" alt="English" class="w-6 h-auto rounded-full"></button>
+            </div>
         </header>
 
         <!-- TELA INICIAL COM AÇÕES VISUAIS -->
         <div id="welcome-screen" class="p-4 flex-grow flex flex-col justify-center">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center size-16 bg-teal-600 rounded-full text-white font-bold text-2xl mb-4">IA</div>
-                <h2 class="text-2xl font-bold text-gray-800">Olá! Sou o MedGemma.</h2>
-                <p class="text-gray-500 mt-1">Como posso te ajudar hoje?</p>
+                <h2 data-i18n="welcome_ola" class="text-2xl font-bold text-gray-800">Olá! Sou o MedGemma.</h2>
+                <p data-i18n="welcome_ajuda" class="text-gray-500 mt-1">Como posso te ajudar hoje?</p>
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <div data-action="symptoms" class="action-card">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <h3>Analisar Sintomas</h3>
+                    <h3 data-i18n="acao_sintomas">Analisar Sintomas</h3>
                 </div>
                 <div data-action="med_info" class="action-card">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                    <h3>Info de Remédio</h3>
+                    <h3 data-i18n="acao_remedio">Info de Remédio</h3>
                 </div>
                 <div data-action="first_aid" class="action-card">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
-                    <h3>Primeiros Socorros</h3>
+                    <h3 data-i18n="acao_socorros">Primeiros Socorros</h3>
                 </div>
             </div>
         </div>
@@ -103,52 +121,140 @@
             <!-- Barra de Input Fixa -->
             <footer class="bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4">
                 <div class="flex w-full items-center rounded-full border-2 border-gray-200 focus-within:border-teal-600 transition-colors duration-200 bg-white">
-                    <input id="chat-input" type="text" placeholder="Pergunte ao MedGemma..." class="form-input flex-grow bg-transparent border-none focus:ring-0 h-12 placeholder:text-gray-400 p-4 text-base"/>
+                    <input id="chat-input" type="text" data-i18n-placeholder="input_placeholder" placeholder="Pergunte ao MedGemma..." class="form-input flex-grow bg-transparent border-none focus:ring-0 h-12 placeholder:text-gray-400 p-4 text-base"/>
                     <button id="send-btn" class="text-teal-600 hover:text-teal-800 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M223.87,114l-168-95.89A16,16,0,0,0,32.93,37.32l31,90.47a.42.42,0,0,0,0,.1.3.3,0,0,0,0,.1l-31,90.67A16,16,0,0,0,48,240a16.14,16.14,0,0,0,7.92-2.1l167.91-96.05a16,16,0,0,0,.05-27.89ZM48,224l0-.09L78.14,136H136a8,8,0,0,0,0-16H78.22L48.06,32.12,48,32l168,95.83Z"></path></svg>
                     </button>
                 </div>
-                 <p class="text-gray-500 text-xs text-center pt-2 px-4">
+                <p data-i18n="footer_aviso" class="text-gray-500 text-xs text-center pt-2 px-4">
                     As respostas são para fins educativos e não substituem a avaliação de um profissional de saúde.
                 </p>
             </footer>
         </div>
     </div>
 
-    <!-- ======================================================================= -->
-    <!-- BARRA DE NAVEGAÇÃO GLOBAL                                             -->
-    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
-      <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
-        <button onclick="goBack()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
-        </button>
-        <div class="h-8 w-px bg-gray-200"></div>
-        <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
-        </a>
-      </div>
+        <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
+            <button onclick="goBack()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+                <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                <span data-i18n="nav_voltar" class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+            </button>
+            <div class="h-8 w-px bg-gray-200"></div>
+            <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+                <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                <span data-i18n="nav_inicio" class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+            </a>
+        </div>
     </nav>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementos da UI
     const welcomeScreen = document.getElementById('welcome-screen');
     const chatScreen = document.getElementById('chat-screen');
     const chatContainer = document.getElementById('chat-container');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
     const actionCards = document.querySelectorAll('.action-card');
+    const langButtons = document.querySelectorAll('.lang-selector button');
 
+    // Configuração da API
     const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
+    // Estado da Aplicação
     let chatMode = 'general';
     let chatHistory = [];
+    let currentLanguage = 'pt';
 
-    // **NOVA FUNÇÃO** para lidar com o botão voltar
+    // Traduções da Interface
+    const translations = {
+        pt: {
+            langName: 'Português',
+            assistente_titulo: 'Assistente IA',
+            welcome_ola: 'Olá! Sou o MedGemma.',
+            welcome_ajuda: 'Como posso te ajudar hoje?',
+            acao_sintomas: 'Analisar Sintomas',
+            acao_remedio: 'Info de Remédio',
+            acao_socorros: 'Primeiros Socorros',
+            input_placeholder: 'Pergunte ao MedGemma...',
+            footer_aviso: 'As respostas são para fins educativos e não substituem a avaliação de um profissional de saúde.',
+            nav_voltar: 'Voltar',
+            nav_inicio: 'Início',
+            initial_ai_symptoms: 'Entendido. Por favor, descreva os sintomas, a idade e o sexo da pessoa para que eu possa ajudar.',
+            initial_ai_med_info: 'Certo. Qual o nome do medicamento sobre o qual você gostaria de saber mais?',
+            initial_ai_first_aid: 'Ok. Qual é a situação de primeiros socorros para a qual você precisa de orientação?',
+            error_message: 'Desculpe, ocorreu um erro. Por favor, tente novamente.',
+            prompt_base: "Você é o MedGemma, um assistente médico de IA empático, profissional e cristocêntrico, treinado para auxiliar missionários em áreas remotas da Bolívia. Seu lema é 'Medicina em Nome de Jesus'. Suas respostas devem ser curtas, diretas e de fácil compreensão, evitando jargões médicos. Devem ser claras, baseadas em evidências, mas também encorajadoras. Considere sempre as limitações de recursos. NUNCA forneça um diagnóstico definitivo. Finalize as respostas com um lembrete para consultar a equipe de telessaúde se a dúvida persistir. Responda em Português."
+        },
+        es: {
+            langName: 'Español',
+            assistente_titulo: 'Asistente IA',
+            welcome_ola: '¡Hola! Soy MedGemma.',
+            welcome_ajuda: '¿Cómo puedo ayudarte hoy?',
+            acao_sintomas: 'Analizar Síntomas',
+            acao_remedio: 'Info de Medicamento',
+            acao_socorros: 'Primeros Auxilios',
+            input_placeholder: 'Pregúntale a MedGemma...',
+            footer_aviso: 'Las respuestas son para fines educativos y no sustituyen la evaluación de un profesional de la salud.',
+            nav_voltar: 'Volver',
+            nav_inicio: 'Inicio',
+            initial_ai_symptoms: 'Entendido. Por favor, describe los síntomas, la edad y el sexo de la persona para que pueda ayudar.',
+            initial_ai_med_info: 'Claro. ¿Cuál es el nombre del medicamento sobre el que te gustaría saber más?',
+            initial_ai_first_aid: 'Ok. ¿Cuál es la situación de primeros auxilios para la que necesitas orientación?',
+            error_message: 'Lo siento, ocurrió un error. Por favor, inténtalo de nuevo.',
+            prompt_base: "Eres MedGemma, un asistente médico de IA empático, profesional y cristocéntrico, entrenado para ayudar a misioneros en áreas remotas de Bolivia. Tu lema es 'Medicina en Nombre de Jesús'. Tus respuestas deben ser cortas, directas y de fácil comprensión, evitando la jerga médica. Deben ser claras, basadas en evidencia, pero también alentadoras. Considera siempre las limitaciones de recursos. NUNCA proporciones un diagnóstico definitivo. Finaliza las respuestas con un recordatorio para consultar al equipo de telesalud si la duda persiste. Responde en Español."
+        },
+        en: {
+            langName: 'English',
+            assistente_titulo: 'AI Assistant',
+            welcome_ola: 'Hello! I am MedGemma.',
+            welcome_ajuda: 'How can I help you today?',
+            acao_sintomas: 'Analyze Symptoms',
+            acao_remedio: 'Medication Info',
+            acao_socorros: 'First Aid',
+            input_placeholder: 'Ask MedGemma...',
+            footer_aviso: 'The answers are for educational purposes and do not replace the evaluation of a healthcare professional.',
+            nav_voltar: 'Back',
+            nav_inicio: 'Home',
+            initial_ai_symptoms: 'Understood. Please describe the person\'s symptoms, age, and gender so I can help.',
+            initial_ai_med_info: 'Certainly. What is the name of the medication you would like to know more about?',
+            initial_ai_first_aid: 'Okay. What is the first aid situation for which you need guidance?',
+            error_message: 'Sorry, an error occurred. Please try again.',
+            prompt_base: "You are MedGemma, an empathetic, professional, and Christ-centered AI medical assistant, trained to assist missionaries in remote areas of Bolivia. Your motto is 'Medicine in the Name of Jesus.' Your answers must be short, direct, and easy to understand, avoiding medical jargon. They should be clear, evidence-based, but also encouraging. Always consider resource limitations. NEVER provide a definitive diagnosis. End your responses with a reminder to consult the telehealth team if the question persists. Respond in English."
+        }
+    };
+
+    // Função para trocar o idioma da UI
+    const changeLanguage = (lang) => {
+        if (!translations[lang]) return;
+        currentLanguage = lang;
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+
+        // Atualiza o estado visual dos botões de idioma
+        langButtons.forEach(button => {
+            button.classList.toggle('active', button.dataset.lang === lang);
+        });
+
+        // Itera sobre todos os elementos com data-i18n para tradução
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
+        
+        // Trata placeholders especificamente
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.dataset.i18nPlaceholder;
+            if (translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+    };
+
+    // Função para lidar com o botão "Voltar"
     window.goBack = function() {
         if (!chatScreen.classList.contains('hidden')) {
             chatScreen.classList.add('hidden');
@@ -160,20 +266,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // **NOVA FUNÇÃO** para formatar a resposta da IA
+    // Função para formatar a resposta da IA (Markdown para HTML)
     const formatAIResponse = (text) => {
-        // Converte **negrito** para <strong>
         let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-        // Divide o texto em blocos (parágrafos ou listas)
         const blocks = html.split(/(\n\s*){2,}/g).filter(b => b && b.trim());
-
         const formattedBlocks = blocks.map(block => {
             const lines = block.split('\n').filter(l => l.trim());
-            
             const isOrderedList = lines.every(line => /^\s*\d+\.\s/.test(line));
             const isUnorderedList = lines.every(line => /^\s*[\*\-]\s/.test(line));
-
             if (isOrderedList) {
                 const items = lines.map(line => `<li>${line.replace(/^\s*\d+\.\s/, '')}</li>`).join('');
                 return `<ol class="list-decimal list-inside space-y-1">${items}</ol>`;
@@ -184,12 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `<p>${block.replace(/\n/g, '<br>')}</p>`;
             }
         });
-
         return `<div class="ai-response-content">${formattedBlocks.join('')}</div>`;
     };
 
+    // Função para construir o prompt para a IA
     const buildPrompt = (message) => {
-        const basePrompt = `Você é o MedGemma, um assistente médico de IA empático, profissional e cristocêntrico, treinado para auxiliar missionários em áreas remotas da Bolívia. Seu lema é 'Medicina em Nome de Jesus'. Suas respostas devem ser curtas, diretas e de fácil compreensão, evitando jargões médicos ou termos técnicos. Devem ser claras, baseadas em evidências, mas também encorajadoras. Considere sempre as limitações de recursos. NUNCA forneça um diagnóstico definitivo. Finalize as respostas com um lembrete para consultar a equipe de telessaúde se a dúvida persistir.`;
+        const basePrompt = translations[currentLanguage].prompt_base;
         switch (chatMode) {
             case 'symptoms':
                 return `${basePrompt}\n\n**TAREFA: ANALISAR SINTOMAS**\nForneça uma análise inicial concisa com: 1. Hipóteses Prováveis, 2. Nível de Urgência (de Não Urgente a Emergência), 3. Recomendações Iniciais. \n\n**Dados do Paciente:** "${message}"`;
@@ -202,13 +302,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Função para enviar mensagem
     const handleSendMessage = async () => {
         const userMessage = chatInput.value.trim();
         if (!userMessage) return;
 
         appendMessage(userMessage, 'user');
         chatInput.value = '';
-        chatInput.placeholder = "Pergunte ao MedGemma...";
+        chatInput.placeholder = translations[currentLanguage].input_placeholder;
         showTypingIndicator();
 
         const currentPrompt = buildPrompt(userMessage);
@@ -229,38 +330,41 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
             removeTypingIndicator();
-            appendMessage("Desculpe, ocorreu um erro. Por favor, tente novamente.", 'ai', true);
+            appendMessage(translations[currentLanguage].error_message, 'ai', true);
         } finally {
             chatMode = 'general';
         }
     };
 
+    // Event listeners para os cartões de ação
     actionCards.forEach(card => {
         card.addEventListener('click', () => {
             const action = card.dataset.action;
             chatMode = action;
+            
             const placeholders = {
-                symptoms: 'Descreva sintomas, idade e sexo...',
-                med_info: 'Qual medicamento você quer pesquisar?',
-                first_aid: 'Para qual emergência precisa de ajuda?'
+                symptoms: translations[currentLanguage].acao_sintomas,
+                med_info: translations[currentLanguage].acao_remedio,
+                first_aid: translations[currentLanguage].acao_socorros
+            };
+            const initialAiMessages = {
+                symptoms: translations[currentLanguage].initial_ai_symptoms,
+                med_info: translations[currentLanguage].initial_ai_med_info,
+                first_aid: translations[currentLanguage].initial_ai_first_aid
             };
             
             welcomeScreen.classList.add('hidden');
             chatScreen.classList.remove('hidden');
             chatScreen.style.display = 'flex';
             
-            chatInput.placeholder = placeholders[action];
+            chatInput.placeholder = placeholders[action] || translations[currentLanguage].input_placeholder;
             chatInput.focus();
             
-            const initialAiMessage = {
-                symptoms: 'Entendido. Por favor, descreva os sintomas, a idade e o sexo da pessoa para que eu possa ajudar.',
-                med_info: 'Certo. Qual o nome do medicamento sobre o qual você gostaria de saber mais?',
-                first_aid: 'Ok. Qual é a situação de primeiros socorros para a qual você precisa de orientação?'
-            };
-            appendMessage(initialAiMessage[action], 'ai');
+            appendMessage(initialAiMessages[action], 'ai');
         });
     });
 
+    // Função para adicionar mensagem ao chat
     const appendMessage = (message, sender, isError = false) => {
         const messageDiv = document.createElement('div');
         if (sender === 'user') {
@@ -288,6 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
+    // Funções para indicador de "digitando"
     const showTypingIndicator = () => {
         const typingDiv = document.createElement('div');
         typingDiv.id = 'typing-indicator';
@@ -309,10 +414,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (indicator) indicator.remove();
     };
 
+    // Event listeners para envio de mensagem
     sendBtn.addEventListener('click', handleSendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleSendMessage();
     });
+
+    // Event listeners para os botões de idioma
+    langButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const lang = button.dataset.lang;
+            changeLanguage(lang);
+        });
+    });
+
+    // Inicializa a página com o idioma padrão
+    changeLanguage('pt');
 });
 </script>
 
