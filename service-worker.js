@@ -5,6 +5,10 @@ const CACHE_NAME = 'missioncare-plus-v1';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
+  '/js/i18n.js',
+  '/js/init.js',
+  '/lang/pt.json',
+  '/lang/es.json',
   // Adicione aqui os caminhos para outras páginas HTML que devem funcionar offline
   // Ex: '/triagem-adulto.html',
   // Ex: '/triagem-pediatrica.html',

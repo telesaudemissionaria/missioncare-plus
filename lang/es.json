@@ -1,0 +1,63 @@
+{
+  "index": {
+    "mainTitle": "MissionCare Plus",
+    "subtitle": "\"Llevando sanidad y esperanza hasta los confines de la Tierra\"",
+    "criticalActions": "Acciones Críticas",
+    "emergenciesTitle": "GUÍA DE EMERGENCIAS",
+    "emergenciesDesc": "Primeros auxilios y orientación rápida.",
+    "adultsTitle": "ATENCIÓN ADULTOS",
+    "adultsDesc": "Evalúe síntomas y reciba orientación.",
+    "pediatricsTitle": "ATENCIÓN PEDIATRÍA",
+    "pediatricsDesc": "Cuidado especializado para niños.",
+    "toolsSupport": "Herramientas y Soporte",
+    "aiAssistant": "ASISTENTE IA",
+    "meds": "MEDICAMENTOS",
+    "spiritualSupport": "APOYO ESPIRITUAL",
+    "emotionalSupport": "APOYO EMOCIONAL",
+    "contacts": "CONTACTOS",
+    "disclaimerTitle": "AVISO DE RESPONSABILIDAD",
+    "disclaimerP1": "MissionCare Plus es una herramienta de apoyo educativo. La información aquí contenida <strong>no reemplaza</strong> una consulta médica o evaluación clínica por un profesional calificado.",
+    "disclaimerP2": "En caso de emergencia, busque ayuda médica de inmediato. El uso de la información de esta aplicación es de su exclusiva responsabilidad.",
+    "acceptButton": "Entiendo y Acepto"
+  },
+  "inicio": {
+    "howHelp": "¿Cómo podemos ayudar hoy?",
+    "resources": "Recursos Adicionales",
+    "disclaimerTitle": "DISCLAIMER (AVISO LEGAL)",
+    "important": "IMPORTANTE:",
+    "accept": "De acuerdo, continuar"
+  },
+  "common": {
+    "back": "Volver"
+  },
+  "triagem": {
+    "titulo": "Evaluación de Salud"
+  },
+  "adulto": {
+    "titulo": "Anamnesis Simplificada",
+    "relatorio": "Informe del Análisis"
+  },
+  "pediatria": {
+    "titulo": "Evaluación Pediátrica",
+    "relatorio": "Informe del Análisis Pediátrico"
+  },
+  "emergencias": {
+    "titulo": "Emergencias en Campo"
+  },
+  "assistente": {
+    "titulo": "Asistente IA"
+  },
+  "biblico": {
+    "titulo": "Renovación Diaria"
+  },
+  "emocional": {
+    "titulo": "❤️ Apoyo Emocional",
+    "howHelp": "¿Cómo podemos ayudarle hoy?"
+  },
+  "medicamentos": {
+    "titulo": "Guía de Medicamentos"
+  },
+  "contatos": {
+    "titulo": "Contacto y Soporte"
+  }
+}
