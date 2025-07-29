@@ -1,0 +1,63 @@
+{
+  "index": {
+    "mainTitle": "MissionCare Plus",
+    "subtitle": "\"Levando cura e esperança aos confins da Terra\"",
+    "criticalActions": "Ações Críticas",
+    "emergenciesTitle": "GUIA DE EMERGÊNCIAS",
+    "emergenciesDesc": "Primeiros socorros e orientação rápida.",
+    "adultsTitle": "ATENÇÃO ADULTOS",
+    "adultsDesc": "Avalie sintomas e receba orientação.",
+    "pediatricsTitle": "ATENÇÃO PEDIATRIA",
+    "pediatricsDesc": "Cuidado especializado para crianças.",
+    "toolsSupport": "Ferramentas e Suporte",
+    "aiAssistant": "ASSISTENTE IA",
+    "meds": "MEDICAMENTOS",
+    "spiritualSupport": "APOIO ESPIRITUAL",
+    "emotionalSupport": "APOIO EMOCIONAL",
+    "contacts": "CONTACTOS",
+    "disclaimerTitle": "AVISO DE RESPONSABILIDADE",
+    "disclaimerP1": "O MissionCare Plus é uma ferramenta de apoio educacional. As informações aqui contidas <strong>não substituem</strong> uma consulta médica ou avaliação clínica por um profissional habilitado.",
+    "disclaimerP2": "Em caso de emergência, procure ajuda médica imediatamente. O uso das informações deste aplicativo é de sua exclusiva responsabilidade.",
+    "acceptButton": "Entendi e Aceito"
+  },
+  "inicio": {
+    "howHelp": "Como podemos ajudar hoje?",
+    "resources": "Recursos Adicionais",
+    "disclaimerTitle": "DISCLAIMER (AVISO LEGAL)",
+    "important": "IMPORTANTE:",
+    "accept": "Concordo e Continuar"
+  },
+  "common": {
+    "back": "Voltar"
+  },
+  "triagem": {
+    "titulo": "Triagem de Saúde"
+  },
+  "adulto": {
+    "titulo": "Anamnese Simplificada",
+    "relatorio": "Relatório da Análise"
+  },
+  "pediatria": {
+    "titulo": "Triagem Pediátrica",
+    "relatorio": "Relatório da Análise Pediátrica"
+  },
+  "emergencias": {
+    "titulo": "Emergências em Campo"
+  },
+  "assistente": {
+    "titulo": "Assistente IA"
+  },
+  "biblico": {
+    "titulo": "Renovação Diária"
+  },
+  "emocional": {
+    "titulo": "❤️ Apoio Emocional",
+    "howHelp": "Como podemos ajudar você hoje?"
+  },
+  "medicamentos": {
+    "titulo": "Guia de Medicamentos"
+  },
+  "contatos": {
+    "titulo": "Contato e Suporte"
+  }
+}
