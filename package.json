@@ -1,0 +1,30 @@
+{
+  "name": "missioncare-plus",
+  "version": "1.0.0",
+  "description": "Assistente de Saúde PWA para Campo Missionário, por Telessaúde Missionária.",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server . -o",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seu-usuario/missioncare-plus.git"
+  },
+  "keywords": [
+    "pwa",
+    "healthcare",
+    "missionary",
+    "telehealth",
+    "offline-first"
+  ],
+  "author": "Telessaúde Missionária",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seu-usuario/missioncare-plus/issues"
+  },
+  "homepage": "https://github.com/seu-usuario/missioncare-plus#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
