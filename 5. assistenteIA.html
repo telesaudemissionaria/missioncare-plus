@@ -15,100 +15,181 @@
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
             --primary-color: #0d9488; /* Tailwind teal-600 */
-            --primary-color-light: #f0fdfa; /* Tailwind teal-50 */
-            --text-color-dark: #374151; /* gray-700 */
-            --text-color-light: #6b7280; /* gray-500 */
-            --background-color-light: #f9fafb; /* gray-50 */
         }
         #chat-container {
             scroll-behavior: smooth;
         }
         /* Animação de "digitando" */
         .typing-indicator span {
-            height: 8px;
-            width: 8px;
-            float: left;
-            margin: 0 1px;
-            background-color: #9ca3af;
-            display: block;
-            border-radius: 50%;
-            opacity: 0.4;
-            animation: 1s blink infinite;
+            height: 8px; width: 8px; float: left; margin: 0 1px;
+            background-color: #9ca3af; display: block; border-radius: 50%;
+            opacity: 0.4; animation: 1s blink infinite;
         }
         .typing-indicator span:nth-child(2) { animation-delay: .2s; }
         .typing-indicator span:nth-child(3) { animation-delay: .4s; }
-        @keyframes blink {
-            50% { opacity: 1; }
-        }
+        @keyframes blink { 50% { opacity: 1; } }
     </style>
+    
+    <!-- ======================================================================= -->
+    <!-- ESTILOS PARA NAVEGAÇÃO E LAYOUT VISUAL (ADICIONADO AO <HEAD>)         -->
+    <!-- ======================================================================= -->
+    <style>
+      body { padding-bottom: 80px; }
+      .action-card {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        text-align: center; background-color: #f9fafb; border: 1px solid #e5e7eb;
+        border-radius: 1rem; padding: 1.5rem 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
+      }
+      .action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+      }
+      .action-card svg {
+        width: 32px; height: 32px; color: var(--primary-color); margin-bottom: 0.75rem;
+      }
+      .action-card h3 {
+        font-size: 1rem; font-weight: 600; color: #374151;
+      }
+      /* Estilos para o conteúdo formatado da IA */
+      .ai-response-content p, .ai-response-content ul, .ai-response-content ol {
+        margin-bottom: 0.75rem;
+      }
+      .ai-response-content p:last-child, .ai-response-content ul:last-child, .ai-response-content ol:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+
 </head>
 <body class="bg-white">
 
     <!-- Container da Aplicação -->
     <div id="app-container" class="relative flex size-full min-h-screen flex-col bg-white">
 
-        <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-            <a href="#" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-            </a>
-            <h1 data-i18n='assistente.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Assistente IA</h1>
+        <header class="sticky top-0 z-20 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
+            <h1 data-i18n='assistente.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Assistente IA</h1>
         </header>
 
-        <!-- Área do Chat -->
-        <main id="chat-container" class="flex-grow p-4 space-y-6 overflow-y-auto pb-40">
-            <!-- Mensagem Inicial do Assistente -->
-            <div class="flex items-end gap-3">
-                <div class="flex-shrink-0 size-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">IA</div>
-                <div class="flex flex-col gap-1 items-start">
-                    <p class="text-sm font-normal text-text-color-light max-w-xs">Assistente IA</p>
-                    <div class="text-base font-normal leading-normal flex max-w-xs rounded-xl rounded-bl-none px-4 py-3 bg-gray-100 text-text-color-dark">
-                        Olá! Sou o MedGemma. Selecione uma ação abaixo ou me faça uma pergunta.
-                    </div>
+        <!-- TELA INICIAL COM AÇÕES VISUAIS -->
+        <div id="welcome-screen" class="p-4 flex-grow flex flex-col justify-center">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center size-16 bg-teal-600 rounded-full text-white font-bold text-2xl mb-4">IA</div>
+                <h2 class="text-2xl font-bold text-gray-800">Olá! Sou o MedGemma.</h2>
+                <p class="text-gray-500 mt-1">Como posso te ajudar hoje?</p>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+                <div data-action="symptoms" class="action-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <h3>Analisar Sintomas</h3>
+                </div>
+                <div data-action="med_info" class="action-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    <h3>Info de Remédio</h3>
+                </div>
+                <div data-action="first_aid" class="action-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                    <h3>Primeiros Socorros</h3>
                 </div>
             </div>
-            <!-- Novas mensagens serão adicionadas aqui -->
-        </main>
+        </div>
 
-        <!-- Barra de Input Fixa -->
-        <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200">
-            <div class="p-4">
-                <!-- AÇÕES RÁPIDAS COM IA -->
-                <div id="quick-actions" class="flex gap-2 mb-3 overflow-x-auto pb-2">
-                    <button data-action="symptoms" class="quick-action-btn flex-shrink-0 text-sm font-semibold text-teal-700 bg-teal-50 px-4 py-2 rounded-full hover:bg-teal-100">✨ Analisar Sintomas</button>
-                    <button data-action="med_info" class="quick-action-btn flex-shrink-0 text-sm font-semibold text-teal-700 bg-teal-50 px-4 py-2 rounded-full hover:bg-teal-100">✨ Info de Remédio</button>
-                    <button data-action="first_aid" class="quick-action-btn flex-shrink-0 text-sm font-semibold text-teal-700 bg-teal-50 px-4 py-2 rounded-full hover:bg-teal-100">✨ Primeiros Socorros</button>
-                </div>
-                <div class="flex w-full items-center rounded-full border-2 border-gray-200 focus-within:border-teal-600 transition-colors duration-200">
+        <!-- TELA DE CHAT (Inicialmente oculta) -->
+        <div id="chat-screen" class="hidden flex flex-col h-full">
+            <!-- Área do Chat -->
+            <main id="chat-container" class="flex-grow p-4 space-y-6 overflow-y-auto">
+                <!-- Mensagens serão adicionadas aqui -->
+            </main>
+
+            <!-- Barra de Input Fixa -->
+            <footer class="bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4">
+                <div class="flex w-full items-center rounded-full border-2 border-gray-200 focus-within:border-teal-600 transition-colors duration-200 bg-white">
                     <input id="chat-input" type="text" placeholder="Pergunte ao MedGemma..." class="form-input flex-grow bg-transparent border-none focus:ring-0 h-12 placeholder:text-gray-400 p-4 text-base"/>
                     <button id="send-btn" class="text-teal-600 hover:text-teal-800 p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M223.87,114l-168-95.89A16,16,0,0,0,32.93,37.32l31,90.47a.42.42,0,0,0,0,.1.3.3,0,0,0,0,.1l-31,90.67A16,16,0,0,0,48,240a16.14,16.14,0,0,0,7.92-2.1l167.91-96.05a16,16,0,0,0,.05-27.89ZM48,224l0-.09L78.14,136H136a8,8,0,0,0,0-16H78.22L48.06,32.12,48,32l168,95.83Z"></path></svg>
                     </button>
                 </div>
-                 <p class="text-text-color-light text-xs text-center pt-2 px-4">
+                 <p class="text-gray-500 text-xs text-center pt-2 px-4">
                     As respostas são para fins educativos e não substituem a avaliação de um profissional de saúde.
                 </p>
-            </div>
-        </footer>
+            </footer>
+        </div>
     </div>
+
+    <!-- ======================================================================= -->
+    <!-- BARRA DE NAVEGAÇÃO GLOBAL                                             -->
+    <!-- ======================================================================= -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
+      <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
+        <button onclick="goBack()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Voltar</span>
+        </button>
+        <div class="h-8 w-px bg-gray-200"></div>
+        <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider">Início</span>
+        </a>
+      </div>
+    </nav>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const chatScreen = document.getElementById('chat-screen');
     const chatContainer = document.getElementById('chat-container');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
-    const quickActionButtons = document.querySelectorAll('.quick-action-btn');
+    const actionCards = document.querySelectorAll('.action-card');
 
     const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-    // Armazena o modo de chat atual para construir o prompt correto
     let chatMode = 'general';
-    let chatHistory = []; // Para manter o contexto da conversa
+    let chatHistory = [];
 
-    // Função para construir prompts com base no modo de chat
+    // **NOVA FUNÇÃO** para lidar com o botão voltar
+    window.goBack = function() {
+        if (!chatScreen.classList.contains('hidden')) {
+            chatScreen.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            chatContainer.innerHTML = ''; // Limpa o chat
+            chatHistory = []; // Reseta o histórico
+        } else {
+            window.history.back();
+        }
+    }
+
+    // **NOVA FUNÇÃO** para formatar a resposta da IA
+    const formatAIResponse = (text) => {
+        // Converte **negrito** para <strong>
+        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Divide o texto em blocos (parágrafos ou listas)
+        const blocks = html.split(/(\n\s*){2,}/g).filter(b => b && b.trim());
+
+        const formattedBlocks = blocks.map(block => {
+            const lines = block.split('\n').filter(l => l.trim());
+            
+            const isOrderedList = lines.every(line => /^\s*\d+\.\s/.test(line));
+            const isUnorderedList = lines.every(line => /^\s*[\*\-]\s/.test(line));
+
+            if (isOrderedList) {
+                const items = lines.map(line => `<li>${line.replace(/^\s*\d+\.\s/, '')}</li>`).join('');
+                return `<ol class="list-decimal list-inside space-y-1">${items}</ol>`;
+            } else if (isUnorderedList) {
+                const items = lines.map(line => `<li>${line.replace(/^\s*[\*\-]\s/, '')}</li>`).join('');
+                return `<ul class="list-disc list-inside space-y-1">${items}</ul>`;
+            } else {
+                return `<p>${block.replace(/\n/g, '<br>')}</p>`;
+            }
+        });
+
+        return `<div class="ai-response-content">${formattedBlocks.join('')}</div>`;
+    };
+
     const buildPrompt = (message) => {
         const basePrompt = `Você é o MedGemma, um assistente médico de IA empático, profissional e cristocêntrico, treinado para auxiliar missionários em áreas remotas da Bolívia. Seu lema é 'Medicina em Nome de Jesus'. Suas respostas devem ser curtas, diretas e de fácil compreensão, evitando jargões médicos ou termos técnicos. Devem ser claras, baseadas em evidências, mas também encorajadoras. Considere sempre as limitações de recursos. NUNCA forneça um diagnóstico definitivo. Finalize as respostas com um lembrete para consultar a equipe de telessaúde se a dúvida persistir.`;
-
         switch (chatMode) {
             case 'symptoms':
                 return `${basePrompt}\n\n**TAREFA: ANALISAR SINTOMAS**\nForneça uma análise inicial concisa com: 1. Hipóteses Prováveis, 2. Nível de Urgência (de Não Urgente a Emergência), 3. Recomendações Iniciais. \n\n**Dados do Paciente:** "${message}"`;
@@ -116,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `${basePrompt}\n\n**TAREFA: INFORMAÇÃO DE MEDICAMENTO**\nForneça um resumo sobre o medicamento: 1. Para que serve, 2. Como tomar (dosagem comum), 3. Efeitos colaterais, 4. Avisos importantes. \n\n**Medicamento:** "${message}"`;
             case 'first_aid':
                 return `${basePrompt}\n\n**TAREFA: PRIMEIROS SOCORROS**\nForneça instruções passo a passo, claras e simples para a situação de emergência informada, adaptadas para um ambiente com poucos recursos. \n\n**Situação:** "${message}"`;
-            default: // 'general'
+            default:
                 return `${basePrompt}\n\n**Pergunta do usuário:** "${message}"`;
         }
     };
@@ -127,77 +208,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
         appendMessage(userMessage, 'user');
         chatInput.value = '';
-        chatInput.placeholder = "Pergunte ao MedGemma..."; // Reseta o placeholder
+        chatInput.placeholder = "Pergunte ao MedGemma...";
         showTypingIndicator();
 
         const currentPrompt = buildPrompt(userMessage);
-        
-        // Adiciona a mensagem atual ao histórico
         chatHistory.push({ role: "user", parts: [{ text: currentPrompt }] });
 
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: chatHistory }) // Envia o histórico
+                body: JSON.stringify({ contents: chatHistory })
             });
-
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
             const result = await response.json();
             const aiResponse = result.candidates[0].content.parts[0].text;
-            
-            // Adiciona a resposta da IA ao histórico
             chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
-
             removeTypingIndicator();
             appendMessage(aiResponse, 'ai');
-
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
             removeTypingIndicator();
-            appendMessage("Desculpe, ocorreu um erro ao processar sua pergunta. Por favor, tente novamente.", 'ai', true);
+            appendMessage("Desculpe, ocorreu um erro. Por favor, tente novamente.", 'ai', true);
         } finally {
-            chatMode = 'general'; // Reseta o modo após cada envio
+            chatMode = 'general';
         }
     };
 
-    // Event listeners para os botões de ação rápida
-    quickActionButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const action = button.dataset.action;
-            chatMode = action; // Define o modo de chat
+    actionCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const action = card.dataset.action;
+            chatMode = action;
             const placeholders = {
-                symptoms: 'Descreva sintomas, idade e sexo. Ex: Homem 45 anos, febre alta...',
-                med_info: 'Qual medicamento você quer pesquisar? Ex: Ibuprofeno',
-                first_aid: 'Para qual emergência você precisa de ajuda? Ex: Queimadura leve'
+                symptoms: 'Descreva sintomas, idade e sexo...',
+                med_info: 'Qual medicamento você quer pesquisar?',
+                first_aid: 'Para qual emergência precisa de ajuda?'
             };
+            
+            welcomeScreen.classList.add('hidden');
+            chatScreen.classList.remove('hidden');
+            chatScreen.style.display = 'flex';
+            
             chatInput.placeholder = placeholders[action];
             chatInput.focus();
+            
+            const initialAiMessage = {
+                symptoms: 'Entendido. Por favor, descreva os sintomas, a idade e o sexo da pessoa para que eu possa ajudar.',
+                med_info: 'Certo. Qual o nome do medicamento sobre o qual você gostaria de saber mais?',
+                first_aid: 'Ok. Qual é a situação de primeiros socorros para a qual você precisa de orientação?'
+            };
+            appendMessage(initialAiMessage[action], 'ai');
         });
     });
 
     const appendMessage = (message, sender, isError = false) => {
         const messageDiv = document.createElement('div');
-        
         if (sender === 'user') {
             messageDiv.className = 'flex items-end gap-3 justify-end';
             messageDiv.innerHTML = `
                 <div class="flex flex-col gap-1 items-end">
-                    <p class="text-sm font-normal text-text-color-light max-w-xs text-right">Você</p>
-                    <div class="text-base font-normal leading-normal flex max-w-xs rounded-xl rounded-br-none px-4 py-3 bg-teal-600 text-white">${message}</div>
+                    <div class="text-base font-normal leading-normal flex max-w-xs rounded-2xl rounded-br-lg px-4 py-3 bg-teal-600 text-white">${message}</div>
                 </div>
                 <div class="flex-shrink-0 size-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm">V</div>
             `;
         } else { // AI
             messageDiv.className = 'flex items-end gap-3';
             const bgColor = isError ? 'bg-red-100' : 'bg-gray-100';
-            const textColor = isError ? 'text-red-800' : 'text-text-color-dark';
+            const textColor = isError ? 'text-red-800' : 'text-gray-800';
             messageDiv.innerHTML = `
                 <div class="flex-shrink-0 size-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">IA</div>
                 <div class="flex flex-col gap-1 items-start">
-                    <p class="text-sm font-normal text-text-color-light max-w-xs">Assistente IA</p>
-                    <div class="text-base font-normal leading-normal flex max-w-xs rounded-xl rounded-bl-none px-4 py-3 ${bgColor} ${textColor}">${message.replace(/\n/g, '<br>')}</div>
+                    <div class="text-base font-normal leading-normal flex flex-col max-w-xs rounded-2xl rounded-bl-lg px-4 py-3 ${bgColor} ${textColor}">
+                        ${formatAIResponse(message)}
+                    </div>
                 </div>
             `;
         }
@@ -212,8 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typingDiv.innerHTML = `
             <div class="flex-shrink-0 size-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">IA</div>
             <div class="flex flex-col gap-1 items-start">
-                 <p class="text-sm font-normal text-text-color-light max-w-xs">Assistente IA</p>
-                <div class="text-base font-normal leading-normal flex max-w-xs rounded-xl rounded-bl-none px-4 py-3 bg-gray-100 text-text-color-dark">
+                <div class="text-base font-normal leading-normal flex max-w-xs rounded-2xl rounded-bl-lg px-4 py-3 bg-gray-100 text-gray-800">
                     <div class="typing-indicator"><span></span><span></span><span></span></div>
                 </div>
             </div>
@@ -224,16 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const removeTypingIndicator = () => {
         const indicator = document.getElementById('typing-indicator');
-        if (indicator) {
-            indicator.remove();
-        }
+        if (indicator) indicator.remove();
     };
 
     sendBtn.addEventListener('click', handleSendMessage);
     chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleSendMessage();
-        }
+        if (e.key === 'Enter') handleSendMessage();
     });
 });
 </script>
