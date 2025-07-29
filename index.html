@@ -66,15 +66,15 @@
     <!-- MODAL DE DISCLAIMER -->
     <div id="disclaimer-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-            <h2 class="text-xl font-bold text-red-700 mb-4 flex items-center" data-key="disclaimerTitle">
+            <h2 class="text-xl font-bold text-red-700 mb-4 flex items-center" data-i18n="disclaimerTitle">
                 <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                 AVISO DE RESPONSABILIDADE
             </h2>
             <div class="text-sm text-gray-600 space-y-3">
-                <p data-key="disclaimerP1">O MissionCare Plus é uma ferramenta de apoio educacional. As informações aqui contidas <strong>não substituem</strong> uma consulta médica ou avaliação clínica por um profissional habilitado.</p>
-                <p data-key="disclaimerP2">Em caso de emergência, procure ajuda médica imediatamente. O uso das informações deste aplicativo é de sua exclusiva responsabilidade.</p>
+                <p data-i18n="disclaimerP1">O MissionCare Plus é uma ferramenta de apoio educacional. As informações aqui contidas <strong>não substituem</strong> uma consulta médica ou avaliação clínica por um profissional habilitado.</p>
+                <p data-i18n="disclaimerP2">Em caso de emergência, procure ajuda médica imediatamente. O uso das informações deste aplicativo é de sua exclusiva responsabilidade.</p>
             </div>
-            <button id="accept-disclaimer" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" data-key="acceptButton">
+            <button id="accept-disclaimer" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" data-i18n="acceptButton">
                 Entendi e Aceito
             </button>
         </div>
@@ -90,10 +90,10 @@
                 <button id="lang-es" class="lang-btn">ES</button>
             </div>
             
-            <h1 class="text-4xl font-black text-teal-800 tracking-tight" data-key="mainTitle">
+            <h1 class="text-4xl font-black text-teal-800 tracking-tight" data-i18n="mainTitle">
                 MissionCare Plus
             </h1>
-            <p class="text-md text-gray-500 mt-1" data-key="subtitle">
+            <p class="text-md text-gray-500 mt-1" data-i18n="subtitle">
                 "Levando cura e esperança aos confins da Terra"
             </p>
         </header>
@@ -101,153 +101,58 @@
         <main class="pb-8 px-4">
             <!-- Secção de Ações Críticas -->
             <div class="mb-8">
-                <h2 class="text-lg font-bold text-gray-700 mb-3 px-1" data-key="criticalActions">Ações Críticas</h2>
+                <h2 class="text-lg font-bold text-gray-700 mb-3 px-1" data-i18n="criticalActions">Ações Críticas</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <a href="4-emergencias.html" class="action-card border-t-4 border-red-500">
                         <svg class="w-12 h-12 mb-3 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
-                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-key="emergenciesTitle">GUIA DE EMERGÊNCIAS</h3>
-                        <p class="text-xs text-gray-500 mt-1" data-key="emergenciesDesc">Primeiros socorros e orientação rápida.</p>
+                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-i18n="emergenciesTitle">GUIA DE EMERGÊNCIAS</h3>
+                        <p class="text-xs text-gray-500 mt-1" data-i18n="emergenciesDesc">Primeiros socorros e orientação rápida.</p>
                     </a>
                     <a href="3- triagem adulto.html" class="action-card border-t-4 border-sky-500">
                         <svg class="w-12 h-12 mb-3 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-key="adultsTitle">ATENÇÃO ADULTOS</h3>
-                        <p class="text-xs text-gray-500 mt-1" data-key="adultsDesc">Avalie sintomas e receba orientação.</p>
+                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-i18n="adultsTitle">ATENÇÃO ADULTOS</h3>
+                        <p class="text-xs text-gray-500 mt-1" data-i18n="adultsDesc">Avalie sintomas e receba orientação.</p>
                     </a>
                     <a href="3b-triagem pediatria.html" class="action-card border-t-4 border-blue-500">
                         <svg class="w-12 h-12 mb-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.28a4.5 4.5 0 00-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 001.13-1.897M16.5 7.5V12m0 0v-4.5m0 4.5h-4.5m4.5 0h4.5M3 18.75h4.5m-4.5 0a3 3 0 013-3h1.5a3 3 0 013 3m-7.5 0v-4.5A3.375 3.375 0 016.375 7.5h1.5c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125h-1.5a3.375 3.375 0 01-3.375-3.375V9.75" /></svg>
-                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-key="pediatricsTitle">ATENÇÃO PEDIATRIA</h3>
-                         <p class="text-xs text-gray-500 mt-1" data-key="pediatricsDesc">Cuidado especializado para crianças.</p>
+                        <h3 class="uppercase font-extrabold text-gray-800 tracking-wide" data-i18n="pediatricsTitle">ATENÇÃO PEDIATRIA</h3>
+                        <p class="text-xs text-gray-500 mt-1" data-i18n="pediatricsDesc">Cuidado especializado para crianças.</p>
                     </a>
                 </div>
             </div>
 
             <!-- Secção de Ferramentas e Suporte -->
             <div>
-                <h2 class="text-lg font-bold text-gray-700 mb-3 px-1" data-key="toolsSupport">Ferramentas e Suporte</h2>
+                <h2 class="text-lg font-bold text-gray-700 mb-3 px-1" data-i18n="toolsSupport">Ferramentas e Suporte</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                     <a href="5. assistenteIA.html" class="action-card">
                         <svg class="w-10 h-10 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.5 21.75l-.398-1.178a3.375 3.375 0 00-2.31-2.31L12.602 18l1.178-.398a3.375 3.375 0 002.31-2.31L16.5 14.25l.398 1.178a3.375 3.375 0 002.31 2.31l1.178.398-1.178.398a3.375 3.375 0 00-2.31 2.31z" /></svg>
-                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-key="aiAssistant">ASSISTENTE IA</h3>
+                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-i18n="aiAssistant">ASSISTENTE IA</h3>
                     </a>
                     <a href="8- medicamentos.html" class="action-card">
                         <svg class="w-10 h-10 mb-2 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.354 1.093A3.75 3.75 0 0112 1.5h.003c.365 0 .717.056 1.06.163l.164.055a.75.75 0 00.675-.281l.055-.164a3.75 3.75 0 015.694 5.694l-.163.055a.75.75 0 00-.281.675l.055.164A3.75 3.75 0 0118.5 12h-1.5a.75.75 0 00-.75.75v3a.75.75 0 00.75.75h1.5c.365 0 .717-.056 1.06-.163l.164-.055a.75.75 0 00.675.281l.055.164a3.75 3.75 0 01-5.694 5.694l-.163-.055a.75.75 0 00-.675.281l-.055.164a3.75 3.75 0 01-6.756-3.033l.055-.164a.75.75 0 00.281-.675l-.164-.055A3.75 3.75 0 014.5 12h1.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-1.5a3.75 3.75 0 01-2.907-5.857l.164-.055a.75.75 0 00.281-.675l-.055-.164a3.75 3.75 0 013.033-6.756l.164.055a.75.75 0 00.675.281l.055.164z" /></svg>
-                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-key="meds">MEDICAMENTOS</h3>
+                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-i18n="meds">MEDICAMENTOS</h3>
                     </a>
                     <a href="6-textos biblico.html" class="action-card">
                         <svg class="w-10 h-10 mb-2 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
-                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-key="spiritualSupport">APOIO ESPIRITUAL</h3>
+                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-i18n="spiritualSupport">APOIO ESPIRITUAL</h3>
                     </a>
                     <a href="7-emocional.html" class="action-card">
                         <svg class="w-10 h-10 mb-2 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
-                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-key="emotionalSupport">APOIO EMOCIONAL</h3>
+                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-i18n="emotionalSupport">APOIO EMOCIONAL</h3>
                     </a>
                     <a href="9-contatos.html" class="action-card">
                         <svg class="w-10 h-10 mb-2 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
-                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-key="contacts">CONTACTOS</h3>
+                        <h3 class="uppercase font-bold text-gray-700 text-sm tracking-wide" data-i18n="contacts">CONTACTOS</h3>
                     </a>
                 </div>
             </div>
         </main>
     </div>
 
+<script src="js/i18n.js"></script>
 <script>
-    // Objeto com todas as traduções
-    const translations = {
-        pt: {
-            mainTitle: "MissionCare Plus",
-            subtitle: '"Levando cura e esperança aos confins da Terra"',
-            criticalActions: "Ações Críticas",
-            emergenciesTitle: "GUIA DE EMERGÊNCIAS",
-            emergenciesDesc: "Primeiros socorros e orientação rápida.",
-            adultsTitle: "ATENÇÃO ADULTOS",
-            adultsDesc: "Avalie sintomas e receba orientação.",
-            pediatricsTitle: "ATENÇÃO PEDIATRIA",
-            pediatricsDesc: "Cuidado especializado para crianças.",
-            toolsSupport: "Ferramentas e Suporte",
-            aiAssistant: "ASSISTENTE IA",
-            meds: "MEDICAMENTOS",
-            spiritualSupport: "APOIO ESPIRITUAL",
-            emotionalSupport: "APOIO EMOCIONAL",
-            contacts: "CONTACTOS",
-            disclaimerTitle: "AVISO DE RESPONSABILIDADE",
-            disclaimerP1: "O MissionCare Plus é uma ferramenta de apoio educacional. As informações aqui contidas <strong>não substituem</strong> uma consulta médica ou avaliação clínica por um profissional habilitado.",
-            disclaimerP2: "Em caso de emergência, procure ajuda médica imediatamente. O uso das informações deste aplicativo é de sua exclusiva responsabilidade.",
-            acceptButton: "Entendi e Aceito",
-        },
-        es: {
-            mainTitle: "MissionCare Plus",
-            subtitle: '"Llevando sanidad y esperanza hasta los confines de la Tierra"',
-            criticalActions: "Acciones Críticas",
-            emergenciesTitle: "GUÍA DE EMERGENCIAS",
-            emergenciesDesc: "Primeros auxilios y orientación rápida.",
-            adultsTitle: "ATENCIÓN ADULTOS",
-            adultsDesc: "Evalúe síntomas y reciba orientación.",
-            pediatricsTitle: "ATENCIÓN PEDIATRÍA",
-            pediatricsDesc: "Cuidado especializado para niños.",
-            toolsSupport: "Herramientas y Soporte",
-            aiAssistant: "ASISTENTE IA",
-            meds: "MEDICAMENTOS",
-            spiritualSupport: "APOYO ESPIRITUAL",
-            emotionalSupport: "APOYO EMOCIONAL",
-            contacts: "CONTACTOS",
-            disclaimerTitle: "AVISO DE RESPONSABILIDAD",
-            disclaimerP1: "MissionCare Plus es una herramienta de apoyo educativo. La información aquí contenida <strong>no reemplaza</strong> una consulta médica o evaluación clínica por un profesional calificado.",
-            disclaimerP2: "En caso de emergencia, busque ayuda médica de inmediato. El uso de la información de esta aplicación es de su exclusiva responsabilidad.",
-            acceptButton: "Entiendo y Acepto",
-        }
-    };
-
-    const setLanguage = (lang) => {
-        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'es';
-        document.querySelectorAll('[data-key]').forEach(element => {
-            const key = element.getAttribute('data-key');
-            if (translations[lang] && translations[lang][key]) {
-                element.innerHTML = translations[lang][key];
-            }
-        });
-        
-        // Atualiza os botões de idioma
-        const ptButton = document.getElementById('lang-pt');
-        const esButton = document.getElementById('lang-es');
-        
-        if (lang === 'es') {
-            esButton.classList.add('active');
-            esButton.classList.remove('inactive');
-            ptButton.classList.add('inactive');
-            ptButton.classList.remove('active');
-        } else {
-            ptButton.classList.add('active');
-            ptButton.classList.remove('inactive');
-            esButton.classList.add('inactive');
-            esButton.classList.remove('active');
-        }
-
-        // Salva a preferência no localStorage
-        localStorage.setItem('missionCareLang', lang);
-    };
-
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica do seletor de idioma
-        const ptButton = document.getElementById('lang-pt');
-        const esButton = document.getElementById('lang-es');
-
-        ptButton.addEventListener('click', () => setLanguage('pt'));
-        esButton.addEventListener('click', () => setLanguage('es'));
-        
-        // Determina o idioma inicial
-        const savedLang = localStorage.getItem('missionCareLang');
-        const browserLang = navigator.language.split('-')[0];
-        
-        let initialLang = 'pt'; // Padrão
-        if (savedLang) {
-            initialLang = savedLang;
-        } else if (browserLang === 'es') {
-            initialLang = 'es';
-        }
-        
-        setLanguage(initialLang);
-
-        // Lógica do Modal de Disclaimer
         const modal = document.getElementById('disclaimer-modal');
         const acceptButton = document.getElementById('accept-disclaimer');
         const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
@@ -263,7 +168,6 @@
             localStorage.setItem('disclaimerAccepted', 'true');
         });
 
-        // Registra o Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
@@ -276,7 +180,6 @@
             });
         }
     });
-
 </script>
 
 </body>

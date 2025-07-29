@@ -5,12 +5,26 @@ const CACHE_NAME = 'missioncare-plus-v1';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
+  '/1-inicio.html',
+  '/2- triagem inicial.html',
+  '/3- triagem adulto.html',
+  '/3b-triagem pediatria.html',
+  '/4-emergencias.html',
+  '/5. assistenteIA.html',
+  '/6-textos biblico.html',
+  '/7-emocional.html',
+  '/8- medicamentos.html',
+  '/9-contatos.html',
   // Adicione aqui os caminhos para outras páginas HTML que devem funcionar offline
   // Ex: '/triagem-adulto.html',
   // Ex: '/triagem-pediatrica.html',
   // Ex: '/emergencias.html',
   // Adicione aqui os caminhos para seus arquivos CSS e JS
   // Ex: '/style.css',
+  '/style.css',
+  '/js/i18n.js',
+  '/lang/pt.json',
+  '/lang/es.json',
   // Ex: '/app.js',
   // Adicione aqui os ícones e outras imagens importantes
   'https://placehold.co/192x192/0d9488/FFFFFF?text=MC+',
