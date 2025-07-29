@@ -63,6 +63,30 @@
 </head>
 <body class="bg-gray-100">
 
+    <!-- ======================================================================= -->
+    <!-- NOVO MODAL DE ALERTA DE EMERGÊNCIA                                    -->
+    <!-- ======================================================================= -->
+    <div id="emergency-alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 size-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg class="w-7 h-7 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">Aviso Importante</h2>
+                    <p class="text-gray-600">
+                        Se você estiver apresentando <a href="sintomas-graves.html" class="font-bold text-red-600 underline hover:text-red-700">SINTOMAS GRAVES</a>, não use o MissionCare Plus. Em vez disso, entre em contato com os serviços de emergência.
+                    </p>
+                </div>
+            </div>
+            <button id="close-emergency-alert" class="mt-6 w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                Entendi
+            </button>
+        </div>
+    </div>
+
     <!-- MODAL DE DISCLAIMER -->
     <div id="disclaimer-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 max-h-[90vh] overflow-y-auto">
@@ -149,8 +173,37 @@
             </div>
         </main>
     </div>
-<script type="module" src="./js/init.js"></script>
+    
+    <script type="module" src="./js/init.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const disclaimerModal = document.getElementById('disclaimer-modal');
+            const acceptButton = document.getElementById('accept-disclaimer');
+            const emergencyModal = document.getElementById('emergency-alert-modal');
+            const closeEmergencyBtn = document.getElementById('close-emergency-alert');
 
+            // Lógica para o novo modal de alerta de emergência
+            if (emergencyModal && closeEmergencyBtn) {
+                // Mostra o modal de emergência assim que a página carregar
+                emergencyModal.classList.remove('hidden'); 
+                
+                closeEmergencyBtn.addEventListener('click', function() {
+                    emergencyModal.classList.add('hidden');
+                });
+            }
 
+            // Lógica para o modal de aviso legal (disclaimer)
+            const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
+            if (!disclaimerAccepted && disclaimerModal) {
+                disclaimerModal.classList.remove('hidden');
+            }
+            if (acceptButton) {
+                acceptButton.addEventListener('click', function() {
+                    if(disclaimerModal) disclaimerModal.classList.add('hidden');
+                    localStorage.setItem('disclaimerAccepted', 'true');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
