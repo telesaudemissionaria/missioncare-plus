@@ -320,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { jsPDF } = window.jspdf;
             const reportElement = document.getElementById('report-content');
             html2canvas(reportElement, { scale: 2 }).then(canvas => {
+    <link rel="stylesheet" href="style.css">
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
