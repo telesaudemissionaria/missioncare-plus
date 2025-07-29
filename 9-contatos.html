@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - MissionCare Plus</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fbfc]">
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfc] justify-between overflow-x-hidden">
+        <div>
+            <!-- Cabeçalho com botão voltar -->
+            <header class="text-center pt-8 pb-4 px-4 relative bg-[#19b2e5] text-white">
+                <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-[#159bc9] text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                </button>
+                <h1 class="text-2xl font-bold tracking-tight">📞 Contato</h1>
+                <p class="text-sm mt-1">Estamos aqui para ajudar você</p>
+            </header>
+
+            <!-- Informações da Missão -->
+            <div class="px-4 py-4">
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <div class="text-center mb-4">
+                        <h2 class="text-xl font-bold text-[#0e181b] mb-2">MISSIONCARE PLUS</h2>
+                        <p class="text-sm text-[#4e8597] italic">"Levando cura e esperança aos confins da Terra"</p>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-sm text-gray-600 text-center">
+                            Somos uma organização missionária dedicada a levar cuidados de saúde e apoio espiritual 
+                            a comunidades carentes ao redor do mundo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formas de Contato -->
+            <div class="px-4 py-2">
+                <h2 class="text-lg font-bold text-[#0e181b] mb-4">Como entrar em contato</h2>
+                
+                <!-- WhatsApp -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="white" viewBox="0 0 256 256">
+                                <path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.61-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-green-700">WhatsApp</h3>
+                            <p class="text-sm text-gray-600">Atendimento rápido e direto</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <button onclick="abrirWhatsApp('emergencia')" class="w-full bg-red-500 text-white p-3 rounded-lg font-medium hover:bg-red-600 transition-colors">
+                            🚨 Emergência - (11) 99999-0192
+                        </button>
+                        <button onclick="abrirWhatsApp('saude')" class="w-full bg-blue-500 text-white p-3 rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                            🏥 Orientação de Saúde - (11) 99999-0193
+                        </button>
+                        <button onclick="abrirWhatsApp('pastoral')" class="w-full bg-orange-500 text-white p-3 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            🙏 Apoio Pastoral - (11) 99999-0194
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="white" viewBox="0 0 256 256">
+                                <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-blue-700">Email</h3>
+                            <p class="text-sm text-gray-600">Para dúvidas e informações</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm font-medium text-gray-700">Geral</p>
+                            <p class="text-sm text-gray-600">contato@missioncareplus.org</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm font-medium text-gray-700">Saúde</p>
+                            <p class="text-sm text-gray-600">saude@missioncareplus.org</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm font-medium text-gray-700">Pastoral</p>
+                            <p class="text-sm text-gray-600">pastoral@missioncareplus.org</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horários de Atendimento -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="white" viewBox="0 0 256 256">
+                                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-purple-700">Horários de Atendimento</h3>
+                            <p class="text-sm text-gray-600">Quando estamos disponíveis</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-2 bg-green-50 rounded">
+                            <span class="text-sm font-medium text-green-700">Emergências</span>
+                            <span class="text-sm text-green-600">24h / 7 dias</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-blue-50 rounded">
+                            <span class="text-sm font-medium text-blue-700">Orientação de Saúde</span>
+                            <span class="text-sm text-blue-600">6h às 22h</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-orange-50 rounded">
+                            <span class="text-sm font-medium text-orange-700">Apoio Pastoral</span>
+                            <span class="text-sm text-orange-600">8h às 20h</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                            <span class="text-sm font-medium text-gray-700">Email</span>
+                            <span class="text-sm text-gray-600">Resposta em 24h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulário de Contato -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">📝</span>
+                        Envie uma mensagem
+                    </h3>
+                    <form onsubmit="enviarMensagem(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                            <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="Seu nome completo">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent" placeholder="seu@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
+                            <select required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent">
+                                <option value="">Selecione o assunto</option>
+                                <option value="saude">Orientação de Saúde</option>
+                                <option value="pastoral">Apoio Pastoral</option>
+                                <option value="tecnico">Suporte Técnico</option>
+                                <option value="geral">Informações Gerais</option>
+                                <option value="voluntario">Quero ser Voluntário</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                            <textarea required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#19b2e5] focus:border-transparent h-32" placeholder="Digite sua mensagem aqui..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-[#19b2e5] text-white p-3 rounded-lg font-medium hover:bg-[#159bc9] transition-colors">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Redes Sociais -->
+                <div class="bg-white rounded-xl p-4 shadow-sm">
+                    <h3 class="font-bold text-[#0e181b] mb-3 flex items-center">
+                        <span class="mr-2">🌐</span>
+                        Siga-nos nas redes sociais
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="abrirRedeSocial('facebook')" class="flex items-center justify-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <span class="mr-2">📘</span>
+                            Facebook
+                        </button>
+                        <button onclick="abrirRedeSocial('instagram')" class="flex items-center justify-center p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
+                            <span class="mr-2">📷</span>
+                            Instagram
+                        </button>
+                        <button onclick="abrirRedeSocial('youtube')" class="flex items-center justify-center p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            <span class="mr-2">📺</span>
+                            YouTube
+                        </button>
+                        <button onclick="abrirRedeSocial('telegram')" class="flex items-center justify-center p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <span class="mr-2">✈️</span>
+                            Telegram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé com Navegação -->
+        <div>
+            <div class="flex gap-2 border-t border-[#e7f0f3] bg-[#f8fbfc] px-4 pb-3 pt-2">
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="index.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="House" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="apoio-emocional.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="Heart" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 text-[#4e8597]" href="assistente-ia.html">
+                    <div class="text-[#4e8597] flex h-8 items-center justify-center" data-icon="ChatCircleDots" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <a class="just flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-[#0e181b]" href="contato.html">
+                    <div class="text-[#0e181b] flex h-8 items-center justify-center" data-icon="User" data-size="24px" data-weight="fill">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <div class="h-5 bg-[#f8fbfc]"></div>
+        </div>
+    </div>
+
+    <script>
+        function abrirWhatsApp(tipo) {
+            const numeros = {
+                'emergencia': '5511999990192',
+                'saude': '5511999990193',
+                'pastoral': '5511999990194'
+            };
+            
+            const mensagens = {
+                'emergencia': 'Olá! Estou entrando em contato através do MissionCare Plus por uma situação de emergência.',
+                'saude': 'Olá! Gostaria de orientação de saúde através do MissionCare Plus.',
+                'pastoral': 'Olá! Gostaria de apoio pastoral através do MissionCare Plus.'
+            };
+            
+            const numero = numeros[tipo];
+            const mensagem = encodeURIComponent(mensagens[tipo]);
+            const url = `https://wa.me/${numero}?text=${mensagem}`;
+            
+            window.open(url, '_blank');
+        }
+
+        function abrirRedeSocial(rede) {
+            const urls = {
+                'facebook': 'https://facebook.com/missioncareplus',
+                'instagram': 'https://instagram.com/missioncareplus',
+                'youtube': 'https://youtube.com/@missioncareplus',
+                'telegram': 'https://t.me/missioncareplus'
+            };
+            
+            // Como são URLs fictícias, vamos apenas mostrar um alerta
+            alert(`Redirecionando para: ${urls[rede]}\n\n(Esta é uma demonstração - as redes sociais são fictícias)`);
+        }
+
+        function enviarMensagem(event) {
+            event.preventDefault();
+            alert('✅ Mensagem enviada com sucesso!\n\nRetornaremos o contato em até 24 horas.');
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
