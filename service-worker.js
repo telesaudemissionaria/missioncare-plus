@@ -6,9 +6,9 @@ const URLS_TO_CACHE = [
   '/',
   '/index.html',
   // Adicione aqui os caminhos para outras páginas HTML que devem funcionar offline
-  // Ex: '/triagem-adulto.html',
+  // Ex: '/3- triagem adulto.html',
   // Ex: '/triagem-pediatrica.html',
-  // Ex: '/emergencias.html',
+  // Ex: '/4-emergencias.html',
   // Adicione aqui os caminhos para seus arquivos CSS e JS
   // Ex: '/style.css',
   // Ex: '/app.js',
