@@ -192,7 +192,31 @@
         
         <!-- TELA DE RESULTADOS -->
         <div id="results-screen" class="hidden">
-            <!-- O conteúdo aqui será populado dinamicamente pelo JavaScript -->
+            <header class="sticky top-0 z-10 flex items-center bg-white/80 p-4 pb-0 backdrop-blur-sm border-b border-gray-200">
+                <h1 data-i18n='reportTitle' class="text-[#0e181b] text-xl font-bold flex-1 text-center">Relatório da Análise Pediátrica</h1>
+            </header>
+            <main id="report-content" class="flex-grow p-4">
+                <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold"></div>
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="flex -mb-px">
+                        <button class="tab-button active py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="orientation" data-i18n="tabOrientation">Orientação</button>
+                        <button class="tab-button py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="summary" data-i18n="tabSummary">Tabela Resumo</button>
+                    </nav>
+                </div>
+                <div id="tab-content">
+                    <div id="orientation-content"></div>
+                    <div id="summary-content" class="hidden"></div>
+                </div>
+            </main>
+            <footer class="bg-white border-t border-gray-200 p-4">
+                <div class="flex gap-4">
+                    <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+                        WhatsApp
+                    </button>
+                    <button id="pdf-btn" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-full shadow-lg text-lg font-bold text-gray-700 bg-white hover:bg-gray-100" data-i18n="pdfButton">Gerar PDF</button>
+                </div>
+            </footer>
         </div>
     </div>
 
@@ -332,7 +356,64 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(initialLang);
     // --- FIM DA LÓGICA DE TRADUÇÃO ---
 
-    // ... (resto do seu código de análise da IA e outras lógicas)
+    const formScreen = document.getElementById('form-screen');
+    const loadingScreen = document.getElementById('loading-screen');
+    const resultsScreen = document.getElementById('results-screen');
+    const generateBtn = document.getElementById('generate-pediatric-analysis-btn');
+    const apiUrl = '/api/gemini';
+
+    const gatherFormData = () => {
+        const form = document.getElementById('pediatric-anamnesis-form');
+        return {
+            queixa: form.querySelector('input[name="main-complaint"]').value.trim(),
+            idade: form.querySelector('input[name="idade-crianca"]').value.trim(),
+            genero: form.querySelector('input[name="genero-crianca"]:checked')?.value || '',
+            sinaisAlerta: Array.from(form.querySelectorAll('input[name="alertas"]:checked')).map(el => el.value).join(', '),
+            alimentacao: form.querySelector('input[name="alimentacao"]:checked')?.value || '',
+            respiracao: form.querySelector('input[name="respiracao"]:checked')?.value || '',
+            vomitoDiarr: form.querySelector('input[name="vomito-diarreia"]:checked')?.value || '',
+            manchas: form.querySelector('input[name="manchas"]:checked')?.value || ''
+        };
+    };
+
+    const buildPrompt = (data) => {
+        return `Realize uma avaliação pediátrica inicial com base nos dados a seguir e forneça orientações resumidas para os pais.\n\n` +
+            `Queixa principal: ${data.queixa}\n` +
+            `Idade da criança: ${data.idade}\n` +
+            `Gênero: ${data.genero}\n` +
+            `Sinais de alerta: ${data.sinaisAlerta}\n` +
+            `Alimentação: ${data.alimentacao}\n` +
+            `Dificuldade respiratória: ${data.respiracao}\n` +
+            `Vômitos/diarreia: ${data.vomitoDiarr}\n` +
+            `Manchas na pele: ${data.manchas}`;
+    };
+
+    const displayResults = (text) => {
+        document.getElementById('orientation-content').innerHTML = `<p>${text.replace(/\n/g,'<br>')}</p>`;
+        document.getElementById('summary-content').textContent = JSON.stringify(gatherFormData(), null, 2);
+        formScreen.classList.add('hidden');
+        resultsScreen.classList.remove('hidden');
+    };
+
+    generateBtn.addEventListener('click', async () => {
+        const data = gatherFormData();
+        const prompt = buildPrompt(data);
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+            const result = await response.json();
+            displayResults(result.text || '');
+        } catch (err) {
+            console.error('Erro ao gerar análise pediátrica', err);
+        } finally {
+            loadingScreen.classList.add('hidden');
+        }
+    });
 });
 </script>
 

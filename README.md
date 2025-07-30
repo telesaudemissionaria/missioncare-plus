@@ -81,14 +81,21 @@ MissionCarePlus/
    git clone https://github.com/SEU_USUARIO/missioncareplus.git
    cd missioncareplus
    ```
-2. **Abra o `index.html`** em qualquer navegador moderno.  
-   Para testar recursos offline e PWA, recomendo rodar um servidor local:
+2. **Crie um arquivo `.env`** baseado em `.env.example` e adicione sua chave da API Gemini:
    ```
-   python -m http.server
+   cp .env.example .env
+   echo GOOGLE_API_KEY="sua-chave-aqui" >> .env
    ```
-   Em seguida, acesse http://localhost:8000.
-
-3. **Selecione o idioma desejado** logo ao entrar no app.
+3. **Instale as dependências** e inicie o servidor backend que realiza o proxy da API Gemini:
+   ```
+   npm install
+   npm run server
+   ```
+4. **Abra o `index.html`** em um navegador ou utilize um servidor local para testar a PWA:
+   ```
+   npm start
+   ```
+5. **Selecione o idioma desejado** logo ao entrar no app.
 
 ## 💡 Exemplo de Uso
 
