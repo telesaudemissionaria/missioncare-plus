@@ -190,7 +190,7 @@
     <!-- Barra de Navegação Inferior -->
     <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
         <nav class="flex justify-around items-center h-16 max-w-2xl mx-auto">
-            <a href="1-inicio.html" class="bottom-nav-item" id="nav-home">
+            <a href="https://telesaudemissionaria.github.io/missioncare-plus/" class="bottom-nav-item" id="nav-home">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125h9.75a1.125 1.125 0 001.125-1.125V9.75M8.25 21h8.25" />
                 </svg>
@@ -316,12 +316,25 @@
             });
 
             // Atualizar estado ativo da barra de navegação inferior
-            const currentPath = window.location.pathname.split('/').pop();
+            const currentPathname = window.location.pathname; // e.g., "/missioncare-plus/" or "/missioncare-plus/9-contatos.html"
+            const homeBaseUrl = '/missioncare-plus/'; // Base path for the home page
+
             document.querySelectorAll('.bottom-nav-item').forEach(item => {
                 item.classList.remove('active');
-                const itemHref = item.getAttribute('href');
-                if (itemHref && itemHref.endsWith(currentPath)) {
-                    item.classList.add('active');
+                const itemHref = item.getAttribute('href'); 
+
+                if (itemHref) {
+                    if (item.id === 'nav-home') {
+                        // Check if current pathname is the root path or the old 1-inicio.html path
+                        if (currentPathname === homeBaseUrl || currentPathname.endsWith('/1-inicio.html')) {
+                            item.classList.add('active');
+                        }
+                    } else {
+                        // For other navigation items, check if the current pathname ends with their href
+                        if (currentPathname.endsWith(itemHref)) {
+                            item.classList.add('active');
+                        }
+                    }
                 }
             });
         }
