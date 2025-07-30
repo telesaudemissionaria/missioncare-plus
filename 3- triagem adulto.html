@@ -9,10 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link rel="stylesheet" href="style.css">
+    
     <!-- Biblioteca para gerar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Biblioteca para renderizar Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
         body {
@@ -34,20 +36,24 @@
             border-color: var(--primary-color);
             background-color: white;
         }
-    </style>
+        /* ESTILOS PARA NAVEGAÇÃO E FORMULÁRIO INTUITIVO */
+        body { padding-bottom: 80px; }
+        .question-block { margin-bottom: 2rem; }
+        .question-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem; }
+        .input-field { width: 100%; padding: 1rem; font-size: 1.125rem; border-radius: 0.75rem; border: 1px solid #d1d5db; background-color: white; transition: border-color 0.2s, box-shadow 0.2s; }
+        .input-field:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3); }
+        .choice-label { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
+        .choice-label:has(input:checked) { background-color: var(--primary-color-light); border-color: var(--primary-color); }
+        .choice-label span { font-size: 1.125rem; color: #374151; }
+        .choice-input { height: 1.5rem; width: 1.5rem; color: var(--primary-color); border-color: #9ca3af; }
+        .choice-input:focus { box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3); }
 
-    <!-- ESTILOS PARA NAVEGAÇÃO E FORMULÁRIO INTUITIVO -->
-    <style>
-      body { padding-bottom: 80px; }
-      .question-block { margin-bottom: 2rem; }
-      .question-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem; }
-      .input-field { width: 100%; padding: 1rem; font-size: 1.125rem; border-radius: 0.75rem; border: 1px solid #d1d5db; background-color: white; transition: border-color 0.2s, box-shadow 0.2s; }
-      .input-field:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3); }
-      .choice-label { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
-      .choice-label:has(input:checked) { background-color: var(--primary-color-light); border-color: var(--primary-color); }
-      .choice-label span { font-size: 1.125rem; color: #374151; }
-      .choice-input { height: 1.5rem; width: 1.5rem; color: var(--primary-color); border-color: #9ca3af; }
-      .choice-input:focus { box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3); }
+        /* Estilos para o conteúdo renderizado do Markdown */
+        #orientation-content h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #1f2937;}
+        #orientation-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #4b5563;}
+        #orientation-content li { margin-bottom: 0.5rem; }
+        #orientation-content p { margin-bottom: 1rem; line-height: 1.6; color: #374151;}
+        #orientation-content strong { font-weight: 700; }
     </style>
 
 </head>
@@ -151,7 +157,7 @@
                     </div>
                 </form>
             </main>
-            <footer class="bg-gray-50 border-t border-gray-200 p-4">
+            <footer class="bg-gray-50 border-t border-gray-200 p-4 sticky bottom-0">
                 <button id="generate-analysis-btn" type="button" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-[var(--primary-color)] hover:opacity-90" data-i18n="generateButton">
                     Gerar Análise
                 </button>
@@ -159,9 +165,9 @@
         </div>
 
         <!-- TELA DE CARREGAMENTO -->
-        <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
+        <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <svg class="animate-spin h-10 w-10 text-[var(--primary-color)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <p class="mt-4 text-lg font-semibold text-gray-700" data-i18n="loadingText">Analisando dados...</p>
+            <p id="loading-text" class="mt-4 text-lg font-semibold text-gray-700" data-i18n="loadingText">Analisando dados...</p>
         </div>
         
         <!-- TELA DE RESULTADOS -->
@@ -170,7 +176,7 @@
                 <h1 data-i18n='reportTitle' class="text-[#0e181b] text-xl font-bold flex-1 text-center">Relatório da Análise</h1>
             </header>
             <main id="report-content" class="flex-grow p-4">
-                <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold"></div>
+                <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold text-lg"></div>
                 <div class="border-b border-gray-200 mb-4">
                     <nav class="flex -mb-px">
                         <button class="tab-button active py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="orientation" data-i18n="tabOrientation">Orientação</button>
@@ -178,17 +184,17 @@
                     </nav>
                 </div>
                 <div id="tab-content">
-                    <div id="orientation-content"></div>
+                    <div id="orientation-content" class="prose max-w-none"></div>
                     <div id="summary-content" class="hidden"></div>
                 </div>
             </main>
-            <footer class="bg-gray-50 border-t border-gray-200 p-4">
+            <footer class="bg-gray-50 border-t border-gray-200 p-4 sticky bottom-0">
                 <div class="flex gap-4">
-                    <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600">
+                    <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600" disabled>
                         <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
                         WhatsApp
                     </button>
-                    <button id="pdf-btn" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-full shadow-lg text-lg font-bold text-gray-700 bg-white hover:bg-gray-100" data-i18n="pdfButton">
+                    <button id="pdf-btn" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-full shadow-lg text-lg font-bold text-gray-700 bg-white hover:bg-gray-100" data-i18n="pdfButton" disabled>
                         Gerar PDF
                     </button>
                 </div>
@@ -197,11 +203,11 @@
     </div>
 
     <!-- BARRA DE NAVEGAÇÃO GLOBAL -->
-    <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
+    <nav class="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
       <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
-        <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Voltar</span>
+        <button onclick="location.reload()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 10.356h4.992m0 0l-3.181-3.182a8.25 8.25 0 0111.664 0l3.181 3.182m-4.993 0l-2.81 2.81m0 0l-2.81-2.81m2.81 2.81V1.5M13.25 12.75h-2.5" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Novo</span>
         </button>
         <div class="h-8 w-px bg-gray-200"></div>
         <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
@@ -252,11 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
             "q10Placeholder": "Ex: Alergia a Penicilina, camarão...",
             "generateButton": "Gerar Análise",
             "loadingText": "Analisando dados...",
+            "retryText": "Servidor ocupado. Tentando novamente...",
             "reportTitle": "Relatório da Análise",
             "tabOrientation": "Orientação",
             "tabSummary": "Tabela Resumo",
             "pdfButton": "Gerar PDF",
-            "navBack": "Voltar",
+            "navBack": "Novo",
             "navHome": "Início"
         },
         "es": {
@@ -275,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "q3Opt1": "Sí",
             "q3Opt2": "No",
             "q4Title": "4. ¿Sucedió algo que pudiera haber iniciado el problema?",
-            "q4Placeholder": "Describa cualquier evento, comida, esfuerzo, etc.",
+            "q4Placeholder": "Describa qualquer evento, comida, esforço, etc.",
             "q5Title": "5. ¿Los síntomas están mejorando, empeorando o siguen igual?",
             "q5Opt1": "Mejorando",
             "q5Opt2": "Empeorando",
@@ -296,11 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
             "q10Placeholder": "Ej: Alergia a la Penicilina, camarones...",
             "generateButton": "Generar Análisis",
             "loadingText": "Analizando datos...",
+            "retryText": "Servidor ocupado. Reintentando...",
             "reportTitle": "Informe del Análisis",
             "tabOrientation": "Orientación",
             "tabSummary": "Tabla Resumen",
             "pdfButton": "Generar PDF",
-            "navBack": "Volver",
+            "navBack": "Nuevo",
             "navHome": "Inicio"
         }
     };
@@ -312,8 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
             let text = translations[lang][key] || translations['pt'][key];
-
-            // Lógica especial para o alerta com link
+            
             if (key === 'alertText') {
                 const linkText = translations[lang]['alertLink'] || translations['pt']['alertLink'];
                 const linkHtml = `<a href="sintomas-graves.html" class="font-bold text-red-600 underline hover:text-red-700">${linkText}</a>`;
@@ -328,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             element.placeholder = translations[lang][key] || translations['pt'][key];
         });
 
-        // Atualiza a classe ativa do botão de idioma
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
@@ -340,36 +346,298 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Define o idioma inicial
     const initialLang = localStorage.getItem('language') || 'pt';
     setLanguage(initialLang);
     // --- FIM DA LÓGICA DE TRADUÇÃO ---
 
-
+    // --- Seleção de Elementos do DOM ---
     const formScreen = document.getElementById('form-screen');
     const loadingScreen = document.getElementById('loading-screen');
+    const loadingText = document.getElementById('loading-text');
     const resultsScreen = document.getElementById('results-screen');
     const generateBtn = document.getElementById('generate-analysis-btn');
     const emergencyModal = document.getElementById('emergency-alert-modal');
     const closeEmergencyBtn = document.getElementById('close-emergency-alert');
+    const form = document.getElementById('anamnesis-form');
+    const orientationContent = document.getElementById('orientation-content');
+    const summaryContent = document.getElementById('summary-content');
+    const urgencyLevelDiv = document.getElementById('urgency-level');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+    const pdfBtn = document.getElementById('pdf-btn');
+    const reportContent = document.getElementById('report-content');
 
+    // --- Lógica do Modal de Emergência ---
     if (emergencyModal) {
-        emergencyModal.classList.remove('hidden');
+        if (!sessionStorage.getItem('emergencyAlertClosed')) {
+            emergencyModal.classList.remove('hidden');
+        }
     }
     if (closeEmergencyBtn) {
         closeEmergencyBtn.addEventListener('click', () => {
             emergencyModal.classList.add('hidden');
+            sessionStorage.setItem('emergencyAlertClosed', 'true');
         });
     }
 
-    const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
+    // --- Configuração da API ---
+    const apiKey = "AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U"; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
+    // --- Função de Chamada à API com Tentativas ---
+    const fetchWithRetry = async (url, options, retries = 3, backoff = 1000) => {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (response.ok) {
+                    return response;
+                }
+                // Erros 5xx são do servidor e podem ser temporários
+                if (response.status >= 500 && response.status < 600) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                // Se não for um erro de servidor, não tenta novamente
+                return response; 
+            } catch (error) {
+                if (i === retries - 1) throw error; // Lança o erro na última tentativa
+                const lang = localStorage.getItem('language') || 'pt';
+                loadingText.textContent = translations[lang].retryText || "Servidor ocupado. Tentando novamente...";
+                await new Promise(resolve => setTimeout(resolve, backoff * (i + 1)));
+            }
+        }
+    };
+
+
+    // --- Lógica Principal: Geração da Análise ---
     generateBtn.addEventListener('click', async () => {
-        // ... (resto do seu código de análise da IA)
+        const lang = localStorage.getItem('language') || 'pt';
+        loadingText.textContent = translations[lang].loadingText || "Analisando dados...";
+
+        // 1. Coletar dados do formulário
+        const formData = new FormData(form);
+        const problemaPrincipal = document.getElementById('problema-principal').value;
+        const inicioSintomas = document.getElementById('inicio-sintomas').value;
+        const sentindoBem = formData.get('sentindo-bem');
+        const fatorDesencadeante = document.getElementById('fator-desencadeante').value;
+        const progressaoSintomas = formData.get('progressao-sintomas');
+        const melhoraPiora = document.getElementById('melhora-piora').value;
+        const tratamentoTentado = document.getElementById('tratamento-tentado').value;
+        const condicoes = Array.from(document.querySelectorAll('input[name="condicoes"]:checked')).map(el => el.value).join(', ') || "Nenhuma informada";
+        const medicamentos = document.getElementById('medicamentos').value;
+        const alergias = document.getElementById('alergias').value;
+
+        if (!problemaPrincipal.trim()) {
+            alert('Por favor, descreva o principal problema ou sintoma.');
+            return;
+        }
+
+        // 2. Montar o prompt para a IA
+        const prompt = `
+            Você é MedGemma, um assistente médico de IA treinado para fornecer análises de triagem com base em dados de anamnese.
+            Sua resposta deve ser estruturada, empática e seguir um formato específico.
+            Aja como um profissional de saúde experiente, mas lembre-se que sua orientação não substitui uma consulta médica.
+            
+            Analise os seguintes dados de anamnese de um paciente e forneça um relatório em formato JSON.
+
+            DADOS DO PACIENTE:
+            - Principal problema ou sintoma: ${problemaPrincipal}
+            - Início dos sintomas: ${inicioSintomas}
+            - Estava se sentindo bem antes?: ${sentindoBem || "Não informado"}
+            - Fator desencadeante: ${fatorDesencadeante || "Nenhum informado"}
+            - Progressão dos sintomas: ${progressaoSintomas || "Não informado"}
+            - O que melhora ou piora: ${melhoraPiora || "Nenhum informado"}
+            - Tratamento já tentado: ${tratamentoTentado || "Nenhum informado"}
+            - Doenças crônicas: ${condicoes}
+            - Medicamentos de uso contínuo: ${medicamentos || "Nenhum informado"}
+            - Alergias: ${alergias || "Nenhuma informada"}
+
+            ESTRUTURA DA RESPOSTA (OBRIGATÓRIO):
+            Sempre responda com um objeto JSON válido, sem nenhum texto ou formatação adicional antes ou depois.
+            O JSON deve ter a seguinte estrutura:
+            {
+              "urgency": {
+                "level": "string (um de: 'Emergência', 'Urgente', 'Moderado', 'Baixo', 'Informativo')",
+                "reason": "string (uma breve justificativa para o nível de urgência)"
+              },
+              "orientation": "string (um texto em formato Markdown com as orientações detalhadas para o paciente, incluindo possíveis hipóteses diagnósticas (sempre como 'possibilidades'), recomendações de autocuidado, e sinais de alerta que indicam a necessidade de procurar atendimento médico imediato. Use uma linguagem clara e acolhedora.)",
+              "summary": {
+                "symptom": "string (resumo do sintoma principal)",
+                "history": "string (resumo da história da doença atual)",
+                "background": "string (resumo dos antecedentes médicos relevantes)"
+              }
+            }
+        `;
+
+        // 3. Mostrar tela de carregamento e fazer a chamada para a API
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+        resultsScreen.classList.add('hidden');
+        window.scrollTo(0, 0);
+
+        try {
+            const payload = {
+                contents: [{
+                    parts: [{ text: prompt }]
+                }]
+            };
+
+            const response = await fetchWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                let errorMessage = `Erro na API: ${response.status} ${response.statusText}`;
+                try {
+                    const errorBody = await response.json();
+                    if (errorBody.error && errorBody.error.message) {
+                        errorMessage = errorBody.error.message;
+                    }
+                } catch (e) { /* Ignora erro de parsing do JSON de erro */ }
+                throw new Error(errorMessage);
+            }
+
+            const data = await response.json();
+            
+            if (!data.candidates || !data.candidates[0].content.parts[0].text) {
+                throw new Error("Resposta da API inválida ou vazia.");
+            }
+
+            const responseText = data.candidates[0].content.parts[0].text;
+            const jsonString = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const analysisResult = JSON.parse(jsonString);
+
+            displayResults(analysisResult);
+
+        } catch (error) {
+            console.error("Erro ao gerar análise:", error);
+            displayError(`Ocorreu um erro ao tentar analisar os dados. Detalhe do erro: ${error.message}. Os servidores podem estar ocupados. Por favor, tente novamente em alguns minutos.`);
+        } finally {
+            loadingScreen.classList.add('hidden');
+        }
     });
 
-    // ... (resto das suas funções como displayResults, etc.)
+    // --- Funções Auxiliares para Exibição ---
+    function displayResults(result) {
+        whatsappBtn.disabled = false;
+        pdfBtn.disabled = false;
+        whatsappBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        pdfBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+        const urgencyClassMap = {
+            'Emergência': 'bg-red-600',
+            'Urgente': 'bg-orange-500',
+            'Moderado': 'bg-yellow-500 text-black',
+            'Baixo': 'bg-green-500',
+            'Informativo': 'bg-blue-500'
+        };
+        urgencyLevelDiv.textContent = `${result.urgency.level.toUpperCase()}: ${result.urgency.reason}`;
+        urgencyLevelDiv.className = `p-4 rounded-lg mb-4 text-center text-white font-bold text-lg ${urgencyClassMap[result.urgency.level] || 'bg-gray-500'}`;
+
+        orientationContent.innerHTML = marked.parse(result.orientation);
+        
+        const summaryHtml = `
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <tbody>
+                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">Sintoma Principal</td><td class="p-3 text-gray-600">${result.summary.symptom}</td></tr>
+                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">Histórico da Doença</td><td class="p-3 text-gray-600">${result.summary.history}</td></tr>
+                        <tr><td class="p-3 font-semibold text-gray-700">Antecedentes Relevantes</td><td class="p-3 text-gray-600">${result.summary.background}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        summaryContent.innerHTML = summaryHtml;
+        
+        resultsScreen.classList.remove('hidden');
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.add('hidden');
+        window.scrollTo(0, 0);
+    }
+    
+    function displayError(message) {
+        resultsScreen.classList.remove('hidden');
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.add('hidden');
+        
+        urgencyLevelDiv.textContent = "ERRO";
+        urgencyLevelDiv.className = 'p-4 rounded-lg mb-4 text-center text-white font-bold text-lg bg-gray-700';
+        
+        orientationContent.innerHTML = `<div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700"><p class="font-bold">Falha na Comunicação</p><p>${message}</p></div>`;
+        summaryContent.innerHTML = "";
+        
+        whatsappBtn.disabled = true;
+        pdfBtn.disabled = true;
+        whatsappBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        pdfBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+
+    // --- Lógica das Abas na Tela de Resultados ---
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const tab = button.dataset.tab;
+            orientationContent.classList.toggle('hidden', tab !== 'orientation');
+            summaryContent.classList.toggle('hidden', tab !== 'summary');
+        });
+    });
+
+    // --- Lógica dos Botões de Ação (WhatsApp e PDF) ---
+    whatsappBtn.addEventListener('click', () => {
+        const summaryText = summaryContent.innerText || "Resumo não disponível.";
+        const orientationText = orientationContent.innerText || "Orientações não disponíveis.";
+        const urgencyText = urgencyLevelDiv.innerText || "Nível de urgência não definido.";
+
+        const fullReportText = `*Relatório MissionCare Plus*\n\n*${urgencyText}*\n\n*Resumo do Caso:*\n${summaryText}\n\n*Orientações:*\n${orientationText}`;
+        
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullReportText)}`;
+        window.open(whatsappUrl, '_blank');
+    });
+
+    pdfBtn.addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        loadingScreen.classList.remove('hidden');
+
+        html2canvas(reportContent, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const ratio = canvasWidth / canvasHeight;
+            
+            const imgWidth = pdfWidth - 20;
+            const imgHeight = imgWidth / ratio;
+
+            let heightLeft = imgHeight;
+            let position = 10;
+
+            pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= (pdfHeight - 20);
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight + 10;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= (pdfHeight - 20);
+            }
+            
+            pdf.save('relatorio-anamnese.pdf');
+        }).catch(err => {
+            console.error("Erro ao gerar PDF:", err);
+            alert("Não foi possível gerar o PDF. Tente novamente.");
+        }).finally(() => {
+            loadingScreen.classList.add('hidden');
+        });
+    });
 });
 </script>
 
