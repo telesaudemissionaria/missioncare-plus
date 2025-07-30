@@ -362,11 +362,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = '/api/gemini';
+
+    const gatherFormData = () => {
+        const form = document.getElementById('anamnesis-form');
+        const data = {
+            problema: document.getElementById('problema-principal').value.trim(),
+            inicio: document.getElementById('inicio-sintomas').value.trim(),
+            sentindoBem: form.querySelector('input[name="sentindo-bem"]:checked')?.value || '',
+            fator: document.getElementById('fator-desencadeante').value.trim(),
+            progressao: form.querySelector('input[name="progressao-sintomas"]:checked')?.value || '',
+            melhora: document.getElementById('melhora-piora').value.trim(),
+            tratamento: document.getElementById('tratamento-tentado').value.trim(),
+            condicoes: Array.from(form.querySelectorAll('input[name="condicoes"]:checked')).map(el => el.value).join(', '),
+            medicamentos: document.getElementById('medicamentos').value.trim(),
+            alergias: document.getElementById('alergias').value.trim()
+        };
+        return data;
+    };
+
+    const buildPrompt = (data) => {
+        return `Realize uma análise inicial dos seguintes sintomas de forma sucinta, apresentando hipóteses diagnósticas e orientações básicas.\n\n` +
+            `Problema principal: ${data.problema}\n` +
+            `Início dos sintomas: ${data.inicio}\n` +
+            `Sentia-se bem antes: ${data.sentindoBem}\n` +
+            `Fatores desencadeantes: ${data.fator}\n` +
+            `Progressão: ${data.progressao}\n` +
+            `O que melhora/piora: ${data.melhora}\n` +
+            `Tratamentos tentados: ${data.tratamento}\n` +
+            `Condições crônicas: ${data.condicoes}\n` +
+            `Medicamentos contínuos: ${data.medicamentos}\n` +
+            `Alergias: ${data.alergias}`;
+    };
+
+    const displayResults = (text) => {
+        document.getElementById('orientation-content').innerHTML = `<p>${text.replace(/\n/g,'<br>')}</p>`;
+        document.getElementById('summary-content').textContent = JSON.stringify(gatherFormData(), null, 2);
+        formScreen.classList.add('hidden');
+        resultsScreen.classList.remove('hidden');
+    };
 
     generateBtn.addEventListener('click', async () => {
-        // ... (resto do seu código de análise da IA)
+        const data = gatherFormData();
+        const prompt = buildPrompt(data);
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+            const result = await response.json();
+            displayResults(result.text || '');
+        } catch (err) {
+            console.error('Erro ao gerar análise', err);
+        } finally {
+            loadingScreen.classList.add('hidden');
+        }
     });
 
     // ... (resto das suas funções como displayResults, etc.)

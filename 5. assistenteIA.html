@@ -160,8 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const langButtons = document.querySelectorAll('.lang-selector button');
 
     // Configuração da API
-    const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = '/api/gemini';
 
     // Estado da Aplicação
     let chatMode = 'general';
@@ -319,11 +318,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: chatHistory })
+                body: JSON.stringify({ prompt: currentPrompt })
             });
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const result = await response.json();
-            const aiResponse = result.candidates[0].content.parts[0].text;
+            const aiResponse = result.text;
             chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
             removeTypingIndicator();
             appendMessage(aiResponse, 'ai');
