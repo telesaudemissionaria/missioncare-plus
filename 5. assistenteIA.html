@@ -161,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configuração da API
     const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    // Utiliza a API Gemini na versão estável v1 com o modelo "gemini-pro"
+    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`;
 
     // Estado da Aplicação
     let chatMode = 'general';
