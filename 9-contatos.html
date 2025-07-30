@@ -59,6 +59,34 @@
             background-color: #e5e7eb; /* gray-200 */
             color: #4b5563; /* gray-600 */
         }
+
+        /* Estilos para a barra de navegação inferior */
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0.25rem;
+            flex: 1;
+            color: #6b7280; /* gray-500 */
+            transition: color 0.2s ease;
+            text-decoration: none;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            line-height: 1; /* Para alinhar o texto e o ícone */
+        }
+        .bottom-nav-item.active {
+            color: #0d9488; /* teal-600 */
+            font-weight: 700; /* font-bold */
+        }
+        .bottom-nav-item:hover {
+            color: #0d9488; /* teal-600 */
+        }
+        .bottom-nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 0.25rem; /* space-y-1 */
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -159,6 +187,36 @@
         </div>
     </div>
 
+    <!-- Barra de Navegação Inferior -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+        <nav class="flex justify-around items-center h-16 max-w-2xl mx-auto">
+            <a href="1-inicio.html" class="bottom-nav-item" id="nav-home">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125h9.75a1.125 1.125 0 001.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+                <span data-i18n="nav.home">Início</span>
+            </a>
+            <a href="4-emergencias.html" class="bottom-nav-item" id="nav-emergencies">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <span data-i18n="nav.emergencies">Emergências</span>
+            </a>
+            <a href="5. assistenteIA.html" class="bottom-nav-item" id="nav-ai-assistant">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.5 21.75l-.398-1.178a3.375 3.375 0 00-2.31-2.31L12.602 18l1.178-.398a3.375 3.375 0 002.31 2.31L16.5 14.25l.398 1.178a3.375 3.375 0 002.31 2.31l1.178.398-1.178.398a3.375 3.375 0 00-2.31 2.31z" />
+                </svg>
+                <span data-i18n="nav.ai_assistant">Assistente IA</span>
+            </a>
+            <a href="9-contatos.html" class="bottom-nav-item active" id="nav-contacts">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+                <span data-i18n="nav.contacts">Contatos</span>
+            </a>
+        </nav>
+    </footer>
+
     <script>
         // Objeto para armazenar as traduções
         const translations = {
@@ -174,7 +232,11 @@
                 'feedback.error_title': 'Erro ao Enviar!',
                 'feedback.error_message': 'Não foi possível enviar sua mensagem. Tente novamente.',
                 'feedback.offline_message': 'Você está offline. Sua mensagem será enviada quando a conexão for restabelecida.',
-                'feedback.close_button': 'Fechar'
+                'feedback.close_button': 'Fechar',
+                'nav.home': 'Início',
+                'nav.emergencies': 'Emergências',
+                'nav.ai_assistant': 'Assistente IA',
+                'nav.contacts': 'Contatos'
             },
             'es-ES': {
                 'contatos.titulo': 'Contacto y Soporte',
@@ -188,7 +250,11 @@
                 'feedback.error_title': '¡Error al Enviar!',
                 'feedback.error_message': 'No se pudo enviar su mensaje. Intente de nuevo.',
                 'feedback.offline_message': 'Estás desconectado. Tu mensaje se enviará cuando se restablezca la conexión.',
-                'feedback.close_button': 'Cerrar'
+                'feedback.close_button': 'Cerrar',
+                'nav.home': 'Inicio',
+                'nav.emergencies': 'Emergencias',
+                'nav.ai_assistant': 'Asistente IA',
+                'nav.contacts': 'Contactos'
             },
             'en-US': {
                 'contatos.titulo': 'Contact and Support',
@@ -202,7 +268,11 @@
                 'feedback.error_title': 'Error Sending!',
                 'feedback.error_message': 'Could not send your message. Please try again.',
                 'feedback.offline_message': 'You are offline. Your message will be sent when the connection is restored.',
-                'feedback.close_button': 'Close'
+                'feedback.close_button': 'Close',
+                'nav.home': 'Home',
+                'nav.emergencies': 'Emergencies',
+                'nav.ai_assistant': 'AI Assistant',
+                'nav.contacts': 'Contacts'
             }
         };
 
@@ -242,6 +312,16 @@
                     button.classList.add('bg-teal-600', 'text-white');
                 } else {
                     button.classList.add('bg-gray-200', 'text-gray-600');
+                }
+            });
+
+            // Atualizar estado ativo da barra de navegação inferior
+            const currentPath = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+                const itemHref = item.getAttribute('href');
+                if (itemHref && itemHref.endsWith(currentPath)) {
+                    item.classList.add('active');
                 }
             });
         }
@@ -290,12 +370,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Não há mais formulário de contato, então removemos o event listener
-            // const contactForm = document.getElementById('contact-form');
-            // if (contactForm) {
-            //     contactForm.addEventListener('submit', enviarMensagem);
-            // }
-
             // Event listener para o botão de fechar modal de feedback
             const closeFeedbackModalBtn = document.getElementById('close-feedback-modal');
             if (closeFeedbackModalBtn) {
