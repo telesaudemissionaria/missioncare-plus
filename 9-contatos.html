@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contato - MissionCare Plus</title>
+
+    <!-- PWA Manifest e Configurações de Tema (mantendo consistência com a página inicial) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/0d9488/FFFFFF?text=MC+">
+
+    <!-- Importação de Fontes e Tailwind CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link rel="stylesheet" href="style.css">
+    
     <style>
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
@@ -15,117 +22,120 @@
             --text-color-dark: #374151; /* gray-700 */
             --text-color-light: #6b7280; /* gray-500 */
         }
+        /* Estilos para o foco dos inputs, mantendo a identidade visual */
         .form-input:focus, .form-textarea:focus, .form-select:focus {
             --tw-ring-color: rgba(13, 148, 136, 0.4);
             box-shadow: 0 0 0 1px var(--primary-color), 0 0 0 3px var(--tw-ring-color);
             border-color: var(--primary-color);
         }
+
+        /* Estilos para o modal de feedback */
+        .feedback-modal {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none; /* Permite cliques através do modal quando oculto */
+        }
+        .feedback-modal.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Estilos para os botões de idioma */
+        .lang-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .lang-btn.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+        }
+        .lang-btn.inactive {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #4b5563; /* gray-600 */
+        }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-gray-100 text-gray-800">
 
-    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between">
+    <div class="relative flex size-full min-h-screen flex-col bg-gray-100 justify-between">
         <div>
             <!-- Cabeçalho -->
-            <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200">
-                <a href="1-inicio.html" class="text-gray-600 hover:text-gray-900 p-2 -ml-2">
+            <header class="sticky top-0 z-10 flex items-center bg-white/90 p-4 pb-3 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+                <a href="1-inicio.html" class="text-gray-600 hover:text-teal-700 p-2 -ml-2 rounded-full transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
                 </a>
-                <h1 data-i18n='contatos.titulo' class="text-gray-800 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Contato e Suporte</h1>
+                <h1 data-i18n='contatos.titulo' class="text-gray-800 text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Contato e Suporte</h1>
+                
+                <!-- Seletor de Idioma -->
+                <div id="language-selector" class="absolute top-2 right-2 flex space-x-1 bg-gray-200 p-1 rounded-full">
+                    <button id="lang-pt" class="lang-btn" aria-label="Português">🇧🇷</button>
+                    <button id="lang-es" class="lang-btn" aria-label="Español">🇪🇸</button>
+                    <button id="lang-en" class="lang-btn" aria-label="English">🇬🇧</button>
+                </div>
             </header>
 
             <!-- Conteúdo da Página -->
-            <main class="flex-grow pb-20">
+            <main class="flex-grow pb-20 max-w-2xl mx-auto">
                 <!-- Informações da Missão -->
                 <div class="p-4">
-                    <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-200">
-                        <h2 class="text-xl font-bold text-text-color-dark mb-2">MISSIONCARE PLUS</h2>
-                        <p class="text-sm text-text-color-light italic">"Levando cura e esperança aos confins da Terra"</p>
+                    <div class="bg-white rounded-xl p-4 text-center border border-gray-200 shadow-sm">
+                        <h2 class="text-2xl font-black text-teal-800 mb-2">MISSIONCARE PLUS</h2>
+                        <p class="text-sm text-gray-500 italic">"Levando cura e esperança aos confins da Terra"</p>
                     </div>
                 </div>
 
                 <!-- Formas de Contato -->
                 <div class="px-4 py-2 space-y-6">
-                    <h2 class="text-lg font-bold text-text-color-dark">Como entrar em contato</h2>
+                    <h2 class="text-xl font-bold text-gray-700" data-i18n="contact.how_to_contact">Como entrar em contato</h2>
                     
                     <!-- WhatsApp -->
-                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
                         <div class="flex items-center mb-3">
                             <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
                                <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
                             </div>
                             <div class="flex-1">
-                                <h3 class="font-bold text-green-700">WhatsApp</h3>
-                                <p class="text-sm text-gray-600">Atendimento rápido e direto</p>
+                                <h3 class="font-bold text-green-700 text-lg">WhatsApp</h3>
+                                <p class="text-sm text-gray-600" data-i18n="whatsapp.desc">Atendimento rápido e direto para suas necessidades.</p>
                             </div>
                         </div>
-                        <button onclick="window.open('https://wa.me/message/DY63DAZ7BSHKL1', '_blank')" class="w-full bg-red-500 text-white p-3 rounded-lg font-medium hover:bg-red-600 transition-colors">
-                            🚨 Emergência
+                        <button id="whatsapp-emergency-btn" class="w-full bg-red-600 text-white p-3 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-md" data-i18n="whatsapp.emergency_btn">
+                            🚨 Emergência (apenas para casos graves)
                         </button>
                     </div>
 
                     <!-- Email -->
-                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
                         <div class="flex items-center mb-3">
                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
                                 <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
                             </div>
                             <div class="flex-1">
-                                <h3 class="font-bold text-blue-700">Email</h3>
-                                <p class="text-sm text-gray-600">Para dúvidas e informações</p>
+                                <h3 class="font-bold text-blue-700 text-lg">Email</h3>
+                                <p class="text-sm text-gray-600" data-i18n="email.desc">Para dúvidas, sugestões e informações gerais.</p>
                             </div>
                         </div>
-                        <div class="p-3 bg-gray-50 rounded-lg text-center">
-                            <p class="text-sm font-medium text-gray-700">missionarymedicalcare@gmail.com</p>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-700">missionarymedicalcare@gmail.com</p>
                         </div>
-                    </div>
-
-                    <!-- Formulário de Contato -->
-                    <div class="bg-white rounded-xl p-4 border border-gray-200">
-                        <h3 class="font-bold text-text-color-dark mb-3 flex items-center">
-                            <span class="mr-2">📝</span> Envie uma mensagem
-                        </h3>
-                        <form onsubmit="enviarMensagem(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
-                                <input type="text" required class="form-input w-full p-3 border-gray-300 bg-gray-50 rounded-lg" placeholder="Seu nome completo">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input type="email" required class="form-input w-full p-3 border-gray-300 bg-gray-50 rounded-lg" placeholder="seu@email.com">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
-                                <select required class="form-select w-full p-3 border-gray-300 bg-gray-50 rounded-lg">
-                                    <option value="">Selecione o assunto</option>
-                                    <option value="saude">Orientação de Saúde</option>
-                                    <option value="tecnico">Suporte Técnico</option>
-                                    <option value="geral">Informações Gerais</option>
-                                    <option value="voluntario">Quero ser Voluntário</option>
-                                    <option value="contribuir">Quero contribuir</option>
-                                    <option value="interceder">Quero interceder</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
-                                <textarea required class="form-textarea w-full p-3 border-gray-300 bg-gray-50 rounded-lg h-32" placeholder="Digite sua mensagem aqui..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-teal-600 text-white p-3 rounded-lg font-medium hover:bg-teal-700 transition-colors">
-                                Enviar Mensagem
-                            </button>
-                        </form>
                     </div>
 
                     <!-- Redes Sociais -->
-                    <div class="bg-white rounded-xl p-4 border border-gray-200">
-                        <h3 class="font-bold text-text-color-dark mb-3 flex items-center">
-                            <span class="mr-2">🌐</span> Siga-nos nas redes sociais
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <h3 class="font-bold text-gray-700 mb-3 flex items-center text-lg" data-i18n="social.title">
+                            <span class="mr-2 text-xl">🌐</span> Siga-nos nas redes sociais
                         </h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="abrirRedeSocial('facebook')" class="flex items-center justify-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="abrirRedeSocial('facebook')" class="flex items-center justify-center p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md">
                                 <span class="mr-2">📘</span> Facebook
                             </button>
-                            <button onclick="abrirRedeSocial('instagram')" class="flex items-center justify-center p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
+                            <button onclick="abrirRedeSocial('instagram')" class="flex items-center justify-center p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-semibold shadow-md">
                                 <span class="mr-2">📷</span> Instagram
                             </button>
                         </div>
@@ -135,12 +145,142 @@
         </div>
     </div>
 
+    <!-- Modal de Feedback (sucesso/erro) -->
+    <div id="feedback-modal" class="feedback-modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[70]">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+            <div id="feedback-icon" class="size-16 mx-auto mb-4 rounded-full flex items-center justify-center">
+                <!-- Ícone será injetado via JS -->
+            </div>
+            <h3 id="feedback-title" class="text-xl font-bold text-gray-800 mb-2"></h3>
+            <p id="feedback-message" class="text-gray-600 mb-6"></p>
+            <button id="close-feedback-modal" class="w-full bg-teal-600 text-white p-3 rounded-lg font-bold hover:bg-teal-700 transition-colors shadow-md" data-i18n="feedback.close_button">
+                Fechar
+            </button>
+        </div>
+    </div>
+
     <script>
-        function enviarMensagem(event) {
-            event.preventDefault();
-            alert('✅ Mensagem enviada com sucesso!\n\nRetornaremos o contato em até 24 horas.');
-            event.target.reset();
+        // Objeto para armazenar as traduções
+        const translations = {
+            'pt-BR': {
+                'contatos.titulo': 'Contato e Suporte',
+                'contact.how_to_contact': 'Como entrar em contato',
+                'whatsapp.desc': 'Atendimento rápido e direto para suas necessidades.',
+                'whatsapp.emergency_btn': '🚨 Emergência (apenas para casos graves)',
+                'email.desc': 'Para dúvidas, sugestões e informações gerais.',
+                'social.title': 'Siga-nos nas redes sociais',
+                'feedback.success_title': 'Mensagem Enviada!',
+                'feedback.success_message': 'Agradecemos seu contato. Retornaremos em breve.',
+                'feedback.error_title': 'Erro ao Enviar!',
+                'feedback.error_message': 'Não foi possível enviar sua mensagem. Tente novamente.',
+                'feedback.offline_message': 'Você está offline. Sua mensagem será enviada quando a conexão for restabelecida.',
+                'feedback.close_button': 'Fechar'
+            },
+            'es-ES': {
+                'contatos.titulo': 'Contacto y Soporte',
+                'contact.how_to_contact': 'Cómo contactarnos',
+                'whatsapp.desc': 'Atención rápida y directa para sus necesidades.',
+                'whatsapp.emergency_btn': '🚨 Emergencia (solo para casos graves)',
+                'email.desc': 'Para dudas, sugerencias e información general.',
+                'social.title': 'Síganos en redes sociales',
+                'feedback.success_title': '¡Mensaje Enviado!',
+                'feedback.success_message': 'Gracias por su contacto. Le responderemos pronto.',
+                'feedback.error_title': '¡Error al Enviar!',
+                'feedback.error_message': 'No se pudo enviar su mensaje. Intente de nuevo.',
+                'feedback.offline_message': 'Estás desconectado. Tu mensaje se enviará cuando se restablezca la conexión.',
+                'feedback.close_button': 'Cerrar'
+            },
+            'en-US': {
+                'contatos.titulo': 'Contact and Support',
+                'contact.how_to_contact': 'How to contact us',
+                'whatsapp.desc': 'Quick and direct assistance for your needs.',
+                'whatsapp.emergency_btn': '🚨 Emergency (for severe cases only)',
+                'email.desc': 'For questions, suggestions, and general information.',
+                'social.title': 'Follow us on social media',
+                'feedback.success_title': 'Message Sent!',
+                'feedback.success_message': 'Thank you for your message. We will get back to you shortly.',
+                'feedback.error_title': 'Error Sending!',
+                'feedback.error_message': 'Could not send your message. Please try again.',
+                'feedback.offline_message': 'You are offline. Your message will be sent when the connection is restored.',
+                'feedback.close_button': 'Close'
+            }
+        };
+
+        let currentLang = localStorage.getItem('appLang') || 'pt-BR'; // Idioma padrão ou salvo
+
+        // Função para aplicar as traduções
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+
+            // Traduzir placeholders (se houver, embora não mais para o formulário)
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.placeholder = translations[currentLang][key];
+                }
+            });
+
+            // Atualizar classes dos botões de idioma
+            document.getElementById('lang-pt').classList.remove('active', 'inactive');
+            document.getElementById('lang-es').classList.remove('active', 'inactive');
+            document.getElementById('lang-en').classList.remove('active', 'inactive'); 
+            
+            document.getElementById('lang-pt').classList.add(currentLang === 'pt-BR' ? 'active' : 'inactive');
+            document.getElementById('lang-es').classList.add(currentLang === 'es-ES' ? 'active' : 'inactive');
+            document.getElementById('lang-en').classList.add(currentLang === 'en-US' ? 'active' : 'inactive'); 
+
+            // Atualizar classes Tailwind para os botões de idioma
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(button => {
+                button.classList.remove('bg-teal-600', 'text-white', 'bg-gray-200', 'text-gray-600');
+                if (button.id === `lang-${currentLang.split('-')[0]}`) { 
+                    button.classList.add('bg-teal-600', 'text-white');
+                } else {
+                    button.classList.add('bg-gray-200', 'text-gray-600');
+                }
+            });
         }
+
+        // Função para exibir o modal de feedback
+        function showFeedbackModal(type, isOffline = false) {
+            const modal = document.getElementById('feedback-modal');
+            const iconContainer = document.getElementById('feedback-icon');
+            const titleElement = document.getElementById('feedback-title');
+            const messageElement = document.getElementById('feedback-message');
+
+            iconContainer.innerHTML = ''; // Limpa ícones anteriores
+            iconContainer.className = 'size-16 mx-auto mb-4 rounded-full flex items-center justify-center'; // Reseta classes
+
+            if (isOffline) {
+                iconContainer.classList.add('bg-yellow-100');
+                iconContainer.innerHTML = `<svg class="w-8 h-8 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>`;
+                titleElement.textContent = translations[currentLang]['feedback.error_title'];
+                messageElement.textContent = translations[currentLang]['feedback.offline_message'];
+            } else if (type === 'success') {
+                iconContainer.classList.add('bg-green-100');
+                iconContainer.innerHTML = `<svg class="w-8 h-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                titleElement.textContent = translations[currentLang]['feedback.success_title'];
+                messageElement.textContent = translations[currentLang]['feedback.success_message'];
+            } else { // error
+                iconContainer.classList.add('bg-red-100');
+                iconContainer.innerHTML = `<svg class="w-8 h-8 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                titleElement.textContent = translations[currentLang]['feedback.error_title'];
+                messageElement.textContent = translations[currentLang]['feedback.error_message'];
+            }
+            modal.classList.add('show');
+        }
+
+        // Função para esconder o modal de feedback
+        function hideFeedbackModal() {
+            document.getElementById('feedback-modal').classList.remove('show');
+        }
+
+        // Função para abrir redes sociais
         function abrirRedeSocial(rede) {
             const urls = {
                 'facebook': 'https://www.facebook.com/MissionaryMedicalCare/',
@@ -148,6 +288,66 @@
             };
             window.open(urls[rede], '_blank');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Não há mais formulário de contato, então removemos o event listener
+            // const contactForm = document.getElementById('contact-form');
+            // if (contactForm) {
+            //     contactForm.addEventListener('submit', enviarMensagem);
+            // }
+
+            // Event listener para o botão de fechar modal de feedback
+            const closeFeedbackModalBtn = document.getElementById('close-feedback-modal');
+            if (closeFeedbackModalBtn) {
+                closeFeedbackModalBtn.addEventListener('click', hideFeedbackModal);
+            }
+
+            // Event listener para o botão de emergência WhatsApp
+            const whatsappEmergencyBtn = document.getElementById('whatsapp-emergency-btn');
+            if (whatsappEmergencyBtn) {
+                whatsappEmergencyBtn.addEventListener('click', function() {
+                    window.open('https://wa.me/message/DY63DAZ7BSHKL1', '_blank');
+                });
+            }
+
+            // Lógica para o seletor de idioma
+            const langPtBtn = document.getElementById('lang-pt');
+            const langEsBtn = document.getElementById('lang-es');
+            const langEnBtn = document.getElementById('lang-en'); 
+
+            if (langPtBtn && langEsBtn && langEnBtn) {
+                langPtBtn.addEventListener('click', () => {
+                    currentLang = 'pt-BR';
+                    localStorage.setItem('appLang', 'pt-BR');
+                    applyTranslations();
+                });
+
+                langEsBtn.addEventListener('click', () => {
+                    currentLang = 'es-ES';
+                    localStorage.setItem('appLang', 'es-ES');
+                    applyTranslations();
+                });
+
+                langEnBtn.addEventListener('click', () => { 
+                    currentLang = 'en-US';
+                    localStorage.setItem('appLang', 'en-US');
+                    applyTranslations();
+                });
+            }
+
+            // Aplica as traduções iniciais
+            applyTranslations();
+
+            // Sincronização de mensagens offline (não mais aplicável sem o formulário, mas mantido para referência)
+            function syncOfflineSubmissions() {
+                // Lógica de sincronização removida, pois o formulário foi removido.
+                // Se o formulário for reintroduzido, esta função precisará ser reativada.
+            }
+
+            // Tenta sincronizar ao carregar a página e quando a conexão voltar
+            syncOfflineSubmissions();
+            window.addEventListener('online', syncOfflineSubmissions);
+        });
     </script>
 </body>
 </html>
