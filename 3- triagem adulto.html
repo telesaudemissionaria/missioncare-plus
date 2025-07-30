@@ -90,6 +90,7 @@
                 <div class="absolute top-3 right-3 flex space-x-1 bg-gray-200 p-1 rounded-full">
                     <button class="lang-btn" data-lang="pt">🇧🇷</button>
                     <button class="lang-btn" data-lang="es">🇪🇸</button>
+                    <button class="lang-btn" data-lang="en">🇬🇧</button>
                 </div>
             </header>
 
@@ -282,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "q3Opt1": "Sí",
             "q3Opt2": "No",
             "q4Title": "4. ¿Sucedió algo que pudiera haber iniciado el problema?",
-            "q4Placeholder": "Describa qualquer evento, comida, esforço, etc.",
+            "q4Placeholder": "Describa cualquier evento, comida, esfuerzo, etc.",
             "q5Title": "5. ¿Los síntomas están mejorando, empeorando o siguen igual?",
             "q5Opt1": "Mejorando",
             "q5Opt2": "Empeorando",
@@ -310,6 +311,51 @@ document.addEventListener('DOMContentLoaded', () => {
             "pdfButton": "Generar PDF",
             "navBack": "Nuevo",
             "navHome": "Inicio"
+        },
+        "en": {
+            "pageTitle": "Simplified Anamnesis - MissionCare Plus",
+            "headerTitle": "Simplified Anamnesis",
+            "alertTitle": "Important Notice",
+            "alertText": "If you are experiencing {link}, do not use MissionCare Plus. Instead, contact emergency services.",
+            "alertLink": "SEVERE SYMPTOMS",
+            "alertButton": "I Understand",
+            "emergencyWarning": "ATTENTION: IN CASE OF EMERGENCY, SEEK HELP IMMEDIATELY.",
+            "q1Title": "1. What is the main problem or symptom?",
+            "q1Placeholder": "Ex: Severe headache, high fever, persistent cough...",
+            "q2Title": "2. When exactly did the symptoms start?",
+            "q2Placeholder": "Ex: 3 days ago, last night",
+            "q3Title": "3. Before this, were you feeling perfectly fine?",
+            "q3Opt1": "Yes",
+            "q3Opt2": "No",
+            "q4Title": "4. Did anything happen that might have started the problem?",
+            "q4Placeholder": "Describe any event, food, effort, etc.",
+            "q5Title": "5. Are the symptoms getting better, worse, or staying the same?",
+            "q5Opt1": "Improving",
+            "q5Opt2": "Worsening",
+            "q5Opt3": "Staying the same",
+            "q6Title": "6. What makes the symptom better or worse?",
+            "q6Placeholder": "Ex: Rest improves, effort worsens...",
+            "q7Title": "7. Have you tried any treatment for this?",
+            "q7Placeholder": "Ex: I took Paracetamol for the fever",
+            "q8Title": "8. Do you have any of these chronic diseases?",
+            "q8Opt1": "Hypertension (High blood pressure)",
+            "q8Opt2": "Diabetes",
+            "q8Opt3": "Asthma",
+            "q8Opt4": "Heart Disease",
+            "q8Opt5": "None of the above",
+            "q9Title": "9. Do you use any medication continuously?",
+            "q9Placeholder": "Ex: Losartan 50mg, Metformin...",
+            "q10Title": "10. Do you have any known allergies?",
+            "q10Placeholder": "Ex: Allergy to Penicillin, shrimp...",
+            "generateButton": "Generate Analysis",
+            "loadingText": "Analyzing data...",
+            "retryText": "Server busy. Retrying...",
+            "reportTitle": "Analysis Report",
+            "tabOrientation": "Guidance",
+            "tabSummary": "Summary Table",
+            "pdfButton": "Generate PDF",
+            "navBack": "New",
+            "navHome": "Home"
         }
     };
 
@@ -439,6 +485,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             Analise os seguintes dados de anamnese de um paciente e forneça um relatório em formato JSON.
 
+            IMPORTANTE: A resposta JSON DEVE estar inteiramente no idioma '${lang}'. Todos os valores de string (level, reason, orientation, symptom, history, background) devem ser traduzidos para o idioma '${lang}'.
+
             DADOS DO PACIENTE:
             - Principal problema ou sintoma: ${problemaPrincipal}
             - Início dos sintomas: ${inicioSintomas}
@@ -527,10 +575,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const urgencyClassMap = {
             'Emergência': 'bg-red-600',
+            'Emergency': 'bg-red-600',
             'Urgente': 'bg-orange-500',
+            'Urgent': 'bg-orange-500',
             'Moderado': 'bg-yellow-500 text-black',
+            'Moderate': 'bg-yellow-500 text-black',
             'Baixo': 'bg-green-500',
-            'Informativo': 'bg-blue-500'
+            'Low': 'bg-green-500',
+            'Informativo': 'bg-blue-500',
+            'Informative': 'bg-blue-500'
         };
         urgencyLevelDiv.textContent = `${result.urgency.level.toUpperCase()}: ${result.urgency.reason}`;
         urgencyLevelDiv.className = `p-4 rounded-lg mb-4 text-center text-white font-bold text-lg ${urgencyClassMap[result.urgency.level] || 'bg-gray-500'}`;
@@ -541,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <tbody>
-                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">Sintoma Principal</td><td class="p-3 text-gray-600">${result.summary.symptom}</td></tr>
+                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">${translations[localStorage.getItem('language') || 'pt'].tabSummary.split(' ')[0]} Principal</td><td class="p-3 text-gray-600">${result.summary.symptom}</td></tr>
                         <tr class="border-b"><td class="p-3 font-semibold text-gray-700">Histórico da Doença</td><td class="p-3 text-gray-600">${result.summary.history}</td></tr>
                         <tr><td class="p-3 font-semibold text-gray-700">Antecedentes Relevantes</td><td class="p-3 text-gray-600">${result.summary.background}</td></tr>
                     </tbody>
