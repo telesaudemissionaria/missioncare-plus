@@ -365,11 +365,128 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiKey = 'AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-    generateBtn.addEventListener('click', async () => {
-        // ... (resto do seu código de análise da IA)
+    const orientationContent = document.getElementById('orientation-content');
+    const summaryContent = document.getElementById('summary-content');
+    const whatsappBtn = document.getElementById('whatsapp-btn');
+    const pdfBtn = document.getElementById('pdf-btn');
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tab = btn.dataset.tab;
+            if (tab === 'orientation') {
+                orientationContent.classList.remove('hidden');
+                summaryContent.classList.add('hidden');
+            } else {
+                orientationContent.classList.add('hidden');
+                summaryContent.classList.remove('hidden');
+            }
+        });
     });
 
-    // ... (resto das suas funções como displayResults, etc.)
+    const collectFormData = () => {
+        const getRadio = name => {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : '';
+        };
+        const getCheckboxes = name => {
+            return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value).join(', ');
+        };
+        return {
+            problemaPrincipal: document.getElementById('problema-principal').value.trim(),
+            inicioSintomas: document.getElementById('inicio-sintomas').value.trim(),
+            sentindoBem: getRadio('sentindo-bem'),
+            fatorDesencadeante: document.getElementById('fator-desencadeante').value.trim(),
+            progressaoSintomas: getRadio('progressao-sintomas'),
+            melhoraPiora: document.getElementById('melhora-piora').value.trim(),
+            tratamentoTentado: document.getElementById('tratamento-tentado').value.trim(),
+            condicoes: getCheckboxes('condicoes'),
+            medicamentos: document.getElementById('medicamentos').value.trim(),
+            alergias: document.getElementById('alergias').value.trim()
+        };
+    };
+
+    const buildPrompt = (data) => {
+        return `Você é um médico virtual. Com base nas informações fornecidas, gere uma orientação breve, indicando nível de urgência e passos iniciais.\n\nProblema principal: ${data.problemaPrincipal}\nInício dos sintomas: ${data.inicioSintomas}\nEstava bem antes: ${data.sentindoBem}\nFator desencadeante: ${data.fatorDesencadeante}\nProgressão: ${data.progressaoSintomas}\nO que melhora/piora: ${data.melhoraPiora}\nTratamento tentado: ${data.tratamentoTentado}\nDoenças crônicas: ${data.condicoes || 'Nenhuma'}\nMedicamentos contínuos: ${data.medicamentos}\nAlergias: ${data.alergias}`;
+    };
+
+    const buildSummaryTable = (data, orientation) => {
+        const labels = {
+            problemaPrincipal: 'Problema principal',
+            inicioSintomas: 'Início dos sintomas',
+            sentindoBem: 'Estava bem antes',
+            fatorDesencadeante: 'Fator desencadeante',
+            progressaoSintomas: 'Progressão dos sintomas',
+            melhoraPiora: 'Melhora/Piora',
+            tratamentoTentado: 'Tratamento tentado',
+            condicoes: 'Doenças crônicas',
+            medicamentos: 'Medicamentos em uso',
+            alergias: 'Alergias',
+            orientacao: 'Orientação'
+        };
+        let rows = Object.keys(data).map(k => {
+            return `<tr><td class="font-semibold pr-2 align-top">${labels[k]}</td><td>${data[k] || '-'}</td></tr>`;
+        }).join('');
+        rows += `<tr><td class="font-semibold pr-2 align-top">${labels.orientacao}</td><td>${orientation.replace(/\n/g,'<br>')}</td></tr>`;
+        return `<table class="w-full text-left border-collapse space-y-2">${rows}</table>`;
+    };
+
+    const displayResults = (text, data) => {
+        orientationContent.innerHTML = text.replace(/\n/g, '<br>');
+        summaryContent.innerHTML = buildSummaryTable(data, text);
+        resultsScreen.classList.remove('hidden');
+    };
+
+    const setupShareButtons = (text) => {
+        if (whatsappBtn) {
+            whatsappBtn.onclick = () => {
+                const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+            };
+        }
+        if (pdfBtn) {
+            pdfBtn.onclick = async () => {
+                const doc = new jspdf.jsPDF();
+                const canvas = await html2canvas(document.getElementById('report-content'));
+                const imgData = canvas.toDataURL('image/png');
+                const width = doc.internal.pageSize.getWidth();
+                const height = canvas.height * width / canvas.width;
+                doc.addImage(imgData, 'PNG', 0, 0, width, height);
+                doc.save('triagem.pdf');
+            };
+        }
+    };
+
+    generateBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const data = collectFormData();
+        formScreen.classList.add('hidden');
+        loadingScreen.classList.remove('hidden');
+
+        const prompt = buildPrompt(data);
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] })
+            });
+            const result = await response.json();
+            const aiText = result.candidates[0].content.parts[0].text;
+            displayResults(aiText, data);
+            setupShareButtons(aiText);
+        } catch (err) {
+            orientationContent.textContent = 'Erro ao gerar análise.';
+            summaryContent.textContent = '';
+            resultsScreen.classList.remove('hidden');
+        } finally {
+            loadingScreen.classList.add('hidden');
+        }
+    });
+
 });
 </script>
 
