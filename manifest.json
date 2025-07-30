@@ -5,16 +5,16 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#f3f4f6",
-  "theme_color": "#881337",
+  "theme_color": "#2563eb",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/icon-192x192.png",
+      "src": "https://placehold.co/192x192/2563eb/FFFFFF?text=MC+",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/images/icon-512x512.png",
+      "src": "https://placehold.co/512x512/2563eb/FFFFFF?text=MC+",
       "type": "image/png",
       "sizes": "512x512"
     }
