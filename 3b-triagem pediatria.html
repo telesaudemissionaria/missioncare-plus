@@ -393,16 +393,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     // --- Função de Chamada à API com Tentativas ---
-    const fetchWithRetry = async (url, options, retries = 3, backoff = 1000) => {
+    const fetchWithRetry = async (url, options, retries = 4, backoff = 1500) => {
         for (let i = 0; i < retries; i++) {
             try {
                 const response = await fetch(url, options);
                 if (response.ok) return response;
-                if (response.status >= 500 && response.status < 600) throw new Error(`Server error: ${response.status}`);
-                return response;
+                if (response.status >= 500 && response.status < 600) {
+                     if (i < retries - 1) {
+                        const lang = localStorage.getItem('language') || 'pt';
+                        loadingText.textContent = translations[lang].retryText || "Servidor ocupado. Tentando novamente...";
+                        await new Promise(resolve => setTimeout(resolve, backoff * (i + 1)));
+                        continue;
+                    }
+                }
+                return response; 
             } catch (error) {
                 if (i === retries - 1) throw error;
-                const lang = localStorage.getItem('language') || 'pt';
+                 const lang = localStorage.getItem('language') || 'pt';
                 loadingText.textContent = translations[lang].retryText || "Servidor ocupado. Tentando novamente...";
                 await new Promise(resolve => setTimeout(resolve, backoff * (i + 1)));
             }
@@ -474,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                let errorMsg = `API Error: ${response.status}`;
+                let errorMsg = `API Error: ${response.status} ${response.statusText}`;
                 try {
                     const errorBody = await response.json();
                     errorMsg = errorBody.error.message;
