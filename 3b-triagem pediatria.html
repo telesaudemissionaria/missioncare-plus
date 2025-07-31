@@ -9,15 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    
     <!-- Biblioteca para gerar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <!-- Biblioteca para renderizar Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
         body {
             font-family: 'Lexend', 'Noto Sans', sans-serif;
             --primary-color: #0d9488; /* teal-600 */
+            --primary-color-light: #ccfbf1; /* teal-100 */
+        }
+        .tab-button.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
         }
         .lang-btn {
             padding: 0.25rem 0.5rem; border-radius: 9999px;
@@ -28,26 +36,24 @@
             border-color: var(--primary-color);
             background-color: white;
         }
-    </style>
-
-    <!-- CÓDIGO CSS PARA A BARRA DE NAVEGAÇÃO E ESTILOS -->
-    <style>
-      body {
-        padding-bottom: 80px;
-      }
-      .custom-input {
-        display: none;
-      }
-      .custom-label {
-        border: 2px solid #e5e7eb; /* gray-200 */
-        background-color: #f9fafb; /* gray-50 */
-      }
-      .custom-input:checked + .custom-label {
-        background-color: #ccfbf1; /* teal-100 */
-        border-color: #0d9488; /* teal-600 */
-        color: #0d9488; /* teal-600 */
-        font-weight: 600;
-      }
+        body { padding-bottom: 80px; }
+        .custom-input { display: none; }
+        .custom-label {
+            border: 2px solid #e5e7eb; /* gray-200 */
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .custom-input:checked + .custom-label {
+            background-color: #ccfbf1; /* teal-100 */
+            border-color: #0d9488; /* teal-600 */
+            color: #0d9488; /* teal-600 */
+            font-weight: 600;
+        }
+        /* Estilos para o conteúdo renderizado do Markdown */
+        #orientation-content h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #1f2937;}
+        #orientation-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #4b5563;}
+        #orientation-content li { margin-bottom: 0.5rem; }
+        #orientation-content p { margin-bottom: 1rem; line-height: 1.6; color: #374151;}
+        #orientation-content strong { font-weight: 700; }
     </style>
 
 </head>
@@ -64,6 +70,7 @@
                 <div class="absolute top-3 right-3 flex space-x-1 bg-gray-200 p-1 rounded-full">
                     <button class="lang-btn" data-lang="pt">🇧🇷</button>
                     <button class="lang-btn" data-lang="es">🇪🇸</button>
+                    <button class="lang-btn" data-lang="en">🇬🇧</button>
                 </div>
             </header>
 
@@ -75,9 +82,9 @@
                     </div>
                 </div>
 
-                <form id="pediatric-anamnesis-form" class="space-y-8">
+                <form id="pediatric-anamnesis-form" class="space-y-8 p-4">
                     <!-- Seção de Informações Básicas -->
-                    <div class="px-4 space-y-5">
+                    <div class="space-y-5">
                         <h2 class="text-gray-800 text-xl font-bold" data-i18n="section1Title">Informações Básicas</h2>
                         <div>
                             <label for="doencas-alergias" class="block text-base font-medium text-gray-800 mb-2" data-i18n="q1Title">1. A criança possui alguma doença ou alergia conhecida?</label>
@@ -99,7 +106,7 @@
                     </div>
 
                     <!-- Seção de Sintomas Atuais -->
-                    <div class="px-4 space-y-5">
+                    <div class="space-y-5">
                         <h2 class="text-gray-800 text-xl font-bold" data-i18n="section2Title">Sintomas Atuais</h2>
                         <fieldset>
                             <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q4Title">4. Qual o principal problema ou sintoma?</legend>
@@ -124,7 +131,7 @@
                     </div>
 
                     <!-- Seção de Sinais de Alerta -->
-                    <div class="px-4 space-y-5">
+                    <div class="space-y-5">
                         <h2 class="text-gray-800 text-xl font-bold" data-i18n="section3Title">Sinais de Alerta na Criança</h2>
                         <fieldset>
                             <legend class="text-base font-medium text-gray-800 mb-2" data-i18n="q6Title">6. Tem febre?</legend>
@@ -175,9 +182,9 @@
                     </div>
                 </form>
             </main>
-            <footer class="bg-white border-t border-gray-200">
+            <footer class="bg-white border-t border-gray-200 sticky bottom-0">
                 <div class="p-4">
-                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white" data-i18n="generateButton">
+                    <button id="generate-pediatric-analysis-btn" type="button" class="w-full flex justify-center py-3 px-4 border-2 border-teal-600 rounded-full shadow-sm text-lg font-bold text-teal-600 bg-transparent hover:bg-teal-600 hover:text-white transition-colors" data-i18n="generateButton">
                         Gerar Análise Pediátrica
                     </button>
                 </div>
@@ -185,23 +192,49 @@
         </div>
 
         <!-- TELA DE CARREGAMENTO -->
-        <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center">
+        <div id="loading-screen" class="hidden fixed inset-0 bg-white/80 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
             <svg class="animate-spin h-10 w-10 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <p class="mt-4 text-lg font-semibold text-gray-700" data-i18n="loadingText">Analisando dados...</p>
+            <p id="loading-text" class="mt-4 text-lg font-semibold text-gray-700" data-i18n="loadingText">Analisando dados...</p>
         </div>
         
         <!-- TELA DE RESULTADOS -->
         <div id="results-screen" class="hidden">
-            <!-- O conteúdo aqui será populado dinamicamente pelo JavaScript -->
+             <header class="sticky top-0 z-10 flex items-center bg-gray-50/80 p-4 pb-0 backdrop-blur-sm border-b border-gray-200">
+                <h1 data-i18n='reportTitle' class="text-[#0e181b] text-xl font-bold flex-1 text-center">Relatório da Análise</h1>
+            </header>
+            <main id="report-content" class="flex-grow p-4">
+                <div id="urgency-level" class="p-4 rounded-lg mb-4 text-center text-white font-bold text-lg"></div>
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="flex -mb-px">
+                        <button class="tab-button active py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="orientation" data-i18n="tabOrientation">Orientação</button>
+                        <button class="tab-button py-3 px-4 border-b-2 border-transparent text-gray-500" data-tab="summary" data-i18n="tabSummary">Tabela Resumo</button>
+                    </nav>
+                </div>
+                <div id="tab-content">
+                    <div id="orientation-content" class="prose max-w-none"></div>
+                    <div id="summary-content" class="hidden"></div>
+                </div>
+            </main>
+            <footer class="bg-gray-50 border-t border-gray-200 p-4 sticky bottom-0">
+                <div class="flex gap-4">
+                    <button id="whatsapp-btn" class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-full shadow-lg text-lg font-bold text-white bg-green-500 hover:bg-green-600" disabled>
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.3-.4.1-.2.1-.3 0-.4-.1-.1-1.7-4.1-1.9-4.5-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.2-.6.4-.2.2-.8.8-.8 1.9 0 1.2.8 2.2 1 2.4.1.2 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.8-.9.9-1.7.1-.8.1-1.5 0-1.7-.1-.2-.3-.3-.5-.4zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+                        WhatsApp
+                    </button>
+                    <button id="pdf-btn" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-full shadow-lg text-lg font-bold text-gray-700 bg-white hover:bg-gray-100" data-i18n="pdfButton" disabled>
+                        Gerar PDF
+                    </button>
+                </div>
+            </footer>
         </div>
     </div>
 
     <!-- BARRA DE NAVEGAÇÃO GLOBAL -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.05)]">
       <div class="mx-auto flex h-16 max-w-4xl items-center justify-around">
-        <button onclick="window.history.back()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
-          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Voltar</span>
+        <button onclick="location.reload()" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
+          <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 10.356h4.992m0 0l-3.181-3.182a8.25 8.25 0 0111.664 0l3.181 3.182m-4.993 0l-2.81 2.81m0 0l-2.81-2.81m2.81 2.81V1.5M13.25 12.75h-2.5" /></svg>
+          <span class="mt-1 text-xs font-bold uppercase tracking-wider" data-i18n="navBack">Novo</span>
         </button>
         <div class="h-8 w-px bg-gray-200"></div>
         <a href="index.html" class="flex h-full w-1/2 flex-col items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 hover:text-teal-600">
@@ -213,7 +246,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- INÍCIO DA LÓGICA DE TRADUÇÃO ---
+    // --- LÓGICA DE TRADUÇÃO ---
     const translations = {
         "pt": {
             "pageTitle": "Triagem Pediátrica - MissionCare Plus",
@@ -229,34 +262,26 @@ document.addEventListener('DOMContentLoaded', () => {
             "q3Placeholder": "Se sim, quais?",
             "section2Title": "Sintomas Atuais",
             "q4Title": "4. Qual o principal problema ou sintoma?",
-            "q4Opt1": "Febre",
-            "q4Opt2": "Tosse",
-            "q4Opt3": "Vômito / Diarreia",
-            "q4Opt4": "Manchas na Pele",
-            "q4Opt5": "Dificuldade para Respirar",
-            "q4Opt6": "Outro",
+            "q4Opt1": "Febre", "q4Opt2": "Tosse", "q4Opt3": "Vômito / Diarreia", "q4Opt4": "Manchas na Pele", "q4Opt5": "Dificuldade para Respirar", "q4Opt6": "Outro",
             "q5Title": "5. Quando os sintomas começaram?",
-            "q5Opt1": "Hoje",
-            "q5Opt2": "Ontem",
-            "q5Opt3": "2-3 dias atrás",
-            "q5Opt4": "Há mais de 3 dias",
+            "q5Opt1": "Hoje", "q5Opt2": "Ontem", "q5Opt3": "2-3 dias atrás", "q5Opt4": "Há mais de 3 dias",
             "section3Title": "Sinais de Alerta na Criança",
             "q6Title": "6. Tem febre?",
-            "q6Opt2": "Febre Baixa (até 38.4°C)",
-            "q6Opt3": "Febre Alta (≥ 38.5°C)",
-            "q6Opt4": "Não verifiquei",
+            "q6Opt2": "Febre Baixa (até 38.4°C)", "q6Opt3": "Febre Alta (≥ 38.5°C)", "q6Opt4": "Não verifiquei",
             "q7Title": "7. Está mais sonolenta ou mais irritada que o normal?",
             "q8Title": "8. Está se alimentando (mamando) bem? Aceita líquidos?",
             "q9Title": "9. Está com dificuldade para respirar?",
             "q10Title": "10. Apresenta vômitos ou diarreia?",
-            "q10Opt2": "Apenas Vômitos",
-            "q10Opt3": "Apenas Diarreia",
-            "q10Opt4": "Ambos",
+            "q10Opt2": "Apenas Vômitos", "q10Opt3": "Apenas Diarreia", "q10Opt4": "Ambos",
             "q11Title": "11. Apareceu alguma mancha ou lesão na pele?",
             "generateButton": "Gerar Análise Pediátrica",
             "loadingText": "Analisando dados...",
-            "navBack": "Voltar",
-            "navHome": "Início"
+            "retryText": "Servidor ocupado. Tentando novamente...",
+            "reportTitle": "Relatório da Análise",
+            "tabOrientation": "Orientação",
+            "tabSummary": "Tabela Resumo",
+            "pdfButton": "Gerar PDF",
+            "navBack": "Novo", "navHome": "Início"
         },
         "es": {
             "pageTitle": "Triaje Pediátrico - MissionCare Plus",
@@ -266,40 +291,65 @@ document.addEventListener('DOMContentLoaded', () => {
             "q1Title": "1. ¿El niño tiene alguna enfermedad o alergia conocida?",
             "q1Placeholder": "Si es así, descríbala aquí...",
             "q2Title": "2. ¿Está al día el carné de vacunación?",
-            "optionYes": "Sí",
-            "optionNo": "No",
+            "optionYes": "Sí", "optionNo": "No",
             "q3Title": "3. ¿El niño toma algún medicamento de forma continua?",
             "q3Placeholder": "Si es así, ¿cuáles?",
             "section2Title": "Síntomas Actuales",
             "q4Title": "4. ¿Cuál es el principal problema o síntoma?",
-            "q4Opt1": "Fiebre",
-            "q4Opt2": "Tos",
-            "q4Opt3": "Vómitos / Diarrea",
-            "q4Opt4": "Manchas en la Piel",
-            "q4Opt5": "Dificultad para Respirar",
-            "q4Opt6": "Otro",
+            "q4Opt1": "Fiebre", "q4Opt2": "Tos", "q4Opt3": "Vómitos / Diarrea", "q4Opt4": "Manchas en la Piel", "q4Opt5": "Dificultad para Respirar", "q4Opt6": "Otro",
             "q5Title": "5. ¿Cuándo comenzaron los síntomas?",
-            "q5Opt1": "Hoy",
-            "q5Opt2": "Ayer",
-            "q5Opt3": "Hace 2-3 días",
-            "q5Opt4": "Hace más de 3 días",
+            "q5Opt1": "Hoy", "q5Opt2": "Ayer", "q5Opt3": "Hace 2-3 días", "q5Opt4": "Hace más de 3 días",
             "section3Title": "Señales de Alerta en el Niño",
             "q6Title": "6. ¿Tiene fiebre?",
-            "q6Opt2": "Fiebre Baja (hasta 38.4°C)",
-            "q6Opt3": "Fiebre Alta (≥ 38.5°C)",
-            "q6Opt4": "No he verificado",
+            "q6Opt2": "Fiebre Baja (hasta 38.4°C)", "q6Opt3": "Fiebre Alta (≥ 38.5°C)", "q6Opt4": "No he verificado",
             "q7Title": "7. ¿Está más somnoliento o más irritable de lo normal?",
             "q8Title": "8. ¿Se está alimentando (amamantando) bien? ¿Acepta líquidos?",
             "q9Title": "9. ¿Tiene dificultad para respirar?",
             "q10Title": "10. ¿Presenta vómitos o diarrea?",
-            "q10Opt2": "Solo Vómitos",
-            "q10Opt3": "Solo Diarrea",
-            "q10Opt4": "Ambos",
+            "q10Opt2": "Solo Vómitos", "q10Opt3": "Solo Diarrea", "q10Opt4": "Ambos",
             "q11Title": "11. ¿Ha aparecido alguna mancha o lesión en la piel?",
             "generateButton": "Generar Análisis Pediátrico",
             "loadingText": "Analizando datos...",
-            "navBack": "Volver",
-            "navHome": "Inicio"
+            "retryText": "Servidor ocupado. Reintentando...",
+            "reportTitle": "Informe del Análisis",
+            "tabOrientation": "Orientación",
+            "tabSummary": "Tabla Resumen",
+            "pdfButton": "Generar PDF",
+            "navBack": "Nuevo", "navHome": "Inicio"
+        },
+        "en": {
+            "pageTitle": "Pediatric Triage - MissionCare Plus",
+            "headerTitle": "Pediatric Triage",
+            "emergencyWarning": "ATTENTION: IN CASE OF EMERGENCY, SEEK HELP IMMEDIATELY.",
+            "section1Title": "Basic Information",
+            "q1Title": "1. Does the child have any known diseases or allergies?",
+            "q1Placeholder": "If yes, describe here...",
+            "q2Title": "2. Is the vaccination record up to date?",
+            "optionYes": "Yes", "optionNo": "No",
+            "q3Title": "3. Does the child take any continuous medication?",
+            "q3Placeholder": "If yes, which ones?",
+            "section2Title": "Current Symptoms",
+            "q4Title": "4. What is the main problem or symptom?",
+            "q4Opt1": "Fever", "q4Opt2": "Cough", "q4Opt3": "Vomiting / Diarrhea", "q4Opt4": "Skin Rash", "q4Opt5": "Difficulty Breathing", "q4Opt6": "Other",
+            "q5Title": "5. When did the symptoms start?",
+            "q5Opt1": "Today", "q5Opt2": "Yesterday", "q5Opt3": "2-3 days ago", "q5Opt4": "More than 3 days ago",
+            "section3Title": "Warning Signs in the Child",
+            "q6Title": "6. Is there a fever?",
+            "q6Opt2": "Low-grade fever (up to 101.1°F / 38.4°C)", "q6Opt3": "High fever (≥ 101.3°F / 38.5°C)", "q6Opt4": "I haven't checked",
+            "q7Title": "7. Is the child sleepier or more irritable than usual?",
+            "q8Title": "8. Is the child eating (nursing) well? Accepting fluids?",
+            "q9Title": "9. Is the child having difficulty breathing?",
+            "q10Title": "10. Are there vomiting or diarrhea?",
+            "q10Opt2": "Vomiting only", "q10Opt3": "Diarrhea only", "q10Opt4": "Both",
+            "q11Title": "11. Has any rash or skin lesion appeared?",
+            "generateButton": "Generate Pediatric Analysis",
+            "loadingText": "Analyzing data...",
+            "retryText": "Server busy. Retrying...",
+            "reportTitle": "Analysis Report",
+            "tabOrientation": "Guidance",
+            "tabSummary": "Summary Table",
+            "pdfButton": "Generate PDF",
+            "navBack": "New", "navHome": "Home"
         }
     };
 
@@ -323,16 +373,222 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.querySelectorAll('.lang-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            setLanguage(button.dataset.lang);
-        });
+        button.addEventListener('click', () => setLanguage(button.dataset.lang));
     });
 
     const initialLang = localStorage.getItem('language') || 'pt';
     setLanguage(initialLang);
     // --- FIM DA LÓGICA DE TRADUÇÃO ---
 
-    // ... (resto do seu código de análise da IA e outras lógicas)
+    // --- Seleção de Elementos do DOM ---
+    const formScreen = document.getElementById('form-screen');
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingText = document.getElementById('loading-text');
+    const resultsScreen = document.getElementById('results-screen');
+    const generateBtn = document.getElementById('generate-pediatric-analysis-btn');
+    const form = document.getElementById('pediatric-anamnesis-form');
+    
+    // --- Configuração da API ---
+    const apiKey = "AIzaSyAz6tEar6NJokgbEch5QLtbKL7dw_v6B3U"; 
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+    // --- Função de Chamada à API com Tentativas ---
+    const fetchWithRetry = async (url, options, retries = 3, backoff = 1000) => {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (response.ok) return response;
+                if (response.status >= 500 && response.status < 600) throw new Error(`Server error: ${response.status}`);
+                return response;
+            } catch (error) {
+                if (i === retries - 1) throw error;
+                const lang = localStorage.getItem('language') || 'pt';
+                loadingText.textContent = translations[lang].retryText || "Servidor ocupado. Tentando novamente...";
+                await new Promise(resolve => setTimeout(resolve, backoff * (i + 1)));
+            }
+        }
+    };
+
+    // --- Lógica Principal: Geração da Análise ---
+    generateBtn.addEventListener('click', async () => {
+        const lang = localStorage.getItem('language') || 'pt';
+        loadingText.textContent = translations[lang].loadingText || "Analisando dados...";
+
+        const formData = new FormData(form);
+        const data = {
+            doencasAlergias: document.getElementById('doencas-alergias').value,
+            vacinacao: formData.get('vacinacao'),
+            medicamentosContinuos: document.getElementById('medicamentos-continuos').value,
+            problemaPrincipal: formData.get('problema-principal'),
+            inicioSintomas: formData.get('inicio-sintomas'),
+            febre: formData.get('febre'),
+            estadoGeral: formData.get('estado-geral'),
+            alimentacao: formData.get('alimentacao'),
+            respiracao: formData.get('respiracao'),
+            vomitoDiarreia: formData.get('vomito-diarreia'),
+            lesoesPele: formData.get('lesoes-pele')
+        };
+
+        if (!data.problemaPrincipal) {
+            alert('Por favor, selecione o principal problema ou sintoma.');
+            return;
+        }
+
+        const prompt = `
+            Você é MedGemma, um assistente médico de IA especializado em pediatria. Sua resposta deve ser estruturada, empática e seguir um formato específico.
+            Analise os seguintes dados de anamnese pediátrica e forneça um relatório em formato JSON.
+            IMPORTANTE: A resposta JSON DEVE estar inteiramente no idioma '${lang}'.
+
+            DADOS DA CRIANÇA:
+            - Doenças ou alergias: ${data.doencasAlergias || "Nenhuma"}
+            - Vacinação em dia?: ${data.vacinacao || "Não informado"}
+            - Medicamentos contínuos: ${data.medicamentosContinuos || "Nenhum"}
+            - Principal sintoma: ${data.problemaPrincipal}
+            - Início dos sintomas: ${data.inicioSintomas || "Não informado"}
+            - Febre?: ${data.febre || "Não informado"}
+            - Estado geral (sonolenta/irritada)?: ${data.estadoGeral || "Não informado"}
+            - Alimentação/Hidratação?: ${data.alimentacao || "Não informado"}
+            - Dificuldade para respirar?: ${data.respiracao || "Não informado"}
+            - Vômitos ou diarreia?: ${data.vomitoDiarreia || "Não informado"}
+            - Lesões de pele?: ${data.lesoesPele || "Não informado"}
+
+            ESTRUTURA DA RESPOSTA (JSON):
+            {
+              "urgency": { "level": "string", "reason": "string" },
+              "orientation": "string (Markdown)",
+              "summary": { "symptom": "string", "history": "string", "background": "string" }
+            }
+        `;
+
+        formScreen.style.display = 'none';
+        loadingScreen.classList.remove('hidden');
+        resultsScreen.classList.add('hidden');
+        window.scrollTo(0, 0);
+
+        try {
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+            const response = await fetchWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                let errorMsg = `API Error: ${response.status}`;
+                try {
+                    const errorBody = await response.json();
+                    errorMsg = errorBody.error.message;
+                } catch (e) {}
+                throw new Error(errorMsg);
+            }
+
+            const responseData = await response.json();
+            const responseText = responseData.candidates[0].content.parts[0].text;
+            const jsonString = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const analysisResult = JSON.parse(jsonString);
+
+            displayResults(analysisResult);
+
+        } catch (error) {
+            console.error("Analysis generation error:", error);
+            displayError(`Failed to analyze data. Error detail: ${error.message}.`);
+        } finally {
+            loadingScreen.classList.add('hidden');
+        }
+    });
+
+    // --- Funções de Exibição ---
+    function displayResults(result) {
+        const resultsContainer = document.getElementById('results-screen');
+        
+        const urgencyLevelDiv = resultsContainer.querySelector('#urgency-level');
+        const orientationContent = resultsContainer.querySelector('#orientation-content');
+        const summaryContent = resultsContainer.querySelector('#summary-content');
+        const whatsappBtn = resultsContainer.querySelector('#whatsapp-btn');
+        const pdfBtn = resultsContainer.querySelector('#pdf-btn');
+        const tabButtons = resultsContainer.querySelectorAll('.tab-button');
+        const reportContent = resultsContainer.querySelector('#report-content');
+
+        whatsappBtn.disabled = false;
+        pdfBtn.disabled = false;
+        whatsappBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        pdfBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+        const urgencyClassMap = {
+            'Emergência': 'bg-red-600', 'Emergency': 'bg-red-600',
+            'Urgente': 'bg-orange-500', 'Urgent': 'bg-orange-500',
+            'Moderado': 'bg-yellow-500 text-black', 'Moderate': 'bg-yellow-500 text-black',
+            'Baixo': 'bg-green-500', 'Low': 'bg-green-500',
+            'Informativo': 'bg-blue-500', 'Informative': 'bg-blue-500'
+        };
+        urgencyLevelDiv.textContent = `${result.urgency.level.toUpperCase()}: ${result.urgency.reason}`;
+        urgencyLevelDiv.className = `p-4 rounded-lg mb-4 text-center text-white font-bold text-lg ${urgencyClassMap[result.urgency.level] || 'bg-gray-500'}`;
+
+        orientationContent.innerHTML = marked.parse(result.orientation);
+        
+        const lang = localStorage.getItem('language') || 'pt';
+        const summaryTitles = {
+            pt: { symptom: "Sintoma Principal", history: "Histórico da Doença", background: "Antecedentes Relevantes" },
+            es: { symptom: "Síntoma Principal", history: "Historia de la Enfermedad", background: "Antecedentes Relevantes" },
+            en: { symptom: "Main Symptom", history: "History of Illness", background: "Relevant Background" }
+        };
+        const titles = summaryTitles[lang];
+
+        summaryContent.innerHTML = `
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <tbody>
+                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">${titles.symptom}</td><td class="p-3 text-gray-600">${result.summary.symptom}</td></tr>
+                        <tr class="border-b"><td class="p-3 font-semibold text-gray-700">${titles.history}</td><td class="p-3 text-gray-600">${result.summary.history}</td></tr>
+                        <tr><td class="p-3 font-semibold text-gray-700">${titles.background}</td><td class="p-3 text-gray-600">${result.summary.background}</td></tr>
+                    </tbody>
+                </table>
+            </div>`;
+        
+        resultsScreen.classList.remove('hidden');
+        
+        // Add event listeners for the new dynamic content
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const tab = button.dataset.tab;
+                orientationContent.classList.toggle('hidden', tab !== 'orientation');
+                summaryContent.classList.toggle('hidden', tab !== 'summary');
+            });
+        });
+
+        whatsappBtn.addEventListener('click', () => {
+            const fullReportText = `*Relatório Pediátrico MissionCare Plus*\n\n*${urgencyLevelDiv.innerText}*\n\n*Resumo:*\n${summaryContent.innerText}\n\n*Orientações:*\n${orientationContent.innerText}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(fullReportText)}`, '_blank');
+        });
+
+        pdfBtn.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            loadingScreen.classList.remove('hidden');
+            html2canvas(reportContent, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth, pdfHeight);
+                pdf.save('relatorio-pediatrico.pdf');
+            }).finally(() => loadingScreen.classList.add('hidden'));
+        });
+    }
+    
+    function displayError(message) {
+        const resultsContainer = document.getElementById('results-screen');
+        const urgencyLevelDiv = resultsContainer.querySelector('#urgency-level');
+        const orientationContent = resultsContainer.querySelector('#orientation-content');
+        
+        urgencyLevelDiv.textContent = "ERRO";
+        urgencyLevelDiv.className = 'p-4 rounded-lg mb-4 text-center text-white font-bold text-lg bg-gray-700';
+        orientationContent.innerHTML = `<div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-700"><p class="font-bold">Falha na Comunicação</p><p>${message}</p></div>`;
+        
+        resultsContainer.classList.remove('hidden');
+    }
 });
 </script>
 
